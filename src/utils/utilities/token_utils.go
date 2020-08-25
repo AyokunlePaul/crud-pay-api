@@ -60,15 +60,21 @@ func CreateToken(userId string) (*token.CrudPayToken, *response.BaseResponse) {
 	return payToken, nil
 }
 
-func VerifyAndExtractToken(accessToken string) (*jwt.Token, *response.BaseResponse) {
-	accessTokenSecret := os.Getenv(jwtSecret)
-	parsedToken, tokenValidationError := jwt.Parse(accessToken, func(jwtToken *jwt.Token) (interface{}, error) {
+func VerifyAndExtractToken(token string, isAccessToken bool) (*jwt.Token, *response.BaseResponse) {
+	var tokenSecret string
+	if isAccessToken {
+		tokenSecret = os.Getenv(jwtSecret)
+	} else {
+		tokenSecret = os.Getenv(jwtRefreshSecret)
+	}
+
+	parsedToken, tokenValidationError := jwt.Parse(token, func(jwtToken *jwt.Token) (interface{}, error) {
 		if _, ok := jwtToken.Method.(*jwt.SigningMethodHMAC); !ok {
 			errorMessage := fmt.Sprintf("unexpected signing method: %v", jwtToken.Header["alg"])
 			logger.Error("signing method error", errors.New(errorMessage))
 			return nil, errors.New(errorMessage)
 		}
-		return []byte(accessTokenSecret), nil
+		return []byte(tokenSecret), nil
 	})
 	if tokenValidationError != nil {
 		return nil, response.NewUnAuthorizedError()
@@ -76,8 +82,8 @@ func VerifyAndExtractToken(accessToken string) (*jwt.Token, *response.BaseRespon
 	return parsedToken, nil
 }
 
-func CheckTokenValidity(accessToken string) *response.BaseResponse {
-	parsedToken, parseError := VerifyAndExtractToken(accessToken)
+func CheckTokenValidity(token string, isAccessToken bool) *response.BaseResponse {
+	parsedToken, parseError := VerifyAndExtractToken(token, isAccessToken)
 	if parseError != nil {
 		return parseError
 	}
@@ -87,26 +93,34 @@ func CheckTokenValidity(accessToken string) *response.BaseResponse {
 	return nil
 }
 
-func GetTokenMetaData(accessToken string) (*string, *response.BaseResponse) {
-	parsedToken, parseError := VerifyAndExtractToken(accessToken)
+func GetTokenMetaData(token string, isAccessToken bool) (*string, *response.BaseResponse) {
+	parsedToken, parseError := VerifyAndExtractToken(token, isAccessToken)
 	if parseError != nil {
 		return nil, parseError
 	}
 	tokenClaims, ok := parsedToken.Claims.(jwt.MapClaims)
 	if ok && parsedToken.Valid {
-		var accessUuid string
+		var tokenUuid string
 		var ok bool
-		if accessUuid, ok = tokenClaims[accessUuidClaim].(string); !ok {
-			message := fmt.Sprintf("access uuid %v is invalid", tokenClaims[accessUuidClaim])
-			logger.Error("invalid access uuid", errors.New(message))
-			return nil, response.NewUnAuthorizedError()
-		}
 		if _, ok = tokenClaims[userIdClaim].(string); !ok {
 			message := fmt.Sprintf("user id %v is invalid", tokenClaims[accessUuidClaim])
 			logger.Error("invalid user id", errors.New(message))
 			return nil, response.NewUnAuthorizedError()
 		}
-		return &accessUuid, nil
+		if isAccessToken {
+			if tokenUuid, ok = tokenClaims[accessUuidClaim].(string); !ok {
+				message := fmt.Sprintf("access uuid %v is invalid", tokenClaims[accessUuidClaim])
+				logger.Error("invalid access uuid", errors.New(message))
+				return nil, response.NewUnAuthorizedError()
+			}
+		} else {
+			if tokenUuid, ok = tokenClaims[refreshUuidClaim].(string); !ok {
+				message := fmt.Sprintf("access uuid %v is invalid", tokenClaims[accessUuidClaim])
+				logger.Error("invalid access uuid", errors.New(message))
+				return nil, response.NewUnAuthorizedError()
+			}
+		}
+		return &tokenUuid, nil
 	}
 
 	return nil, response.NewUnAuthorizedError()

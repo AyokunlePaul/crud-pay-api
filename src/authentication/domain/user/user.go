@@ -2,7 +2,7 @@ package user
 
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
-	"github.com/AyokunlePaul/crud-pay-api/src/utils/utilities"
+	"github.com/AyokunlePaul/crud-pay-api/src/utils/utilities/string_utilities"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"strings"
 )
@@ -13,9 +13,10 @@ type User struct {
 	LastName       string             `json:"last_name" bson:"last_name"`
 	Email          string             `json:"email" bson:"email"`
 	ProfilePicture string             `json:"profile_picture" bson:"profile_picture"`
-	Password       string             `json:"password" bson:"password"`
+	Password       string             `json:"-" bson:"password"`
 	Token          string             `json:"token" bson:"token"`
 	RefreshToken   string             `json:"refresh_token" bson:"refresh_token"`
+	IsVendor       bool               `json:"is_vendor" bson:"is_vendor"`
 }
 
 func (user *User) ValidateUserCreation() *response.BaseResponse {
@@ -61,8 +62,23 @@ func (user *User) isValidEmail() *response.BaseResponse {
 	if user.Email == "" {
 		return response.NewBadRequestError("email is empty")
 	}
-	if !utilities.IsValidEmail(user.Email) {
+	if !string_utilities.IsValidEmail(user.Email) {
 		return response.NewBadRequestError("email is invalid")
 	}
 	return nil
+}
+
+func (user *User) Update(newUser User) {
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.FirstName)) {
+		user.FirstName = newUser.FirstName
+	}
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.LastName)) {
+		user.LastName = newUser.LastName
+	}
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.Email)) {
+		user.Email = newUser.Email
+	}
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.ProfilePicture)) {
+		user.ProfilePicture = newUser.ProfilePicture
+	}
 }

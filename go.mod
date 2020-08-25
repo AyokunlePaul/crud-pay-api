@@ -14,5 +14,3 @@ require (
 	go.uber.org/zap v1.15.0
 	gopkg.in/stretchr/testify.v1 v1.2.2 // indirect
 )
-
-replace github.com/AyokunlePaul/crud-pay-api v1.0.0 => ./

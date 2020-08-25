@@ -19,7 +19,7 @@ func HandleMongoUserExceptions(err error) *response.BaseResponse {
 	}
 	switch err {
 	case mongo.ErrNoDocuments:
-		return response.NewNotFoundError("user with email doesn't exist")
+		return response.NewNotFoundError("user doesn't exist")
 	default:
 		return response.NewInternalServerError(err.Error())
 	}

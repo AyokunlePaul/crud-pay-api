@@ -34,24 +34,27 @@ func (repository *tokenRepository) CreateToken(userId string) (*token.CrudPayTok
 		userId, accessTokenExpiration,
 	).Err(); redisSetError != nil {
 		logger.Error("error writing access token", redisSetError)
+		return nil, response.NewInternalServerError("error creating user")
 	}
 	if redisSetError := redisClient.Set(
 		redisContext, payToken.RefreshUuid,
 		userId, refreshTokenExpiration,
 	).Err(); redisSetError != nil {
 		logger.Error("error writing token", redisSetError)
+		return nil, response.NewInternalServerError("error creating user")
 	}
 
 	return payToken, nil
 }
 
 func (repository *tokenRepository) Get(accessToken string) (*string, *response.BaseResponse) {
-	accessUuid, tokenMetaError := utilities.GetTokenMetaData(accessToken)
+	redisClient := redis_client.Get()
+
+	accessUuid, tokenMetaError := utilities.GetTokenMetaData(accessToken, true)
 	if tokenMetaError != nil {
 		return nil, tokenMetaError
 	}
 
-	redisClient := redis_client.Get()
 	userId, resultError := redisClient.Get(redisContext, *accessUuid).Result()
 	if resultError != nil {
 		return nil, response.NewUnAuthorizedError()
@@ -62,4 +65,24 @@ func (repository *tokenRepository) Get(accessToken string) (*string, *response.B
 
 func (repository *tokenRepository) Update(userId string) (*token.CrudPayToken, *response.BaseResponse) {
 	panic("implement me")
+}
+
+func (repository *tokenRepository) RefreshToken(refreshToken string) (*token.CrudPayToken, *response.BaseResponse) {
+	redisClient := redis_client.Get()
+
+	refreshUuid, tokenMetaError := utilities.GetTokenMetaData(refreshToken, false)
+	if tokenMetaError != nil {
+		return nil, tokenMetaError
+	}
+	userId, resultError := redisClient.Get(redisContext, *refreshUuid).Result()
+	if resultError != nil {
+		return nil, response.NewUnAuthorizedError()
+	}
+
+	deleteError := redisClient.Del(redisContext, *refreshUuid)
+	if deleteError != nil {
+		return nil, response.NewUnAuthorizedError()
+	}
+
+	return repository.CreateToken(userId)
 }

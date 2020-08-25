@@ -6,4 +6,5 @@ type Repository interface {
 	CreateToken(string) (*CrudPayToken, *response.BaseResponse)
 	Get(string) (*string, *response.BaseResponse)
 	Update(string) (*CrudPayToken, *response.BaseResponse)
+	RefreshToken(string) (*CrudPayToken, *response.BaseResponse)
 }

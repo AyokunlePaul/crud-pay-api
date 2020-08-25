@@ -13,6 +13,7 @@ type AuthenticationHandler interface {
 	CreateAccount(*gin.Context)
 	ResetPassword(*gin.Context)
 	UpdateUser(*gin.Context)
+	RefreshToken(*gin.Context)
 }
 
 type authenticationHandler struct {
@@ -66,10 +67,10 @@ func (handler *authenticationHandler) UpdateUser(context *gin.Context) {
 	bearerToken := context.GetHeader("Authorization")
 	tokenArray := strings.Split(bearerToken, " ")
 	var userToken string
-	if len(tokenArray) != 2 {
+	if len(tokenArray) == 2 {
 		userToken = tokenArray[1]
 	} else {
-		context.JSON(http.StatusUnauthorized, response.NewBadRequestError("invalid token"))
+		context.JSON(http.StatusUnauthorized, response.NewUnAuthorizedError())
 		return
 	}
 	result, updateUserError := handler.service.Update(user.User{
@@ -80,4 +81,8 @@ func (handler *authenticationHandler) UpdateUser(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, response.NewOkResponse("user updated successfully", result))
+}
+
+func (handler *authenticationHandler) RefreshToken(context *gin.Context) {
+
 }

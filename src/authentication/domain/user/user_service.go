@@ -7,6 +7,7 @@ type Repository interface {
 	Get(User) (*User, *response.BaseResponse)
 	Update(User) (*User, *response.BaseResponse)
 	ResetPassword(string) *response.BaseResponse
+	RefreshToken(string) (*User, *response.BaseResponse)
 }
 
 type Service interface {
@@ -14,6 +15,7 @@ type Service interface {
 	Get(User) (*User, *response.BaseResponse)
 	Update(User) (*User, *response.BaseResponse)
 	ResetPassword(string) *response.BaseResponse
+	RefreshToken(string) (*User, *response.BaseResponse)
 }
 
 type service struct {
@@ -44,4 +46,8 @@ func (service *service) Update(user User) (*User, *response.BaseResponse) {
 
 func (service *service) ResetPassword(email string) *response.BaseResponse {
 	panic("implement me")
+}
+
+func (service *service) RefreshToken(refreshToken string) (*User, *response.BaseResponse) {
+	return service.repository.RefreshToken(refreshToken)
 }

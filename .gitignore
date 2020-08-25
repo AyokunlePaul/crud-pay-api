@@ -17,4 +17,6 @@
 # vendor/
 .netrc
 .env
+.idea
+.DS_Store
 

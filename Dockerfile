@@ -3,6 +3,8 @@ FROM golang:1.15.0-alpine3.12 AS builder
 
 # git is required to fetch go dependencies
 RUN apk add --no-cache ca-certificates git
+RUN apk add --no-cache ca-certificates tree
+RUN go env -w GOPRIVATE=github.com/AyokunlePaul/crud-pay-api
 
 # Create the user and group files that will be used in the running
 # container to run the process as an unprivileged user.
@@ -21,11 +23,12 @@ COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
 # Import the code from the context.
-COPY src .
-RUN ls
+COPY src/ src/
+RUN tree
 
 # Build the executable to `/app`. Mark the build as statically linked.
-RUN go build -o /src .
+RUN go build src/main.go
+RUN ls
 
 # Final stage: the running container.
 FROM scratch AS final
@@ -37,10 +40,10 @@ COPY --from=builder /user/group /user/passwd /etc/
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Import the compiled executable from the first stage.
-COPY --from=builder /src /app
+COPY --from=builder /src/main /src
 
 # Perform any further action as an unprivileged user.
 USER nobody:nobody
 
 # Run the compiled binary.
-ENTRYPOINT ["/app"]
+ENTRYPOINT ["./main"]

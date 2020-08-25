@@ -1,4 +1,4 @@
-package utilities
+package string_utilities
 
 import (
 	"crypto/md5"
@@ -20,4 +20,8 @@ func GetMD5(input string) string {
 	defer md5Hash.Reset()
 	md5Hash.Write([]byte(input))
 	return hex.EncodeToString(md5Hash.Sum(nil))
+}
+
+func IsEmpty(value string) bool {
+	return value == ""
 }

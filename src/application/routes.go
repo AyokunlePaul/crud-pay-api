@@ -3,6 +3,7 @@ package application
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/handlers/gin_handler"
+	"github.com/AyokunlePaul/crud-pay-api/src/handlers/gin_handler/middlewares"
 	"github.com/AyokunlePaul/crud-pay-api/src/repository/authentication"
 	"github.com/AyokunlePaul/crud-pay-api/src/repository/token_repository"
 )
@@ -19,8 +20,8 @@ func mapRoutes() {
 		{
 			authenticationGroup.POST("/login", userEndpointHandler.Login)
 			authenticationGroup.POST("/create", userEndpointHandler.CreateAccount)
-			authenticationGroup.PUT("/update", userEndpointHandler.UpdateUser)
-			authenticationGroup.POST("/reset_password", userEndpointHandler.ResetPassword)
+			authenticationGroup.PUT("/update", middlewares.AuthorizationMiddleWare(), userEndpointHandler.UpdateUser)
+			authenticationGroup.POST("/reset_password", middlewares.AuthorizationMiddleWare(), userEndpointHandler.ResetPassword)
 		}
 	}
 }

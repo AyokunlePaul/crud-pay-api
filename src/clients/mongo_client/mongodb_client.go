@@ -10,6 +10,7 @@ import (
 
 var (
 	mongoClient *mongo.Client
+	clientUri   = "mongodb+srv://admin:admin@crudpay-api-cluster.0zbrq.gcp.mongodb.net/<dbname>?retryWrites=true&w=majority"
 )
 
 func init() {
@@ -19,7 +20,7 @@ func init() {
 		Keys:    bsonx.Doc{{"email", bsonx.Int32(1)}},
 		Options: options.Index().SetUnique(true),
 	}
-	mongoClient, clientError := mongo.Connect(mongoContext, options.Client().ApplyURI("mongodb://mongo:27017"))
+	mongoClient, clientError := mongo.Connect(mongoContext, options.Client().ApplyURI(clientUri))
 	if clientError != nil {
 		panic(clientError)
 	}
