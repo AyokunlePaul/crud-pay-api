@@ -11,7 +11,7 @@ import (
 func AuthorizationMiddleWare() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		tokenPayload := context.GetHeader("Authorization")
-		if tokenPayload == "" {
+		if strings.TrimSpace(tokenPayload) == "" {
 			context.JSON(http.StatusUnauthorized, response.NewUnAuthorizedError())
 			context.Abort()
 			return

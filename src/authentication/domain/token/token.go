@@ -13,8 +13,8 @@ type CrudPayToken struct {
 
 func NewCrudPayToken() *CrudPayToken {
 	return &CrudPayToken{
-		AccessTokenExpires:  time.Now().Add(5 * time.Minute).Unix(),
-		RefreshTokenExpires: time.Now().Add(24 * time.Hour).Unix(),
+		AccessTokenExpires:  time.Now().Add(12 * time.Hour).Unix(),
+		RefreshTokenExpires: time.Now().Add(7 * 24 * time.Hour).Unix(),
 	}
 }
 

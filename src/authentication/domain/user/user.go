@@ -12,7 +12,7 @@ type User struct {
 	FirstName      string             `json:"first_name" bson:"first_name"`
 	LastName       string             `json:"last_name" bson:"last_name"`
 	Email          string             `json:"email" bson:"email"`
-	ProfilePicture string             `json:"profile_picture" bson:"profile_picture"`
+	ProfilePicture string             `json:"profile_picture,omitempty" bson:"profile_picture"`
 	Password       string             `json:"-" bson:"password"`
 	Token          string             `json:"token" bson:"token"`
 	RefreshToken   string             `json:"refresh_token" bson:"refresh_token"`
@@ -68,7 +68,7 @@ func (user *User) isValidEmail() *response.BaseResponse {
 	return nil
 }
 
-func (user *User) Update(newUser User) {
+func (user *User) Update(newUser User) *response.BaseResponse {
 	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.FirstName)) {
 		user.FirstName = newUser.FirstName
 	}
@@ -76,9 +76,14 @@ func (user *User) Update(newUser User) {
 		user.LastName = newUser.LastName
 	}
 	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.Email)) {
-		user.Email = newUser.Email
+		if string_utilities.IsValidEmail(newUser.Email) {
+			user.Email = newUser.Email
+		} else {
+			return response.NewBadRequestError("invalid email")
+		}
 	}
 	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.ProfilePicture)) {
 		user.ProfilePicture = newUser.ProfilePicture
 	}
+	return nil
 }

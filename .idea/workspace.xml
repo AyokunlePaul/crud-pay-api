@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -19,25 +22,30 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Added docker and docker compose">
-      <change afterPath="$PROJECT_DIR$/src/app.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/handlers/gin_handler/middlewares/authorization.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
+    <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
+      <change afterPath="$PROJECT_DIR$/src/handlers/models/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/application.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/authentication/domain/token/token_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication/domain/token/token_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/domain/token/token.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication/domain/token/token.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/authentication/domain/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication/domain/user/user.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/authentication/domain/user/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/authentication/domain/user/user_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/clients/mongo_client/mongodb_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/clients/mongo_client/mongodb_client.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/redis_client/redis_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/clients/redis_client/redis_client.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/handlers/gin_handler/authentication.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/gin_handler/authentication.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/gin_handler/middlewares/authorization.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/gin_handler/middlewares/authorization.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/authentication/mongo_error_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/authentication/mongo_error_utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/authentication/user_database_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/authentication/user_database_repository.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/repository/token_repository/token_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/token_repository/token_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/utilities/strings.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utilities/string_utilities/strings.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/utilities/token_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utilities/token_utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/logger/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/logger/logger.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/response/error_responses.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/response/error_responses.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +91,8 @@
     <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsDialog.application.dockerMachine" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.intellij.kubernetes.api.settings.KubernetesApiConfigurable" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -95,16 +104,7 @@
       <recent name="$PROJECT_DIR$/src" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.Dockerfile">
-    <configuration name="go build crud-pay-api/src" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
-      <module name="crud-pay-api" />
-      <working_directory value="$PROJECT_DIR$" />
-      <kind value="PACKAGE" />
-      <filePath value="$PROJECT_DIR$/src/main.go" />
-      <package value="crud-pay-api/src" />
-      <directory value="$PROJECT_DIR$" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Docker.docker-compose.yaml.crud-pay: Compose Deployment">
     <configuration name="go build github.com/AyokunlePaul/crud-pay-api/src" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="crud-pay-api" />
       <working_directory value="$PROJECT_DIR$" />
@@ -121,7 +121,7 @@
           <option name="buildCliOptions" value="" />
           <option name="buildOnly" value="true" />
           <option name="command" value="" />
-          <option name="containerName" value="crud-pay-api" />
+          <option name="containerName" value="" />
           <option name="entrypoint" value="" />
           <option name="commandLineOptions" value="" />
           <option name="sourceFilePath" value="Dockerfile" />
@@ -137,18 +137,46 @@
       </deployment>
       <method v="2" />
     </configuration>
+    <configuration name="docker-compose.yaml.crud-pay: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="crud-pay" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-compose.yaml.redis_db: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
+        <settings>
+          <option name="services">
+            <list>
+              <option value="redis_db" />
+            </list>
+          </option>
+          <option name="sourceFilePath" value="docker-compose.yaml" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
       <item itemvalue="Docker.Dockerfile" />
-      <item itemvalue="Go Build.go build crud-pay-api/src" />
+      <item itemvalue="Docker.docker-compose.yaml.redis_db: Compose Deployment" />
       <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
+      <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
-        <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
-        <item itemvalue="Go Build.go build crud-pay-api/src" />
+        <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yaml.redis_db: Compose Deployment" />
+        <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
       </list>
     </recent_temporary>
   </component>
@@ -161,6 +189,14 @@
       <option name="presentableId" value="Default" />
       <updated>1598111947559</updated>
     </task>
+    <task id="LOCAL-00001" summary="Finally got docker to work">
+      <created>1598348363248</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1598348363248</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,51 +217,80 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Added docker and docker compose" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added docker and docker compose" />
+    <MESSAGE value="Finally got docker to work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finally got docker to work" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
   </component>
   <component name="WindowStateProjectService">
+    <state x="520" y="115" key="#GOPATH" timestamp="1598349458664">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="520" y="115" key="#GOPATH/0.0.1440.900@0.0.1440.900" timestamp="1598349458664" />
     <state x="512" y="387" key="#GOROOT" timestamp="1598111962952">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="512" y="387" key="#GOROOT/0.0.1440.900@0.0.1440.900" timestamp="1598111962952" />
-    <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598117825946">
+    <state x="184" y="112" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1598367360288">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="184" y="112" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1598117825946" />
+    <state x="184" y="112" width="1071" height="724" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1598367360288" />
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1598257957018">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1598257957018" />
-    <state width="1398" height="283" key="GridCell.Tab.0.bottom" timestamp="1598270975198">
+    <state x="295" y="25" key="CommitChangelistDialog2" timestamp="1598350697359">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598270975198" />
-    <state width="1398" height="283" key="GridCell.Tab.0.center" timestamp="1598270975197">
+    <state x="295" y="25" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1598350697359" />
+    <state width="1398" height="466" key="GridCell.Tab.0.bottom" timestamp="1598375406147">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1598270975197" />
-    <state width="1398" height="283" key="GridCell.Tab.0.left" timestamp="1598270975196">
+    <state width="1398" height="466" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598375406147" />
+    <state width="1398" height="466" key="GridCell.Tab.0.center" timestamp="1598375406144">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1598270975196" />
-    <state width="1398" height="283" key="GridCell.Tab.0.right" timestamp="1598270975197">
+    <state width="1398" height="466" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
+    <state width="1398" height="466" key="GridCell.Tab.0.left" timestamp="1598375406144">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="283" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1598270975197" />
-    <state x="221" y="89" key="SettingsEditor" timestamp="1598308139697">
+    <state width="1398" height="466" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
+    <state width="1398" height="466" key="GridCell.Tab.0.right" timestamp="1598375406146">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1598308139697" />
+    <state width="1398" height="466" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1598375406146" />
+    <state width="1398" height="466" key="GridCell.Tab.1.bottom" timestamp="1598375406151">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598375406151" />
+    <state width="1398" height="466" key="GridCell.Tab.1.center" timestamp="1598375406150">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1598375406150" />
+    <state width="1398" height="466" key="GridCell.Tab.1.left" timestamp="1598375406149">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1598375406149" />
+    <state width="1398" height="466" key="GridCell.Tab.1.right" timestamp="1598375406151">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1598375406151" />
+    <state x="221" y="89" key="SettingsEditor" timestamp="1598348983214">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1598348983214" />
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2" timestamp="1598348366974">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1598348366974" />
     <state x="100" y="100" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598228373210">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="100" y="100" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1598228373210" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1598270739534">
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1598445987284">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598270739534" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598445987284" />
   </component>
 </project>

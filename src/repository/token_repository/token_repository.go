@@ -57,6 +57,7 @@ func (repository *tokenRepository) Get(accessToken string) (*string, *response.B
 
 	userId, resultError := redisClient.Get(redisContext, *accessUuid).Result()
 	if resultError != nil {
+		logger.Error("redis error", resultError)
 		return nil, response.NewUnAuthorizedError()
 	}
 
@@ -74,14 +75,17 @@ func (repository *tokenRepository) RefreshToken(refreshToken string) (*token.Cru
 	if tokenMetaError != nil {
 		return nil, tokenMetaError
 	}
+
 	userId, resultError := redisClient.Get(redisContext, *refreshUuid).Result()
 	if resultError != nil {
-		return nil, response.NewUnAuthorizedError()
+		logger.Error("get refresh uuid error", resultError)
+		return nil, response.NewInternalServerError("error refreshing token")
 	}
 
 	deleteError := redisClient.Del(redisContext, *refreshUuid)
 	if deleteError != nil {
-		return nil, response.NewUnAuthorizedError()
+		logger.Error("get refresh uuid error", resultError)
+		return nil, response.NewInternalServerError("error refreshing token")
 	}
 
 	return repository.CreateToken(userId)

@@ -2,6 +2,7 @@ package gin_handler
 
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user"
+	"github.com/AyokunlePaul/crud-pay-api/src/handlers/models"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -27,9 +28,15 @@ func NewAuthenticationHandler(service user.Service) AuthenticationHandler {
 }
 
 func (handler *authenticationHandler) Login(context *gin.Context) {
-	var userPayload user.User
-	_ = context.BindJSON(&userPayload)
-	result, loginError := handler.service.Get(userPayload)
+	var userPayload models.UserPayload
+	_ = context.BindJSON(&userPayload.Payload)
+
+	if validationError := userPayload.CanLogin(); validationError != nil {
+		context.JSON(validationError.Status, validationError)
+		return
+	}
+
+	result, loginError := handler.service.Get(userPayload.ToDomainUser())
 	if loginError != nil {
 		context.JSON(loginError.Status, loginError)
 		return
@@ -38,9 +45,15 @@ func (handler *authenticationHandler) Login(context *gin.Context) {
 }
 
 func (handler *authenticationHandler) CreateAccount(context *gin.Context) {
-	var userPayload user.User
-	_ = context.BindJSON(&userPayload)
-	result, loginError := handler.service.CreateUser(userPayload)
+	var userPayload models.UserPayload
+	_ = context.BindJSON(&userPayload.Payload)
+
+	if validationError := userPayload.CanBeCreated(); validationError != nil {
+		context.JSON(validationError.Status, validationError)
+		return
+	}
+
+	result, loginError := handler.service.CreateUser(userPayload.ToDomainUser())
 	if loginError != nil {
 		context.JSON(loginError.Status, loginError)
 		return
@@ -64,18 +77,13 @@ func (handler *authenticationHandler) ResetPassword(context *gin.Context) {
 }
 
 func (handler *authenticationHandler) UpdateUser(context *gin.Context) {
-	bearerToken := context.GetHeader("Authorization")
-	tokenArray := strings.Split(bearerToken, " ")
-	var userToken string
-	if len(tokenArray) == 2 {
-		userToken = tokenArray[1]
-	} else {
-		context.JSON(http.StatusUnauthorized, response.NewUnAuthorizedError())
-		return
-	}
-	result, updateUserError := handler.service.Update(user.User{
-		Token: userToken,
-	})
+	userToken := strings.Split(context.GetHeader("Authorization"), " ")[1]
+
+	var userPayload models.UserPayload
+	_ = context.BindJSON(&userPayload.Payload)
+
+	result, updateUserError := handler.service.Update(userPayload.ToDomainUser(), userToken)
+
 	if updateUserError != nil {
 		context.JSON(updateUserError.Status, updateUserError)
 		return
@@ -84,5 +92,24 @@ func (handler *authenticationHandler) UpdateUser(context *gin.Context) {
 }
 
 func (handler *authenticationHandler) RefreshToken(context *gin.Context) {
+	tokenMap := make(map[string]string, 1)
+	_ = context.BindJSON(&tokenMap)
+	var userToken string
+	var ok bool
 
+	if len(tokenMap) < 1 {
+		context.JSON(http.StatusUnauthorized, response.NewUnAuthorizedError())
+		return
+	} else {
+		if userToken, ok = tokenMap["refresh_token"]; !ok {
+			context.JSON(http.StatusUnauthorized, response.NewUnAuthorizedError())
+			return
+		}
+	}
+	result, updateUserError := handler.service.RefreshToken(userToken)
+	if updateUserError != nil {
+		context.JSON(updateUserError.Status, updateUserError)
+		return
+	}
+	context.JSON(http.StatusOK, response.NewOkResponse("token successfully refreshed", result))
 }

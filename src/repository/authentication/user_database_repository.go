@@ -29,12 +29,6 @@ func (repo *userRepository) CreateUser(user user.User) (*user.User, *response.Ba
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	mongoClient := mongo_client.Get()
-	defer func() {
-		if closeError := mongoClient.Disconnect(mongoContext); closeError != nil {
-			logger.Error("mongo database disconnect error", closeError)
-			panic(closeError)
-		}
-	}()
 
 	user.Password = string_utilities.GetMD5(user.Password)
 	payToken, tokenError := repo.tokenRepository.CreateToken(user.Id.Hex())
@@ -59,12 +53,7 @@ func (repo *userRepository) Get(user user.User) (*user.User, *response.BaseRespo
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	mongoClient := mongo_client.Get()
-	defer func() {
-		if closeError := mongoClient.Disconnect(mongoContext); closeError != nil {
-			logger.Error("mongo database disconnect error", closeError)
-			panic(closeError)
-		}
-	}()
+
 	userCollection := mongoClient.Database("CrudPay").Collection("users")
 	filter := bson.M{"email": user.Email}
 	if getUserError := userCollection.FindOne(mongoContext, filter).Decode(&user); getUserError != nil {
@@ -78,18 +67,13 @@ func (repo *userRepository) Get(user user.User) (*user.User, *response.BaseRespo
 	return &user, nil
 }
 
-func (repo *userRepository) Update(newUser user.User) (*user.User, *response.BaseResponse) {
+func (repo *userRepository) Update(newUser user.User, token string) (*user.User, *response.BaseResponse) {
 	var oldUser user.User
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	mongoClient := mongo_client.Get()
-	defer func() {
-		if closeError := mongoClient.Disconnect(mongoContext); closeError != nil {
-			logger.Error("mongo database disconnect error", closeError)
-			panic(closeError)
-		}
-	}()
-	userId, userIdError := repo.tokenRepository.Get(newUser.Token)
+
+	userId, userIdError := repo.tokenRepository.Get(token)
 	if userIdError != nil {
 		return nil, userIdError
 	}
@@ -104,19 +88,19 @@ func (repo *userRepository) Update(newUser user.User) (*user.User, *response.Bas
 		return nil, HandleMongoUserExceptions(getUserError)
 	}
 
-	oldUser.Update(newUser)
+	updateError := oldUser.Update(newUser)
+	if updateError != nil {
+		return nil, updateError
+	}
+
 	updateParameter := bson.D{
 		{"$set", bson.D{
 			{"first_name", oldUser.FirstName},
-			{},
-			{},
-			{},
-			{},
-			{},
-			{},
+			{"last_name", oldUser.LastName},
+			{"email", oldUser.Email},
 		}},
 	}
-	if updateUserResult, updateUserError := userCollection.UpdateOne(mongoContext, filter, updateParameter); updateUserResult != nil {
+	if _, updateUserError := userCollection.UpdateOne(mongoContext, filter, updateParameter); updateUserError != nil {
 		logger.Error("newUser fetch error", updateUserError)
 		return nil, HandleMongoUserExceptions(updateUserError)
 	}
@@ -130,24 +114,31 @@ func (repo *userRepository) ResetPassword(email string) *response.BaseResponse {
 }
 
 func (repo *userRepository) RefreshToken(refreshToken string) (*user.User, *response.BaseResponse) {
-	var _ user.User
+	userResult := new(user.User)
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	mongoClient := mongo_client.Get()
-	defer func() {
-		if closeError := mongoClient.Disconnect(mongoContext); closeError != nil {
-			logger.Error("mongo database disconnect error", closeError)
-			panic(closeError)
-		}
-	}()
-	_, tokenError := repo.tokenRepository.RefreshToken(refreshToken)
+
+	newPayToken, tokenError := repo.tokenRepository.RefreshToken(refreshToken)
 	if tokenError != nil {
 		return nil, tokenError
 	}
 
-	_ = mongoClient.Database("CrudPay").Collection("users")
-	_ = bson.M{
-		"refreshToken": refreshToken,
+	userCollection := mongoClient.Database("CrudPay").Collection("users")
+	filter := bson.M{
+		"refresh_token": refreshToken,
 	}
-	return nil, nil
+
+	updateParameter := bson.D{
+		{"$set", bson.D{
+			{"token", newPayToken.AccessToken},
+			{"refresh_token", newPayToken.RefreshToken},
+		}},
+	}
+	if getUserError := userCollection.FindOneAndUpdate(mongoContext, filter, updateParameter).Decode(userResult); getUserError != nil {
+		logger.Error("token update error", getUserError)
+		return nil, HandleMongoUserExceptions(getUserError)
+	}
+
+	return userResult, nil
 }

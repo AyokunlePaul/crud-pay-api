@@ -14,7 +14,7 @@ func mapRoutes() {
 	userService := user.NewUserService(userDatabaseRepository)
 	userEndpointHandler := gin_handler.NewAuthenticationHandler(userService)
 
-	v1Router := router.Group("/v1")
+	v1Router := crudPayRouter.Group("/v1")
 	{
 		authenticationGroup := v1Router.Group("/user")
 		{
@@ -22,6 +22,7 @@ func mapRoutes() {
 			authenticationGroup.POST("/create", userEndpointHandler.CreateAccount)
 			authenticationGroup.PUT("/update", middlewares.AuthorizationMiddleWare(), userEndpointHandler.UpdateUser)
 			authenticationGroup.POST("/reset_password", middlewares.AuthorizationMiddleWare(), userEndpointHandler.ResetPassword)
+			authenticationGroup.POST("/refresh_token", userEndpointHandler.RefreshToken)
 		}
 	}
 }

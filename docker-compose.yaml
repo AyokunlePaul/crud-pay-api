@@ -1,10 +1,10 @@
 version: "3.3"
 services:
-  redis_db:
+  redis:
     image: redis:latest
-    container_name: redis
+    container_name: ${REDIS_CONTAINER_NAME}
     ports:
-      - "6379:6379"
+      - "${REDIS_CONTAINER_PORT}:6379"
     volumes:
       - "/opt/data/crud-pay-redis:/data"
     restart: on-failure
@@ -15,8 +15,9 @@ services:
     env_file:
       - .env
     depends_on:
-      - redis_db
-      - mongo_db
+      - redis
+    links:
+      - redis
     image: crud-pay-api
     ports:
       - "8080:8080"

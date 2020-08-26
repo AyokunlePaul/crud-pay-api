@@ -5,7 +5,7 @@ import "github.com/AyokunlePaul/crud-pay-api/src/utils/response"
 type Repository interface {
 	CreateUser(User) (*User, *response.BaseResponse)
 	Get(User) (*User, *response.BaseResponse)
-	Update(User) (*User, *response.BaseResponse)
+	Update(User, string) (*User, *response.BaseResponse)
 	ResetPassword(string) *response.BaseResponse
 	RefreshToken(string) (*User, *response.BaseResponse)
 }
@@ -13,7 +13,7 @@ type Repository interface {
 type Service interface {
 	CreateUser(User) (*User, *response.BaseResponse)
 	Get(User) (*User, *response.BaseResponse)
-	Update(User) (*User, *response.BaseResponse)
+	Update(User, string) (*User, *response.BaseResponse)
 	ResetPassword(string) *response.BaseResponse
 	RefreshToken(string) (*User, *response.BaseResponse)
 }
@@ -40,8 +40,8 @@ func (service *service) Get(user User) (*User, *response.BaseResponse) {
 	return service.repository.Get(user)
 }
 
-func (service *service) Update(user User) (*User, *response.BaseResponse) {
-	panic("implement me")
+func (service *service) Update(user User, token string) (*User, *response.BaseResponse) {
+	return service.repository.Update(user, token)
 }
 
 func (service *service) ResetPassword(email string) *response.BaseResponse {

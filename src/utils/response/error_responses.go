@@ -1,6 +1,6 @@
 package response
 
 const (
-	Unauthorized = "Unauthorized user"
+	Unauthorized = "unauthorized user"
 )
 

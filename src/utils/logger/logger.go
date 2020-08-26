@@ -7,24 +7,31 @@ import (
 )
 
 var zapLogger *zap.Logger
+var zapLoggerConfig zap.Config
 
 func init() {
-	zapLoggerConfig := zap.Config{
-		OutputPaths: []string{"stdout"},
-		Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
-		Encoding:    "json",
-		EncoderConfig: zapcore.EncoderConfig{
-			MessageKey:   "message",
-			LevelKey:     "level",
-			TimeKey:      "time",
-			EncodeTime:   zapcore.ISO8601TimeEncoder,
-			EncodeLevel:  zapcore.LowercaseLevelEncoder,
-			EncodeCaller: zapcore.ShortCallerEncoder,
-		},
-	}
-	var zapInitError error
-	if zapLogger, zapInitError = zapLoggerConfig.Build(); zapInitError != nil {
-		panic(zapInitError)
+	zapLogger, _ = zap.NewProductionConfig().Build()
+}
+
+func setup() {
+	if zapLogger == nil {
+		zapLoggerConfig = zap.Config{
+			OutputPaths: []string{"stdout"},
+			Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
+			Encoding:    "json",
+			EncoderConfig: zapcore.EncoderConfig{
+				MessageKey:   "message",
+				LevelKey:     "level",
+				TimeKey:      "time",
+				EncodeTime:   zapcore.ISO8601TimeEncoder,
+				EncodeLevel:  zapcore.LowercaseLevelEncoder,
+				EncodeCaller: zapcore.ShortCallerEncoder,
+			},
+		}
+		var zapInitError error
+		if zapLogger, zapInitError = zapLoggerConfig.Build(); zapInitError != nil {
+			panic(zapInitError)
+		}
 	}
 }
 

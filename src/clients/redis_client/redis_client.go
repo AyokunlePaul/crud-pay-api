@@ -1,22 +1,28 @@
 package redis_client
 
 import (
+	"context"
+	"fmt"
 	"github.com/go-redis/redis/v8"
 	"os"
 )
 
-const redisDnsConstant = "REDIS_DNS"
-const redisPasswordConstant = "REDIS_PASSWORD"
+const redisName = "REDIS_CONTAINER_NAME"
 
 var redisClient *redis.Client
 
 func init() {
-	redisDNS := os.Getenv(redisDnsConstant)
+	redisName := os.Getenv(redisName)
 
 	redisClient = redis.NewClient(&redis.Options{
-		Addr: redisDNS,
+		Addr: fmt.Sprintf("%s:%s", redisName, "6379"),
 		DB:   0,
+		MaxRetries: 5,
 	})
+	_, pingResult := redisClient.Ping(context.Background()).Result()
+	if pingResult != nil {
+		panic(pingResult)
+	}
 }
 
 func Get() *redis.Client {

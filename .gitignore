@@ -17,6 +17,8 @@
 # vendor/
 .netrc
 .env
+*.env
 .idea
 .DS_Store
+*.json
 
