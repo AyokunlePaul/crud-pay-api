@@ -1,4 +1,4 @@
-package authentication
+package user_database_repository
 
 import (
 	"context"
@@ -18,7 +18,7 @@ type userRepository struct {
 	tokenRepository token.Repository
 }
 
-func NewUserDatabaseRepository(tokenRepository token.Repository) user.Repository {
+func New(tokenRepository token.Repository) user.Repository {
 	return &userRepository{
 		tokenRepository: tokenRepository,
 	}

@@ -1,17 +1,17 @@
 package application
 
 import (
-	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user"
+	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user/user_service"
 	"github.com/AyokunlePaul/crud-pay-api/src/handlers/gin_handler"
 	"github.com/AyokunlePaul/crud-pay-api/src/handlers/gin_handler/middlewares"
-	"github.com/AyokunlePaul/crud-pay-api/src/repository/authentication"
 	"github.com/AyokunlePaul/crud-pay-api/src/repository/token_repository"
+	"github.com/AyokunlePaul/crud-pay-api/src/repository/user_database_repository"
 )
 
 func mapRoutes() {
 	tokenRepository := token_repository.NewTokenRepository()
-	userDatabaseRepository := authentication.NewUserDatabaseRepository(tokenRepository)
-	userService := user.NewUserService(userDatabaseRepository)
+	userDatabaseRepository := user_database_repository.New(tokenRepository)
+	userService := user_service.New(userDatabaseRepository)
 	userEndpointHandler := gin_handler.NewAuthenticationHandler(userService)
 
 	v1Router := crudPayRouter.Group("/v1")

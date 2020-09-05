@@ -17,6 +17,9 @@ type User struct {
 	Token          string             `json:"token" bson:"token"`
 	RefreshToken   string             `json:"refresh_token" bson:"refresh_token"`
 	IsVendor       bool               `json:"is_vendor" bson:"is_vendor"`
+	CompanyName    string             `json:"company_name"`
+	Phone          string             `json:"phone"`
+	UserId         string             `json:"user_id"`
 }
 
 func (user *User) ValidateUserCreation() *response.BaseResponse {
@@ -52,7 +55,7 @@ func (user *User) ValidateUserLogin() *response.BaseResponse {
 
 func (user *User) IsValidPassword(password string) *response.BaseResponse {
 	if user.Password != password {
-		return response.NewBadRequestError("authentication error")
+		return response.NewBadRequestError("user_database_repository error")
 	}
 	return nil
 }

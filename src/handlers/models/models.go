@@ -48,7 +48,7 @@ func (payload *UserPayload) CanBeCreated() *response.BaseResponse {
 }
 
 func (payload *UserPayload) CanLogin() *response.BaseResponse {
-	message := "authentication failed"
+	message := "user_database_repository failed"
 	if email, ok := payload.Payload["email"].(string); !ok || strings.TrimSpace(email) == "" {
 		return response.NewBadRequestError(message)
 	}

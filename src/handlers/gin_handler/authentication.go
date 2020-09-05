@@ -1,7 +1,7 @@
 package gin_handler
 
 import (
-	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user"
+	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user/user_service"
 	"github.com/AyokunlePaul/crud-pay-api/src/handlers/models"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
 	"github.com/gin-gonic/gin"
@@ -18,10 +18,10 @@ type AuthenticationHandler interface {
 }
 
 type authenticationHandler struct {
-	service user.Service
+	service user_service.Service
 }
 
-func NewAuthenticationHandler(service user.Service) AuthenticationHandler {
+func NewAuthenticationHandler(service user_service.Service) AuthenticationHandler {
 	return &authenticationHandler{
 		service: service,
 	}

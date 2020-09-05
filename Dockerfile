@@ -9,7 +9,7 @@ RUN go env -w GOPRIVATE=github.com/AyokunlePaul/crud-pay-api
 # container to run the process as an unprivileged user.
 RUN mkdir /user && echo 'nobody:x:65534:65534:nobody:/:' > /user/passwd && echo 'nobody:x:65534:' > /user/group
 
-# Copy the predefined netrc file into the location that git depends on
+# Copy the predefined netrc file into the delivery that git depends on
 COPY ./.netrc /root/.netrc
 RUN chmod 600 /root/.netrc
 

@@ -19,7 +19,7 @@ func init() {
 
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	indexModel := mongo.IndexModel{
+	userIndexModel := mongo.IndexModel{
 		Keys:    bsonx.Doc{{"email", bsonx.Int32(1)}},
 		Options: options.Index().SetUnique(true),
 	}
@@ -29,7 +29,7 @@ func init() {
 		panic(clientError)
 	}
 
-	_, indexError := mongoClient.Database("CrudPay").Collection("users").Indexes().CreateOne(mongoContext, indexModel)
+	_, indexError := mongoClient.Database("CrudPay").Collection("users").Indexes().CreateOne(mongoContext, userIndexModel)
 	if indexError != nil {
 		panic(indexError)
 	}

@@ -1,14 +1,54 @@
-version: "3.3"
+version: "3.8"
 services:
   redis:
     image: redis:latest
     container_name: ${REDIS_CONTAINER_NAME}
     ports:
-      - "${REDIS_CONTAINER_PORT}:6379"
+      - ${REDIS_CONTAINER_PORT}:6379
     volumes:
-      - "/opt/data/crud-pay-redis:/data"
-    restart: on-failure
+      - /opt/data/crud-pay-redis:/data
+    restart: always
     command: [ "redis-server", "--appendonly", "yes" ]
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    container_name: elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - cluster.name=products
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - /opt/data/crud-pay-elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: "wget -q -O - http://localhost:9200/_cat/health"
+      interval: 1s
+      timeout: 30s
+      retries: 300
+    restart: unless-stopped
+
+  monstache:
+    image: rwynn/monstache:latest
+    working_dir: /monstache
+    command: -f ./config.toml
+    container_name: monstache
+    volumes:
+      - ./monstache:/monstache/
+    ports:
+      - ${MONSTACHE_CONTAINER_PORT}:8080
+    restart: unless-stopped
+    depends_on:
+      - elasticsearch
 
   crud-pay:
     container_name: crud-pay-api
@@ -20,4 +60,4 @@ services:
       - redis
     image: crud-pay-api
     ports:
-      - "8080:8080"
+      - 8080:8080
