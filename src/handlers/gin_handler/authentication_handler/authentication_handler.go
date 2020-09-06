@@ -1,15 +1,15 @@
-package gin_handler
+package authentication_handler
 
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/user/user_service"
-	"github.com/AyokunlePaul/crud-pay-api/src/handlers/models"
+	"github.com/AyokunlePaul/crud-pay-api/src/handlers/models/user_payload"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
 )
 
-type AuthenticationHandler interface {
+type Handler interface {
 	Login(*gin.Context)
 	CreateAccount(*gin.Context)
 	ResetPassword(*gin.Context)
@@ -17,26 +17,21 @@ type AuthenticationHandler interface {
 	RefreshToken(*gin.Context)
 }
 
-type authenticationHandler struct {
+type handler struct {
 	service user_service.Service
 }
 
-func NewAuthenticationHandler(service user_service.Service) AuthenticationHandler {
-	return &authenticationHandler{
+func New(service user_service.Service) Handler {
+	return &handler{
 		service: service,
 	}
 }
 
-func (handler *authenticationHandler) Login(context *gin.Context) {
-	var userPayload models.UserPayload
+func (handler *handler) Login(context *gin.Context) {
+	var userPayload user_payload.UserPayload
 	_ = context.BindJSON(&userPayload.Payload)
 
-	if validationError := userPayload.CanLogin(); validationError != nil {
-		context.JSON(validationError.Status, validationError)
-		return
-	}
-
-	result, loginError := handler.service.Get(userPayload.ToDomainUser())
+	result, loginError := handler.service.Get(userPayload.ToDomain())
 	if loginError != nil {
 		context.JSON(loginError.Status, loginError)
 		return
@@ -44,16 +39,11 @@ func (handler *authenticationHandler) Login(context *gin.Context) {
 	context.JSON(http.StatusOK, response.NewOkResponse("login successful", result))
 }
 
-func (handler *authenticationHandler) CreateAccount(context *gin.Context) {
-	var userPayload models.UserPayload
+func (handler *handler) CreateAccount(context *gin.Context) {
+	var userPayload user_payload.UserPayload
 	_ = context.BindJSON(&userPayload.Payload)
 
-	if validationError := userPayload.CanBeCreated(); validationError != nil {
-		context.JSON(validationError.Status, validationError)
-		return
-	}
-
-	result, loginError := handler.service.CreateUser(userPayload.ToDomainUser())
+	result, loginError := handler.service.CreateUser(userPayload.ToDomain())
 	if loginError != nil {
 		context.JSON(loginError.Status, loginError)
 		return
@@ -61,7 +51,7 @@ func (handler *authenticationHandler) CreateAccount(context *gin.Context) {
 	context.JSON(http.StatusCreated, response.NewCreatedResponse("user successfully created", result))
 }
 
-func (handler *authenticationHandler) ResetPassword(context *gin.Context) {
+func (handler *handler) ResetPassword(context *gin.Context) {
 	var payload map[string]string
 	_ = context.BindJSON(&payload)
 	userEmail, ok := payload["email"]
@@ -76,13 +66,13 @@ func (handler *authenticationHandler) ResetPassword(context *gin.Context) {
 	context.JSON(http.StatusOK, response.NewOkResponse("verification code sent", nil))
 }
 
-func (handler *authenticationHandler) UpdateUser(context *gin.Context) {
+func (handler *handler) UpdateUser(context *gin.Context) {
 	userToken := strings.Split(context.GetHeader("Authorization"), " ")[1]
 
-	var userPayload models.UserPayload
+	var userPayload user_payload.UserPayload
 	_ = context.BindJSON(&userPayload.Payload)
 
-	result, updateUserError := handler.service.Update(userPayload.ToDomainUser(), userToken)
+	result, updateUserError := handler.service.Update(userPayload.ToDomain(), userToken)
 
 	if updateUserError != nil {
 		context.JSON(updateUserError.Status, updateUserError)
@@ -91,7 +81,7 @@ func (handler *authenticationHandler) UpdateUser(context *gin.Context) {
 	context.JSON(http.StatusOK, response.NewOkResponse("user updated successfully", result))
 }
 
-func (handler *authenticationHandler) RefreshToken(context *gin.Context) {
+func (handler *handler) RefreshToken(context *gin.Context) {
 	tokenMap := make(map[string]string, 1)
 	_ = context.BindJSON(&tokenMap)
 	var userToken string

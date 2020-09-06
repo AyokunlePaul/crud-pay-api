@@ -9,6 +9,7 @@ require (
 	github.com/go-redis/redis/v8 v8.0.0-beta.7
 	github.com/joho/godotenv v1.3.0
 	github.com/myesui/uuid v1.0.0 // indirect
+	github.com/olivere/elastic/v7 v7.0.20 // indirect
 	github.com/sendgrid/rest v2.6.1+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.6.2+incompatible
 	github.com/spf13/viper v1.7.1 // indirect

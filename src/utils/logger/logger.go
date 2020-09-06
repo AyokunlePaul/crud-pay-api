@@ -10,7 +10,7 @@ var zapLogger *zap.Logger
 var zapLoggerConfig zap.Config
 
 func init() {
-	zapLogger, _ = zap.NewProductionConfig().Build()
+	zapLogger, _ = zap.NewDevelopment()
 }
 
 func setup() {

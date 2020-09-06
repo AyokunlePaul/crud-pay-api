@@ -3,6 +3,7 @@ package user
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/utilities/string_utilities"
+	"github.com/twinj/uuid"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"strings"
 )
@@ -17,28 +18,45 @@ type User struct {
 	Token          string             `json:"token" bson:"token"`
 	RefreshToken   string             `json:"refresh_token" bson:"refresh_token"`
 	IsVendor       bool               `json:"is_vendor" bson:"is_vendor"`
-	CompanyName    string             `json:"company_name"`
-	Phone          string             `json:"phone"`
-	UserId         string             `json:"user_id"`
+	CompanyName    string             `json:"company_name,omitempty" bson:"company_name"`
+	Phone          string             `json:"phone,omitempty" bson:"phone"`
+	UserId         string             `json:"user_id" bson:"user_id"`
 }
 
 func (user *User) ValidateUserCreation() *response.BaseResponse {
 	user.FirstName = strings.TrimSpace(user.FirstName)
 	user.LastName = strings.TrimSpace(user.LastName)
 	user.Password = strings.TrimSpace(user.Password)
+	user.CompanyName = strings.TrimSpace(user.CompanyName)
+	user.Phone = strings.TrimSpace(user.Phone)
 
 	if emailError := user.isValidEmail(); emailError != nil {
 		return emailError
 	}
-	if user.FirstName == "" {
+	if string_utilities.IsEmpty(user.FirstName) {
 		return response.NewBadRequestError("first name is invalid")
 	}
-	if user.LastName == "" {
+	if string_utilities.IsEmpty(user.LastName) {
 		return response.NewBadRequestError("last name is invalid")
 	}
-	if user.Password == "" {
+	if string_utilities.IsEmpty(user.Password) {
 		return response.NewBadRequestError("password is invalid")
 	}
+
+	if user.IsVendor {
+		if string_utilities.IsEmpty(user.CompanyName) {
+			return response.NewBadRequestError("company name is invalid")
+		}
+		if phoneNumberValidationError := user.isValidPhoneNumber(); phoneNumberValidationError != nil {
+			return phoneNumberValidationError
+		}
+	} else {
+		if !string_utilities.IsValidPhoneNumber(user.Phone) {
+			return response.NewBadRequestError("invalid phone number")
+		}
+	}
+
+	user.UserId = uuid.NewV4().String()
 	return nil
 }
 
@@ -62,11 +80,21 @@ func (user *User) IsValidPassword(password string) *response.BaseResponse {
 
 func (user *User) isValidEmail() *response.BaseResponse {
 	user.Email = strings.TrimSpace(user.Email)
-	if user.Email == "" {
+	if string_utilities.IsEmpty(user.Email) {
 		return response.NewBadRequestError("email is empty")
 	}
 	if !string_utilities.IsValidEmail(user.Email) {
 		return response.NewBadRequestError("email is invalid")
+	}
+	return nil
+}
+
+func (user *User) isValidPhoneNumber() *response.BaseResponse {
+	if string_utilities.IsEmpty(user.Phone) {
+		return response.NewBadRequestError("phone number is empty")
+	}
+	if !string_utilities.IsValidPhoneNumber(user.Phone) {
+		return response.NewBadRequestError("phone number is invalid")
 	}
 	return nil
 }

@@ -1,4 +1,4 @@
-package user_database_repository
+package utilities
 
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/logger"

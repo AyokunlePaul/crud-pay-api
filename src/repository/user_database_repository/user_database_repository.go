@@ -8,6 +8,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/clients/sendgrid_client"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/logger"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
+	"github.com/AyokunlePaul/crud-pay-api/src/utils/utilities"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/utilities/string_utilities"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -42,7 +43,7 @@ func (repo *userRepository) CreateUser(user user.User) (*user.User, *response.Ba
 
 	_, insertionError := userCollection.InsertOne(mongoContext, user)
 	if insertionError != nil {
-		return nil, HandleMongoUserExceptions(insertionError)
+		return nil, utilities.HandleMongoUserExceptions(insertionError)
 	}
 
 	return &user, nil
@@ -57,8 +58,7 @@ func (repo *userRepository) Get(user user.User) (*user.User, *response.BaseRespo
 	userCollection := mongoClient.Database("CrudPay").Collection("users")
 	filter := bson.M{"email": user.Email}
 	if getUserError := userCollection.FindOne(mongoContext, filter).Decode(&user); getUserError != nil {
-		logger.Error("user fetch error", getUserError)
-		return nil, HandleMongoUserExceptions(getUserError)
+		return nil, utilities.HandleMongoUserExceptions(getUserError)
 	}
 	if passwordError := user.IsValidPassword(inputPassword); passwordError != nil {
 		return nil, passwordError
@@ -84,8 +84,7 @@ func (repo *userRepository) Update(newUser user.User, token string) (*user.User,
 		"_id": id,
 	}
 	if getUserError := userCollection.FindOne(mongoContext, filter).Decode(&oldUser); getUserError != nil {
-		logger.Error("user fetch error", getUserError)
-		return nil, HandleMongoUserExceptions(getUserError)
+		return nil, utilities.HandleMongoUserExceptions(getUserError)
 	}
 
 	updateError := oldUser.Update(newUser)
@@ -102,7 +101,7 @@ func (repo *userRepository) Update(newUser user.User, token string) (*user.User,
 	}
 	if _, updateUserError := userCollection.UpdateOne(mongoContext, filter, updateParameter); updateUserError != nil {
 		logger.Error("newUser fetch error", updateUserError)
-		return nil, HandleMongoUserExceptions(updateUserError)
+		return nil, utilities.HandleMongoUserExceptions(updateUserError)
 	}
 
 	return &oldUser, nil
@@ -137,7 +136,7 @@ func (repo *userRepository) RefreshToken(refreshToken string) (*user.User, *resp
 	}
 	if getUserError := userCollection.FindOneAndUpdate(mongoContext, filter, updateParameter).Decode(userResult); getUserError != nil {
 		logger.Error("token update error", getUserError)
-		return nil, HandleMongoUserExceptions(getUserError)
+		return nil, utilities.HandleMongoUserExceptions(getUserError)
 	}
 
 	return userResult, nil
