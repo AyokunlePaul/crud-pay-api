@@ -14,7 +14,7 @@ var redisContext = context.Background()
 
 type tokenRepository struct{}
 
-func NewTokenRepository() token.Repository {
+func New() token.Repository {
 	return &tokenRepository{}
 }
 

@@ -17,6 +17,7 @@ func init() {
 }
 
 func StartApplication() {
+	initializeDatabases()
 	mapRoutes()
 	logger.Error("application start error", crudPayRouter.Run(":8080"))
 }

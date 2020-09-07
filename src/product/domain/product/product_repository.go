@@ -7,5 +7,5 @@ type Repository interface {
 	Get(string, string) (*Product, *response.BaseResponse)
 	GetProducts(string) ([]Product, *response.BaseResponse)
 	Update(Product, string) (*Product, *response.BaseResponse)
-	Search(string, string) (*Product, *response.BaseResponse)
+	Search(string, string) ([]Product, *response.BaseResponse)
 }

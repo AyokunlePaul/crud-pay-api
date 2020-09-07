@@ -14,7 +14,7 @@ type Service interface {
 	Get(string, string) (*product.Product, *response.BaseResponse)
 	GetProducts(string) ([]product.Product, *response.BaseResponse)
 	Update(product.Product, string) (*product.Product, *response.BaseResponse)
-	Search(string, string) (*product.Product, *response.BaseResponse)
+	Search(string, string) ([]product.Product, *response.BaseResponse)
 }
 
 func New(repository product.Repository) Service {
@@ -42,6 +42,6 @@ func (service *service) Update(product product.Product, token string) (*product.
 	return service.repository.Update(product, token)
 }
 
-func (service *service) Search(query string, token string) (*product.Product, *response.BaseResponse) {
+func (service *service) Search(query string, token string) ([]product.Product, *response.BaseResponse) {
 	return service.repository.Search(query, token)
 }

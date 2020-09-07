@@ -13,12 +13,12 @@ type Product struct {
 	Id               primitive.ObjectID `json:"id" bson:"_id"`
 	Name             string             `json:"product_name" bson:"product_name"`
 	ProductId        string             `json:"product_id" bson:"product_id"`
-	AllowInstallment bool               `json:"allow_installment" bson:"allow_installment"`
+	AllowInstallment bool               `json:"allow_installment,omitempty" bson:"allow_installment"`
 	Pictures         []string           `json:"pictures,omitempty" bson:"pictures"`
-	MaxInstallments  int64              `json:"max_installments" bson:"max_installments"`
-	Price            float64            `json:"price" bson:"price"`
+	MaxInstallments  int64              `json:"max_installments,omitempty" bson:"max_installments"`
+	Price            float64            `json:"price,omitempty" bson:"price"`
 	DeliveryGroups   []delivery.Group   `json:"delivery_groups,omitempty" bson:"delivery_groups,omitempty"`
-	OwnerId          primitive.ObjectID `json:"owner_id" bson:"owner_id"`
+	OwnerId          primitive.ObjectID `json:"owner_id,omitempty" bson:"owner_id"`
 }
 
 func (product *Product) IsValidProduct() *response.BaseResponse {

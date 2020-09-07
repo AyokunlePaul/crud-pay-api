@@ -5,6 +5,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/authentication/domain/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/clients/mongo_client"
 	"github.com/AyokunlePaul/crud-pay-api/src/product/domain/product"
+	"github.com/AyokunlePaul/crud-pay-api/src/product/domain/product/product_search"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/response"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/utilities"
 	"go.mongodb.org/mongo-driver/bson"
@@ -16,11 +17,13 @@ var productCollection = mongo_client.Get().Database("CrudPay").Collection("produ
 
 type productRepository struct {
 	tokenRepository token.Repository
+	productSearchRepository product_search.Repository
 }
 
-func New(tokenRepository token.Repository) product.Repository {
+func New(tokenRepository token.Repository, productSearchRepository product_search.Repository) product.Repository {
 	return &productRepository{
 		tokenRepository: tokenRepository,
+		productSearchRepository: productSearchRepository,
 	}
 }
 
@@ -94,6 +97,11 @@ func (repository *productRepository) Update(product product.Product, token strin
 	panic("implement me")
 }
 
-func (repository *productRepository) Search(query string, token string) (*product.Product, *response.BaseResponse) {
-	panic("implement me")
+func (repository *productRepository) Search(query string, token string) ([]product.Product, *response.BaseResponse) {
+	_, tokenError := repository.tokenRepository.Get(token)
+	if tokenError != nil {
+		return nil, tokenError
+	}
+
+	return repository.productSearchRepository.Search(query)
 }

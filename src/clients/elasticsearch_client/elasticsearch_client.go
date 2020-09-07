@@ -1,6 +1,7 @@
 package elasticsearch_client
 
 import (
+	"context"
 	"fmt"
 	"github.com/olivere/elastic/v7"
 	"log"
@@ -8,16 +9,26 @@ import (
 	"os"
 )
 
-var client *elastic.Client
+var (
+	Client    elasticsearchClientInterface = &elasticsearchClient{}
+	container string                       = os.Getenv(elasticsearchContainerName)
+)
+
 const elasticsearchContainerName = "ELASTIC_SEARCH_CONTAINER_NAME"
 
-func init() {
-	var elasticsearchClientError error
-	elasticsearchContainer := os.Getenv(elasticsearchContainerName)
+type elasticsearchClient struct {
+	client *elastic.Client
+}
 
-	url := fmt.Sprintf("http://%s:9200", elasticsearchContainer)
+type elasticsearchClientInterface interface {
+	Search(string) (*elastic.SearchResult, error)
+	setClient(*elastic.Client)
+}
 
-	client, elasticsearchClientError = elastic.NewClient(
+func Init() {
+	url := fmt.Sprintf("http://%s:9200", container)
+
+	client, elasticsearchClientError := elastic.NewClient(
 		elastic.SetURL(url),
 		elastic.SetSniff(false),
 		elastic.SetGzip(true),
@@ -31,8 +42,19 @@ func init() {
 	if elasticsearchClientError != nil {
 		panic(elasticsearchClientError)
 	}
+	Client.setClient(client)
 }
 
-func Get() *elastic.Client {
-	return client
+func (client *elasticsearchClient) Search(query string) (*elastic.SearchResult, error) {
+	elasticsearchContext := context.Background()
+	queryTerm := elastic.NewMatchQuery("product_name", query)
+	return client.client.Search().
+		Index("crudpay.products").
+		Query(queryTerm).
+		Pretty(true).
+		Do(elasticsearchContext)
+}
+
+func (client *elasticsearchClient) setClient(elasticClient *elastic.Client) {
+	client.client = elasticClient
 }

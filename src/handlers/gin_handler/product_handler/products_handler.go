@@ -63,5 +63,17 @@ func (handler *handler) Get(context *gin.Context) {
 }
 
 func (handler *handler) Search(context *gin.Context) {
-	panic("implement me")
+	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
+	query := context.Query("name")
+	if string_utilities.IsEmpty(query) {
+		context.JSON(http.StatusBadRequest, response.NewBadRequestError("query cannot be empty"))
+		return
+	}
+	result, searchError := handler.service.Search(query, token)
+	if searchError != nil {
+		context.JSON(searchError.Status, searchError)
+		return
+	}
+
+	context.JSON(http.StatusOK, response.NewOkResponse("products fetched", result))
 }
