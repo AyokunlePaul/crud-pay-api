@@ -10,7 +10,7 @@ var zapLogger *zap.Logger
 var zapLoggerConfig zap.Config
 
 func init() {
-	zapLogger, _ = zap.NewDevelopment()
+	setup()
 }
 
 func setup() {
@@ -20,12 +20,13 @@ func setup() {
 			Level:       zap.NewAtomicLevelAt(zap.InfoLevel),
 			Encoding:    "json",
 			EncoderConfig: zapcore.EncoderConfig{
-				MessageKey:   "message",
-				LevelKey:     "level",
-				TimeKey:      "time",
-				EncodeTime:   zapcore.ISO8601TimeEncoder,
-				EncodeLevel:  zapcore.LowercaseLevelEncoder,
-				EncodeCaller: zapcore.ShortCallerEncoder,
+				MessageKey:     "message",
+				LevelKey:       "level",
+				TimeKey:        "time",
+				EncodeTime:     zapcore.ISO8601TimeEncoder,
+				EncodeLevel:    zapcore.LowercaseLevelEncoder,
+				EncodeCaller:   zapcore.ShortCallerEncoder,
+				EncodeDuration: zapcore.SecondsDurationEncoder,
 			},
 		}
 		var zapInitError error
@@ -36,6 +37,9 @@ func setup() {
 }
 
 func GetLogger() *zap.Logger {
+	if zapLogger == nil {
+		setup()
+	}
 	return zapLogger
 }
 

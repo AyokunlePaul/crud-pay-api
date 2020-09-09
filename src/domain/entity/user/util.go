@@ -1,0 +1,125 @@
+package user
+
+import (
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
+	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+	"github.com/AyokunlePaul/crud-pay-api/src/utils/string_utilities"
+	"strings"
+	"time"
+)
+
+func Create() *User {
+	newUser := new(User)
+	newUser.Id = entity.NewCrudPayId()
+	newUser.UserId = entity.NewDefaultId().String()
+
+	currentTime := time.Now()
+
+	newUser.CreatedAt = currentTime
+	newUser.UpdatedAt = currentTime
+
+	return newUser
+}
+
+func FromEmailAndPassword(email, password string) *User {
+	newUser := new(User)
+	newUser.Email = email
+	newUser.Password = password
+
+	return newUser
+}
+
+func (user *User) CanBeCreated() *response.BaseResponse {
+	user.FirstName = strings.TrimSpace(user.FirstName)
+	user.LastName = strings.TrimSpace(user.LastName)
+	user.Password = strings.TrimSpace(user.Password)
+	user.CompanyName = strings.TrimSpace(user.CompanyName)
+	user.Phone = strings.TrimSpace(user.Phone)
+
+	if emailError := user.isValidEmail(); emailError != nil {
+		return emailError
+	}
+	if string_utilities.IsEmpty(user.FirstName) {
+		return response.NewBadRequestError("first name is invalid")
+	}
+	if string_utilities.IsEmpty(user.LastName) {
+		return response.NewBadRequestError("last name is invalid")
+	}
+	if string_utilities.IsEmpty(user.Password) {
+		return response.NewBadRequestError("password is invalid")
+	}
+
+	if user.IsVendor {
+		if string_utilities.IsEmpty(user.CompanyName) {
+			return response.NewBadRequestError("company name is invalid")
+		}
+		if phoneNumberValidationError := user.isValidPhoneNumber(); phoneNumberValidationError != nil {
+			return phoneNumberValidationError
+		}
+	} else {
+		if !string_utilities.IsValidPhoneNumber(user.Phone) {
+			return response.NewBadRequestError("invalid phone number")
+		}
+	}
+
+	return nil
+}
+
+func (user *User) CanLogin() *response.BaseResponse {
+	if emailError := user.isValidEmail(); emailError != nil {
+		return emailError
+	}
+	if passwordError := user.isValidPassword(); passwordError != nil {
+		return passwordError
+	}
+	return nil
+}
+
+func (user *User) isValidPassword() *response.BaseResponse {
+	user.Password = strings.TrimSpace(user.Password)
+	if string_utilities.IsEmpty(user.Password) {
+		return response.NewBadRequestError(response.AuthenticationError)
+	}
+	return nil
+}
+
+func (user *User) isValidEmail() *response.BaseResponse {
+	user.Email = strings.TrimSpace(user.Email)
+	if string_utilities.IsEmpty(user.Email) {
+		return response.NewBadRequestError("email is empty")
+	}
+	if !string_utilities.IsValidEmail(user.Email) {
+		return response.NewBadRequestError("email is invalid")
+	}
+	return nil
+}
+
+func (user *User) isValidPhoneNumber() *response.BaseResponse {
+	if string_utilities.IsEmpty(user.Phone) {
+		return response.NewBadRequestError("phone number is empty")
+	}
+	if !string_utilities.IsValidPhoneNumber(user.Phone) {
+		return response.NewBadRequestError("phone number is invalid")
+	}
+	return nil
+}
+
+func (user *User) CanBeUpdatedWith(newUser User) *response.BaseResponse {
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.FirstName)) {
+		user.FirstName = newUser.FirstName
+	}
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.LastName)) {
+		user.LastName = newUser.LastName
+	}
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.Email)) {
+		if string_utilities.IsValidEmail(newUser.Email) {
+			user.Email = newUser.Email
+		} else {
+			return response.NewBadRequestError("invalid email")
+		}
+	}
+	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.ProfilePicture)) {
+		user.ProfilePicture = newUser.ProfilePicture
+	}
+	return nil
+}

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/AyokunlePaul/crud-pay-api/src/application"
+	"github.com/AyokunlePaul/crud-pay-api/src/api/application"
 	"github.com/joho/godotenv"
 )
 

@@ -23,19 +23,100 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
-      <change afterPath="$PROJECT_DIR$/src/product/domain/product/product_search/search.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/repository/elasticsearch_database_repository/elasticsearch_database_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/utilities/elasticsearch_error_utils.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/payment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/payment_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/product.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/product_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/user_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/presenter/payment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/presenter/product.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/presenter/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/entity.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/manager.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/manager_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/payment.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_cache.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_in_memory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/entity.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/manager.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/manager_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/repository_in_memory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/entity.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/manager.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/manager_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/repository_db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/repository_in_memory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/search/util.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/entity.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/manager.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/manager_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/repository_db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/repository_in_memory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/token/util.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/user/entity.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/user/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/user/manager.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/user/manager_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_in_memory.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/authentication/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/authentication/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/authentication/usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/product/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/product/usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/infra/database/mongodb.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pkg/error_service/error.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pkg/error_service/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pkg/password_service/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pkg/password_service/password.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pkg/token_service/interface.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/application.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/clients/elasticsearch_client/elasticsearch_client.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/clients/elasticsearch_client/elasticsearch_client.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/handlers/gin_handler/product_handler/products_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/handlers/gin_handler/product_handler/products_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/product/domain/product/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/product/domain/product/product_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product_service/product_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/product/domain/product/product_service/product_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repository/product_database_repository/product_database_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/product_database_repository/product_database_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/repository/token_repository/token_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/repository/token_repository/token_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/application.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/domain/token/token.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/domain/token/token_service.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/domain/user/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/util.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/domain/user/user_repository.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/authentication/domain/user/user_service/user_service.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/elasticsearch_client/elasticsearch_client.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/mongo_client/mongodb_client.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/redis_client/redis_client.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/clients/sendgrid_client/sendgrid_client.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/gin_handler/authentication_handler/authentication_handler.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/gin_handler/middlewares/authorization.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/middleware/token.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/gin_handler/product_handler/products_handler.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/models/product_payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/handlers/models/user_payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/presenter/models/user_payload/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/payment/domain/payment/payment.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/product/domain/product/delivery/delivery.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product_repository.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product_search/search.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/product/domain/product/product_service/product_service.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/elasticsearch_database_repository/elasticsearch_database_repository.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/product_database_repository/product_database_repository.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/token_repository/token_repository.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/repository/user_database_repository/user_database_repository.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/logger/logger.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/logger/logger.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/response/base_response.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/response/base_response.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/response/error_responses.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/response/error_responses.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/utilities/elasticsearch_error_utils.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/utilities/mongo_error_utils.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/utilities/string_utilities/strings.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/string_utilities/strings.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/utilities/token_utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/token_service/token.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +126,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Go Application" />
         <option value="Go File" />
       </list>
     </option>
@@ -78,7 +160,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/domain/entity/search" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -89,16 +171,19 @@
     <property name="settings.editor.selected.configurable" value="duplicates.index" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/search/domain/elasticsearch" />
-      <recent name="$PROJECT_DIR$/src/handlers/models/user_payload" />
-      <recent name="$PROJECT_DIR$/src/handlers/gin_handler/product_handler" />
-      <recent name="$PROJECT_DIR$/src/handlers/gin_handler/authentication_handler" />
-      <recent name="$PROJECT_DIR$/src/utils/utilities" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/domain/entity/search" />
+      <recent name="$PROJECT_DIR$/src/domain/usecase/product" />
+      <recent name="$PROJECT_DIR$/src/pkg" />
+      <recent name="$PROJECT_DIR$/src/domain/entity" />
+      <recent name="$PROJECT_DIR$/src/domain/entity/product" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/utils" />
+      <recent name="$PROJECT_DIR$/src/api/presenter" />
       <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/api/middleware" />
+      <recent name="$PROJECT_DIR$/src/api" />
     </key>
   </component>
   <component name="RunManager" selected="Docker.docker-compose.yaml.crud-pay: Compose Deployment">
@@ -169,19 +254,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
       <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yaml.monstache: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
-      <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
+      <item itemvalue="Docker.docker-compose.yaml.monstache: Compose Deployment" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
         <item itemvalue="Docker.Dockerfile" />
+        <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml.monstache: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
+        <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
       </list>
     </recent_temporary>
   </component>
@@ -306,14 +391,23 @@
     </state>
     <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599336887952" />
     <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1598348366974" />
+    <state x="114" y="243" width="1240" height="700" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1599651847312">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="114" y="243" width="1240" height="700" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1599651847312" />
     <state x="100" y="100" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1598228373210">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="100" y="100" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1598228373210" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1599502365241">
+    <state x="421" y="82" width="597" height="735" key="find.popup" timestamp="1599659901540">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1599659901540" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1599660836075">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599502365241" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1599660836075" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598742572451" />
   </component>
 </project>

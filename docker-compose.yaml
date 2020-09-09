@@ -56,8 +56,11 @@ services:
       - .env
     depends_on:
       - redis
+      - elasticsearch
     links:
       - redis
+      - elasticsearch
     image: crud-pay-api
     ports:
       - 8080:8080
+    restart: unless-stopped
