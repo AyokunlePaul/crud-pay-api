@@ -23,6 +23,10 @@ func NewUseCase(manager product.Manager, tokenManager token.Manager, searchManag
 }
 
 func (useCase *productUseCase) CreateProduct(token string, product *product.Product) *response.BaseResponse {
+	if validationError := product.CanBeCreated(); validationError != nil {
+		return validationError
+	}
+
 	ownerId, ownerIdError := useCase.tokenManager.Get(token)
 	if ownerIdError != nil {
 		return ownerIdError
