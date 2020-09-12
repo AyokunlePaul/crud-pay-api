@@ -21,6 +21,10 @@ func Create() *User {
 	return newUser
 }
 
+func New() *User {
+	return new(User)
+}
+
 func FromEmailAndPassword(email, password string) *User {
 	newUser := new(User)
 	newUser.Email = email
