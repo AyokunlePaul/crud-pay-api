@@ -5,6 +5,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/product"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/search"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 )
 
@@ -12,13 +13,15 @@ type productUseCase struct {
 	productManager product.Manager
 	tokenManager   token.Manager
 	searchManager  search.Manager
+	userManager    user.Manager
 }
 
-func NewUseCase(manager product.Manager, tokenManager token.Manager, searchManager search.Manager) UseCase {
+func NewUseCase(manager product.Manager, tokenManager token.Manager, searchManager search.Manager, userManager user.Manager) UseCase {
 	return &productUseCase{
 		productManager: manager,
 		tokenManager:   tokenManager,
 		searchManager:  searchManager,
+		userManager:    userManager,
 	}
 }
 
@@ -28,6 +31,15 @@ func (useCase *productUseCase) CreateProduct(token string, product *product.Prod
 	}
 
 	ownerId, ownerIdError := useCase.tokenManager.Get(token)
+	owner := user.New()
+	owner.Id, _ = entity.StringToCrudPayId(ownerId)
+	if getUserError := useCase.userManager.Get(owner); getUserError != nil {
+		return getUserError
+	}
+	if !owner.IsVendor {
+		return response.NewBadRequestError("only vendors can create a product")
+	}
+
 	if ownerIdError != nil {
 		return ownerIdError
 	}
