@@ -14,7 +14,6 @@ const (
 )
 
 type PaymentFrequency string
-type PaymentType string
 
 type Product struct {
 	Id                 entity.DatabaseId  `json:"id,omitempty" bson:"_id"`

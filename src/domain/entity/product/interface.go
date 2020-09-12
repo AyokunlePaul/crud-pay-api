@@ -7,7 +7,7 @@ import (
 
 type reader interface {
 	Get(entity.DatabaseId) (*Product, *response.BaseResponse)
-	GetProducts(entity.DatabaseId) ([]Product, *response.BaseResponse)
+	List(entity.DatabaseId) ([]Product, *response.BaseResponse)
 }
 
 type writer interface {

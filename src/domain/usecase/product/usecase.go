@@ -88,5 +88,5 @@ func (useCase *productUseCase) GetAllCreatedProducts(token string) ([]product.Pr
 		return nil, ownerIdError
 	}
 	id, _ := entity.StringToCrudPayId(ownerId)
-	return useCase.productManager.GetProducts(id)
+	return useCase.productManager.List(id)
 }
