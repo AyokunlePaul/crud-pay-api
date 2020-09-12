@@ -48,3 +48,8 @@ func (crudPayError *crudPayError) HandleElasticSearchError(err error) *response.
 	logger.Error("elasticsearch error", err)
 	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
 }
+
+func (crudPayError *crudPayError) HandlePaystackError(err error) *response.BaseResponse {
+	logger.Error("paystack error", err)
+	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
+}

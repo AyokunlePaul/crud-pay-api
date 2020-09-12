@@ -10,6 +10,7 @@ require (
 	github.com/go-redis/redis/v8 v8.0.0-beta.7
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/joho/godotenv v1.3.0
+	github.com/matryer/is v1.4.0 // indirect
 	github.com/olivere/elastic/v7 v7.0.20 // indirect
 	github.com/rpip/paystack-go v0.0.0-20180509111153-5333b023a74e // indirect
 	github.com/sendgrid/rest v2.6.1+incompatible // indirect

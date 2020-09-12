@@ -23,10 +23,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
-      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/manager_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/manager_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/repository_cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_cache.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/repository_in_memory.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_in_memory.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/payment/repository_paystack.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/payment/repository_paystack.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pkg/error_service/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pkg/error_service/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/interface.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
