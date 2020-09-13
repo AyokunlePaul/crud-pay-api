@@ -49,7 +49,7 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 		if len(product.PaymentFrequencies) != 0 {
 			return response.NewBadRequestError("payment frequencies not allowed")
 		}
-		product.MaxInstallment = 1
+		product.MaxInstallment = 0
 	}
 	if len(product.DeliveryAreas) == 0 {
 		return response.NewBadRequestError("delivery area is empty")

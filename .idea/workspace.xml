@@ -23,33 +23,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
-      <change afterPath="$PROJECT_DIR$/src/api/middleware/request.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/presenter/models/purchase_payload/models.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/application.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/payment.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/purchase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/payment_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/purchase_test.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/token/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/token/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/authentication/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/authentication/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pkg/error_service/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/error.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,11 +311,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037439583" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600037302711">
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600037789224">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599502365241" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037302711" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037789224" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598742572451" />
   </component>
 </project>

@@ -25,7 +25,7 @@ func (manager *manager) Search(parameter Param) (interface{}, *response.BaseResp
 		return nil, searchError
 	}
 	var products []product.Product
-	results := searchResults.(entity.SearchResult)
+	results := searchResults.(*entity.SearchResult)
 	if results.TotalHits() > 0 {
 		for _, hit := range results.Hits.Hits {
 			var currentProduct product.Product
