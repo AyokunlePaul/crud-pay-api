@@ -7,7 +7,7 @@ import (
 
 type writer interface {
 	Create(*Timeline) *response.BaseResponse
-	CreateList([]Timeline) *response.BaseResponse
+	CreateList([]interface{}) *response.BaseResponse
 	Update(*Timeline) *response.BaseResponse
 }
 

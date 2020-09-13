@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-var userCollection *mongo.Collection
+var collection *mongo.Collection
 
 type mongoDbRepository struct {
 	errorService crudPayError.Service
@@ -29,9 +29,9 @@ func Init() {
 		Options: options.Index().SetUnique(true),
 	}
 
-	userCollection = database.GetCrudPayDatabase().Collection("users")
+	collection = database.GetCrudPayDatabase().Collection("users")
 
-	_, indexError := userCollection.Indexes().CreateOne(mongoContext, userIndexModel)
+	_, indexError := collection.Indexes().CreateOne(mongoContext, userIndexModel)
 	if indexError != nil {
 		panic(indexError)
 	}
@@ -47,7 +47,7 @@ func (repository *mongoDbRepository) Create(user *User) *response.BaseResponse {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	_, insertionError := userCollection.InsertOne(mongoContext, user)
+	_, insertionError := collection.InsertOne(mongoContext, user)
 	if insertionError != nil {
 		return repository.errorService.HandleMongoDbError(insertionError)
 	}
@@ -66,7 +66,7 @@ func (repository *mongoDbRepository) Get(user *User) *response.BaseResponse {
 			{"email": user.Email},
 		},
 	}
-	if getUserError := userCollection.FindOne(mongoContext, filter).Decode(&user); getUserError != nil {
+	if getUserError := collection.FindOne(mongoContext, filter).Decode(&user); getUserError != nil {
 		return repository.errorService.HandleMongoDbError(getUserError)
 	}
 
@@ -86,7 +86,7 @@ func (repository *mongoDbRepository) Update(user *User) *response.BaseResponse {
 		}},
 	}
 	filter := bson.M{"_id": user.Id}
-	if _, updateUserError := userCollection.UpdateOne(mongoContext, filter, updateParameter); updateUserError != nil {
+	if _, updateUserError := collection.UpdateOne(mongoContext, filter, updateParameter); updateUserError != nil {
 		return repository.errorService.HandleMongoDbError(updateUserError)
 	}
 

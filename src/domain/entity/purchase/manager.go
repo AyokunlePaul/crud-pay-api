@@ -1,6 +1,7 @@
 package purchase
 
 import (
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 )
 
@@ -26,6 +27,6 @@ func (manager *manager) Update(purchase *Purchase) *response.BaseResponse {
 	return manager.repository.Update(purchase)
 }
 
-func (manager *manager) List(userId string) ([]Purchase, *response.BaseResponse) {
+func (manager *manager) List(userId entity.DatabaseId) ([]Purchase, *response.BaseResponse) {
 	return manager.repository.List(userId)
 }

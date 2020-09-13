@@ -2,6 +2,7 @@ package purchase
 
 import (
 	"context"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
 	"github.com/AyokunlePaul/crud-pay-api/src/infra/database"
 	crudPayError "github.com/AyokunlePaul/crud-pay-api/src/pkg/error_service"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
@@ -68,7 +69,7 @@ func (repository *repository) Update(purchase *Purchase) *response.BaseResponse 
 	return nil
 }
 
-func (repository *repository) List(userId string) ([]Purchase, *response.BaseResponse) {
+func (repository *repository) List(userId entity.DatabaseId) ([]Purchase, *response.BaseResponse) {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

@@ -7,12 +7,6 @@ import (
 )
 
 const (
-	TypeOneTime     Type = "one-time"
-	TypeInstallment Type = "installment"
-	TypeRecurring   Type = "recurring"
-)
-
-const (
 	BiWeekly   PaymentFrequency = "bi-weekly"
 	Monthly    PaymentFrequency = "monthly"
 	Quarterly  PaymentFrequency = "quarterly"
@@ -30,13 +24,11 @@ const (
 
 type PaymentFrequency string
 
-type Type string
-
 type Purchase struct {
 	Id                   entity.DatabaseId   `json:"id" bson:"_id"`
 	ProductId            entity.DatabaseId   `json:"product_id" bson:"product_id"`
 	Reference            string              `json:"reference" bson:"reference"`
-	Type                 Type                `json:"payment_type" bson:"payment_type"`
+	Type                 timeline.Type       `json:"payment_type" bson:"payment_type"`
 	Email                string              `json:"email" bson:"email"`
 	Amount               float64             `json:"amount" bson:"amount"`
 	NumberOfInstallments int64               `json:"number_of_installments" bson:"number_of_installments"`
