@@ -3,6 +3,7 @@ package purchase
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/product"
 	purchaseEntity "github.com/AyokunlePaul/crud-pay-api/src/domain/entity/purchase"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/timeline"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
@@ -13,10 +14,11 @@ type useCase struct {
 	tokenManager    token.Manager
 	userManager     user.Manager
 	productManager  product.Manager
+	timelineManager timeline.Manager
 }
 
 func NewUseCase(
-	tokenManager token.Manager, userManager user.Manager,
+	tokenManager token.Manager, userManager user.Manager, timelineManager timeline.Manager,
 	purchaseManager purchaseEntity.Manager, productManager product.Manager,
 ) UseCase {
 	return &useCase{
@@ -24,6 +26,7 @@ func NewUseCase(
 		userManager:     userManager,
 		purchaseManager: purchaseManager,
 		productManager:  productManager,
+		timelineManager: timelineManager,
 	}
 }
 
@@ -42,7 +45,7 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchaseEntity.Pu
 	if userId == productToBeBought.OwnerId.Hex() {
 		return response.NewBadRequestError("you can't buy your own product")
 	}
-	if purchase.Type == purchaseEntity.TypeInstallment && !productToBeBought.AllowInstallment {
+	if purchase.Type == timeline.TypeInstallment && !productToBeBought.AllowInstallment {
 		return response.NewBadRequestError("product does not allow installment payment")
 	}
 	if purchase.NumberOfInstallments > productToBeBought.MaxInstallments {

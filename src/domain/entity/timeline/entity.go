@@ -5,6 +5,14 @@ import (
 	"time"
 )
 
+const (
+	TypeOneTime     Type = "one-time"
+	TypeInstallment Type = "installment"
+	TypeRecurring   Type = "recurring"
+)
+
+type Type string
+
 type Timeline struct {
 	Id                  entity.DatabaseId `json:"id" bson:"_id"`
 	PurchaseId          entity.DatabaseId `json:"purchase_id" bson:"purchase_id"`

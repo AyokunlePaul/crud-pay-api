@@ -1,10 +1,13 @@
 package purchase
 
-import "github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+import (
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
+	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+)
 
 type reader interface {
 	Get(*Purchase) *response.BaseResponse
-	List(string) ([]Purchase, *response.BaseResponse)
+	List(entity.DatabaseId) ([]Purchase, *response.BaseResponse)
 }
 
 type writer interface {

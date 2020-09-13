@@ -23,18 +23,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/interface.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/product/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/product/interface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,7 +71,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/domain/usecase/purchase" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/domain/entity/timeline" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -97,11 +90,11 @@
       <recent name="$PROJECT_DIR$/src/api" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/domain/entity/timeline" />
       <recent name="$PROJECT_DIR$/src/domain/usecase/purchase" />
       <recent name="$PROJECT_DIR$/src/domain/entity/search" />
       <recent name="$PROJECT_DIR$/src/domain/usecase/product" />
       <recent name="$PROJECT_DIR$/src/pkg" />
-      <recent name="$PROJECT_DIR$/src/domain/entity" />
     </key>
   </component>
   <component name="RunManager" selected="Docker.docker-compose.yaml.crud-pay: Compose Deployment">
