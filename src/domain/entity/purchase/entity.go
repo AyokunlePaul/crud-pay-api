@@ -7,11 +7,11 @@ import (
 )
 
 const (
-	BiWeekly   PaymentFrequency = "bi-weekly"
-	Monthly    PaymentFrequency = "monthly"
-	Quarterly  PaymentFrequency = "quarterly"
-	BiAnnually PaymentFrequency = "bi-annually"
-	Annually   PaymentFrequency = "annually"
+	BiWeekly   Frequency = "bi-weekly"
+	Monthly    Frequency = "monthly"
+	Quarterly  Frequency = "quarterly"
+	BiAnnually Frequency = "bi-annually"
+	Annually   Frequency = "annually"
 )
 
 const (
@@ -22,7 +22,9 @@ const (
 	DurationAnnually   = DurationBiAnnually * 2
 )
 
-type PaymentFrequency string
+type Frequency string
+
+type DeliveryArea string
 
 type Purchase struct {
 	Id                   entity.DatabaseId   `json:"id" bson:"_id"`
@@ -32,8 +34,9 @@ type Purchase struct {
 	Email                string              `json:"email" bson:"email"`
 	Amount               float64             `json:"amount" bson:"amount"`
 	DebitedAmount        float64             `json:"debited_amount" bson:"debited_amount"`
-	NumberOfInstallments int                 `json:"number_of_installments" bson:"number_of_installments"`
-	Frequency            PaymentFrequency    `json:"payment_frequency" bson:"payment_frequency"`
+	NumberOfInstallments int                 `json:"number_of_installments,omitempty" bson:"number_of_installments,omitempty"`
+	Frequency            Frequency           `json:"payment_frequency" bson:"payment_frequency"`
+	DeliveryArea         DeliveryArea        `json:"delivery_area" bson:"delivery_area"`
 	Successful           bool                `json:"successful" bson:"successful"`
 	CreatedBy            entity.DatabaseId   `json:"created_by" bson:"created_by"`
 	AdditionalDetails    string              `json:"additional_details,omitempty" bson:"additional_details,omitempty"`

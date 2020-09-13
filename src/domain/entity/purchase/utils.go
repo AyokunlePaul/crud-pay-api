@@ -1,5 +1,22 @@
 package purchase
 
+import (
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
+	"time"
+)
+
+func New() *Purchase {
+	newPurchase := new(Purchase)
+	newPurchase.Id = entity.NewDatabaseId()
+
+	currentTime := time.Now()
+
+	newPurchase.CreatedAt = currentTime
+	newPurchase.UpdatedAt = currentTime
+
+	return newPurchase
+}
+
 func (purchase *Purchase) HasValidPaymentFrequency() bool {
 	isValidFrequency := purchase.Frequency.IsValidFrequency()
 	if !isValidFrequency {
@@ -20,7 +37,7 @@ func (purchase *Purchase) HasValidPaymentFrequency() bool {
 	return true
 }
 
-func (frequency PaymentFrequency) IsValidFrequency() bool {
+func (frequency Frequency) IsValidFrequency() bool {
 	return frequency == BiWeekly || frequency == Monthly ||
 		frequency == Quarterly || frequency == BiAnnually || frequency == Annually
 }

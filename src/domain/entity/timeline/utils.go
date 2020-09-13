@@ -12,7 +12,7 @@ func NewTimeline(
 	switch purchaseType {
 	case TypeOneTime:
 		return []interface{}{Timeline{
-			Id:                  entity.NewCrudPayId(),
+			Id:                  entity.NewDatabaseId(),
 			PurchaseId:          purchaseId,
 			Paid:                false,
 			Amount:              amount,
@@ -25,7 +25,7 @@ func NewTimeline(
 		lastPaymentMade := time.Now()
 		for i := 0; i < numberOfInstallments; i++ {
 			currentTimeline := Timeline{
-				Id:                  entity.NewCrudPayId(),
+				Id:                  entity.NewDatabaseId(),
 				PurchaseId:          purchaseId,
 				Paid:                false,
 				Amount:              amountPerTimeline,
@@ -38,7 +38,7 @@ func NewTimeline(
 		return timelines
 	default:
 		return []interface{}{Timeline{
-			Id:                  entity.NewCrudPayId(),
+			Id:                  entity.NewDatabaseId(),
 			PurchaseId:          purchaseId,
 			Paid:                false,
 			Amount:              amount,

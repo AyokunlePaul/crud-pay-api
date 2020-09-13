@@ -1,8 +1,8 @@
 package handler
 
 import (
-	"github.com/AyokunlePaul/crud-pay-api/src/api/presenter/models/product_payload"
-	"github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/product"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/product"
+	productUseCase "github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/product"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/string_utilities"
 	"github.com/gin-gonic/gin"
@@ -17,10 +17,10 @@ type Product interface {
 }
 
 type productHandler struct {
-	useCase product.UseCase
+	useCase productUseCase.UseCase
 }
 
-func ForProduct(useCase product.UseCase) Product {
+func ForProduct(useCase productUseCase.UseCase) Product {
 	return &productHandler{
 		useCase: useCase,
 	}
@@ -28,10 +28,10 @@ func ForProduct(useCase product.UseCase) Product {
 
 func (handler *productHandler) Create(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
-	var payload product_payload.ProductPayload
-	_ = context.BindJSON(&payload.Payload)
 
-	newProduct := payload.ToDomain()
+	newProduct := product.New()
+	_ = context.BindJSON(&newProduct)
+
 	createError := handler.useCase.CreateProduct(token, newProduct)
 	if createError != nil {
 		context.JSON(createError.Status, createError)

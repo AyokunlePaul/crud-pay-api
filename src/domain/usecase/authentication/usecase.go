@@ -4,18 +4,21 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
+	"github.com/AyokunlePaul/crud-pay-api/src/pkg/password_service"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 )
 
 type authenticationUseCase struct {
-	tokenManager token.Manager
-	userManager  user.Manager
+	tokenManager    token.Manager
+	userManager     user.Manager
+	passwordService password_service.Service
 }
 
-func NewUseCase(tokenManager token.Manager, userManager user.Manager) UseCase {
+func NewUseCase(tokenManager token.Manager, userManager user.Manager, service password_service.Service) UseCase {
 	return &authenticationUseCase{
-		tokenManager: tokenManager,
-		userManager:  userManager,
+		tokenManager:    tokenManager,
+		userManager:     userManager,
+		passwordService: service,
 	}
 }
 
@@ -30,16 +33,25 @@ func (authentication *authenticationUseCase) Create(user *user.User) *response.B
 	}
 	user.Token = userToken.AccessToken
 	user.RefreshToken = userToken.RefreshToken
+	hashedPassword, passwordHashError := authentication.passwordService.Generate(user.Password)
+	if passwordHashError != nil {
+		return response.NewInternalServerError(response.ErrorCreatingUser)
+	}
+	user.Password = hashedPassword
 
 	return authentication.userManager.Create(user)
 }
 
 func (authentication *authenticationUseCase) LogIn(user *user.User) *response.BaseResponse {
+	userPassword := user.Password
 	if validationError := user.CanLogin(); validationError != nil {
 		return validationError
 	}
 	if getUserError := authentication.userManager.Get(user); getUserError != nil {
 		return getUserError
+	}
+	if passwordComparisonError := authentication.passwordService.Compare(user.Password, userPassword); passwordComparisonError != nil {
+		return response.NewBadRequestError(response.AuthenticationError)
 	}
 	return nil
 }

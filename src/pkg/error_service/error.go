@@ -36,6 +36,7 @@ func (crudPayError *crudPayError) HandleMongoDbError(err error) *response.BaseRe
 }
 
 func (crudPayError *crudPayError) HandleRedisDbError(err error) *response.BaseResponse {
+	logger.Error("redis error", err)
 	switch err {
 	case redis.Nil:
 		return response.NewUnAuthorizedError()

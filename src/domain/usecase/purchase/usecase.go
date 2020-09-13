@@ -18,7 +18,7 @@ type useCase struct {
 	timelineManager timeline.Manager
 }
 
-func NewUseCase(
+func New(
 	tokenManager token.Manager, userManager user.Manager, timelineManager timeline.Manager,
 	purchaseManager purchase.Manager, productManager product.Manager,
 ) UseCase {
@@ -36,23 +36,14 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	if tokenError != nil {
 		return tokenError
 	}
-	if !purchase.HasValidPaymentFrequency() {
-		return response.NewBadRequestError("invalid payment frequency")
-	}
 	productToBeBought, productError := useCase.productManager.Get(purchase.ProductId)
 	if productError != nil {
 		return productError
 	}
-	if purchase.Type == timeline.TypeInstallment && !productToBeBought.AllowInstallment {
-		return response.NewBadRequestError("product does not allow installment payment")
+	if validationError := productToBeBought.CanBePurchased(userId, purchase); validationError != nil {
+		return validationError
 	}
-	if userId == productToBeBought.OwnerId.Hex() {
-		return response.NewBadRequestError("you can't buy your own product")
-	}
-	if purchase.NumberOfInstallments > productToBeBought.MaxInstallments {
-		return response.NewBadRequestError("specify a lower payment installment number")
-	}
-	timelines := timeline.NewTimeline(purchase.Id, productToBeBought.Amount, purchase.NumberOfInstallments, purchase.Duration, purchase.Frequency)
+	timelines := timeline.NewTimeline(purchase.Id, productToBeBought.Amount, purchase.NumberOfInstallments, purchase.Duration, purchase.Type)
 	if timelineCreationError := useCase.timelineManager.CreateList(timelines); timelineCreationError != nil {
 		return timelineCreationError
 	}
@@ -66,9 +57,25 @@ func (useCase *useCase) UpdatePurchase(token string, purchase *purchase.Purchase
 }
 
 func (useCase *useCase) GetAllPurchasesMadeByUser(token string) ([]purchase.Purchase, *response.BaseResponse) {
-	panic("implement me")
+	id, tokenError := useCase.tokenManager.Get(token)
+	if tokenError != nil {
+		return nil, tokenError
+	}
+	userId, _ := entity.StringToCrudPayId(id)
+	return useCase.purchaseManager.List(userId)
 }
 
-func (useCase *useCase) GetPurchase(purchaseId, token string) (*purchase.Purchase, *response.BaseResponse) {
-	panic("implement me")
+func (useCase *useCase) GetPurchase(token, purchaseId string) (*purchase.Purchase, *response.BaseResponse) {
+	_, tokenError := useCase.tokenManager.Get(token)
+	if tokenError != nil {
+		return nil, tokenError
+	}
+	currentPurchase := new(purchase.Purchase)
+	currentPurchase.Id, _ = entity.StringToCrudPayId(purchaseId)
+
+	if getPurchaseError := useCase.purchaseManager.Get(currentPurchase); getPurchaseError != nil {
+		return nil, getPurchaseError
+	} else {
+		return currentPurchase, nil
+	}
 }

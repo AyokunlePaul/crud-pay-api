@@ -12,7 +12,7 @@ type DefaultID = uuid.UUID
 type CrudPayJwtToken = jwt.Token
 type SearchResult = elastic.SearchResult
 
-func NewCrudPayId() DatabaseId {
+func NewDatabaseId() DatabaseId {
 	return primitive.NewObjectID()
 }
 

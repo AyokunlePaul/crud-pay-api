@@ -17,7 +17,7 @@ var (
 	redisName    = "REDIS_CONTAINER_NAME"
 )
 
-type redisRepository struct {
+type repository struct {
 	errorService crudPayError.Service
 }
 
@@ -36,12 +36,12 @@ func init() {
 }
 
 func NewDatabaseRepository(errorService crudPayError.Service) Repository {
-	return &redisRepository{
+	return &repository{
 		errorService: errorService,
 	}
 }
 
-func (repository *redisRepository) CreateToken(crudPayToken *CrudPayToken, userId string) *response.BaseResponse {
+func (repository *repository) CreateToken(crudPayToken *CrudPayToken, userId string) *response.BaseResponse {
 	accessTokenExpiration := time.Unix(crudPayToken.AccessTokenExpires, 0).Sub(time.Now())
 	refreshTokenExpiration := time.Unix(crudPayToken.RefreshTokenExpires, 0).Sub(time.Now())
 
@@ -60,7 +60,7 @@ func (repository *redisRepository) CreateToken(crudPayToken *CrudPayToken, userI
 	return nil
 }
 
-func (repository *redisRepository) Get(accessUuid string) (string, *response.BaseResponse) {
+func (repository *repository) Get(accessUuid string) (string, *response.BaseResponse) {
 	userId, resultError := redisClient.Get(redisContext, accessUuid).Result()
 	if resultError != nil {
 		return "", repository.errorService.HandleRedisDbError(resultError)
@@ -68,10 +68,10 @@ func (repository *redisRepository) Get(accessUuid string) (string, *response.Bas
 	return userId, nil
 }
 
-func (repository *redisRepository) Update(userId string) (*CrudPayToken, *response.BaseResponse) {
+func (repository *repository) Update(userId string) (*CrudPayToken, *response.BaseResponse) {
 	panic("implement me")
 }
 
-func (repository *redisRepository) RefreshToken(refreshToken string) (*CrudPayToken, *response.BaseResponse) {
+func (repository *repository) RefreshToken(refreshToken string) (*CrudPayToken, *response.BaseResponse) {
 	panic("implement me")
 }

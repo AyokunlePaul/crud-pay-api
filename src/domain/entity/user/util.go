@@ -10,7 +10,7 @@ import (
 
 func Create() *User {
 	newUser := new(User)
-	newUser.Id = entity.NewCrudPayId()
+	newUser.Id = entity.NewDatabaseId()
 	newUser.UserId = entity.NewDefaultId().String()
 
 	currentTime := time.Now()

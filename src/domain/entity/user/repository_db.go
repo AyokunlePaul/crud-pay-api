@@ -2,12 +2,10 @@ package user
 
 import (
 	"context"
-	"fmt"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
 	"github.com/AyokunlePaul/crud-pay-api/src/infra/database"
 	crudPayError "github.com/AyokunlePaul/crud-pay-api/src/pkg/error_service"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
-	"github.com/AyokunlePaul/crud-pay-api/src/utils/logger"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -56,7 +54,6 @@ func (repository *mongoDbRepository) Create(user *User) *response.BaseResponse {
 }
 
 func (repository *mongoDbRepository) Get(user *User) *response.BaseResponse {
-	logger.Info(fmt.Sprintf("User details: %v", user))
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
