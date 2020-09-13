@@ -82,11 +82,11 @@ func (useCase *productUseCase) GetProductWithId(token string, productId string) 
 	return useCase.productManager.Get(id)
 }
 
-func (useCase *productUseCase) GetAllCreatedProducts(token string) ([]product.Product, *response.BaseResponse) {
+func (useCase *productUseCase) GetAllProductsCreatedByUserWithId(token string) ([]product.Product, *response.BaseResponse) {
 	ownerId, ownerIdError := useCase.tokenManager.Get(token)
 	if ownerIdError != nil {
 		return nil, ownerIdError
 	}
 	id, _ := entity.StringToCrudPayId(ownerId)
-	return useCase.productManager.GetProducts(id)
+	return useCase.productManager.List(id)
 }

@@ -23,7 +23,7 @@ func (payload *ProductPayload) ToDomain() *product.Product {
 		domainProduct.MaxInstallments = maxInstallments
 	}
 	if price, ok := payload.Payload["price"].(float64); ok {
-		domainProduct.Price = price
+		domainProduct.Amount = price
 	}
 	if paymentFrequencies, ok := payload.Payload["payment_frequency"].([]product.PaymentFrequency); ok {
 		domainProduct.PaymentFrequencies = paymentFrequencies

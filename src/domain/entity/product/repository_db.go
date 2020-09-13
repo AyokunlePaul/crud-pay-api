@@ -54,7 +54,7 @@ func (repository *mongoDbRepository) Get(productId entity.DatabaseId) (*Product,
 	return Product, nil
 }
 
-func (repository *mongoDbRepository) GetProducts(ownerId entity.DatabaseId) ([]Product, *response.BaseResponse) {
+func (repository *mongoDbRepository) List(ownerId entity.DatabaseId) ([]Product, *response.BaseResponse) {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 

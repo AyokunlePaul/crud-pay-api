@@ -6,4 +6,5 @@ type Service interface {
 	HandleMongoDbError(error) *response.BaseResponse
 	HandleRedisDbError(error) *response.BaseResponse
 	HandleElasticSearchError(error) *response.BaseResponse
+	HandlePaystackError(error) *response.BaseResponse
 }

@@ -24,8 +24,8 @@ func (manager *manager) Get(productId entity.DatabaseId) (*Product, *response.Ba
 	return manager.repository.Get(productId)
 }
 
-func (manager *manager) GetProducts(ownerId entity.DatabaseId) ([]Product, *response.BaseResponse) {
-	return manager.repository.GetProducts(ownerId)
+func (manager *manager) List(ownerId entity.DatabaseId) ([]Product, *response.BaseResponse) {
+	return manager.repository.List(ownerId)
 }
 
 func (manager *manager) Update(product *Product) *response.BaseResponse {

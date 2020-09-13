@@ -4,6 +4,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/api/handler"
 	"github.com/AyokunlePaul/crud-pay-api/src/api/middleware"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/product"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/purchase"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/search"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
@@ -18,6 +19,7 @@ import (
 func initializeDatabases() {
 	database.Init()
 	user.Init()
+	purchase.Init()
 	product.Init()
 	search.Init()
 }
@@ -36,9 +38,10 @@ func setUpRepositoriesAndManagers() {
 	tokenManager := token.NewManager(token.NewDatabaseRepository(errorService), tokenService)
 	productManager := product.NewManager(product.NewDatabaseRepository(errorService))
 	searchManager := search.NewManager(search.NewDatabaseRepository(errorService))
+	_ = purchase.NewManager(purchase.NewDatabaseRepository(errorService))
 
 	authenticationHandler = handler.ForAuthentication(authentication.NewUseCase(tokenManager, userManager))
-	productHandler = handler.ForProduct(productUseCase.NewUseCase(productManager, tokenManager, searchManager))
+	productHandler = handler.ForProduct(productUseCase.NewUseCase(productManager, tokenManager, searchManager, userManager))
 }
 
 func mapRoutes() {
