@@ -31,12 +31,13 @@ type Purchase struct {
 	Type                 timeline.Type       `json:"payment_type" bson:"payment_type"`
 	Email                string              `json:"email" bson:"email"`
 	Amount               float64             `json:"amount" bson:"amount"`
-	NumberOfInstallments int64               `json:"number_of_installments" bson:"number_of_installments"`
+	DebitedAmount        float64             `json:"debited_amount" bson:"debited_amount"`
+	NumberOfInstallments int                 `json:"number_of_installments" bson:"number_of_installments"`
 	Frequency            PaymentFrequency    `json:"payment_frequency" bson:"payment_frequency"`
 	Successful           bool                `json:"successful" bson:"successful"`
 	CreatedBy            entity.DatabaseId   `json:"created_by" bson:"created_by"`
 	AdditionalDetails    string              `json:"additional_details,omitempty" bson:"additional_details,omitempty"`
-	PaymentTimelines     []timeline.Timeline `json:"payment_timelines" bson:"payment_timelines"`
+	Timeline             []timeline.Timeline `json:"timeline" bson:"-"`
 	Duration             time.Duration       `json:"-" bson:"-"`
 	CreatedAt            time.Time           `json:"created_at" bson:"created_at"`
 	UpdatedAt            time.Time           `json:"updated_at" bson:"updated_at"`

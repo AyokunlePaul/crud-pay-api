@@ -57,7 +57,7 @@ func (repository *repository) Update(purchase *Purchase) *response.BaseResponse 
 
 	updateParameter := bson.D{
 		{"$set", bson.D{
-			{"payment_timelines", purchase.PaymentTimelines},
+			{"payment_timeline", purchase.Timeline},
 			{"successful", purchase.Successful},
 		}},
 	}

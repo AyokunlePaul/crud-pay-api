@@ -24,10 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/interface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/presenter/models/product_payload/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

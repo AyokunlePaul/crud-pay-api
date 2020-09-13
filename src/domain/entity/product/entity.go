@@ -13,7 +13,7 @@ type Product struct {
 	AllowInstallment   bool                        `json:"allow_installment,omitempty" bson:"allow_installment"`
 	PaymentFrequencies []purchase.PaymentFrequency `json:"payment_frequency,omitempty" bson:"payment_frequency"`
 	Pictures           []string                    `json:"pictures,omitempty" bson:"pictures"`
-	MaxInstallments    int64                       `json:"max_installments,omitempty" bson:"max_installments"`
+	MaxInstallments    int                         `json:"max_installments,omitempty" bson:"max_installments"`
 	Amount             float64                     `json:"amount,omitempty" bson:"amount"`
 	DeliveryGroups     []Group                     `json:"delivery_groups,omitempty" bson:"delivery_groups"`
 	OwnerId            entity.DatabaseId           `json:"owner_id,omitempty" bson:"owner_id"`
