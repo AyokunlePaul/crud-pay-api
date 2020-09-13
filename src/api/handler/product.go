@@ -46,7 +46,7 @@ func (handler *productHandler) Get(context *gin.Context) {
 	productId := context.Param("product_id")
 
 	if string_utilities.IsEmpty(productId) {
-		result, productsError := handler.useCase.GetAllCreatedProducts(token)
+		result, productsError := handler.useCase.GetAllProductsCreatedByUserWithId(token)
 		if productsError != nil {
 			context.JSON(productsError.Status, productsError)
 			return

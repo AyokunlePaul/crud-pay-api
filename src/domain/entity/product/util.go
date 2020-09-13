@@ -46,8 +46,3 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 	}
 	return nil
 }
-
-func (frequency PaymentFrequency) IsValidFrequency() bool {
-	return frequency == BiWeekly || frequency == Monthly ||
-		frequency == Quarterly || frequency == BiAnnually || frequency == Annually
-}
