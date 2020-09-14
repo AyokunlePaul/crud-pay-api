@@ -17,11 +17,7 @@ func New() *Purchase {
 	return newPurchase
 }
 
-func (purchase *Purchase) HasValidPaymentFrequency() bool {
-	isValidFrequency := purchase.Frequency.IsValidFrequency()
-	if !isValidFrequency {
-		return false
-	}
+func (purchase *Purchase) UpdatePaymentDuration() {
 	switch purchase.Frequency {
 	case BiWeekly:
 		purchase.Duration = DurationBiWeekly
@@ -34,7 +30,6 @@ func (purchase *Purchase) HasValidPaymentFrequency() bool {
 	default:
 		purchase.Duration = DurationAnnually
 	}
-	return true
 }
 
 func (frequency Frequency) IsValidFrequency() bool {

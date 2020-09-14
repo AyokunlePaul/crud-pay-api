@@ -58,17 +58,32 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 }
 
 func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchase) *response.BaseResponse {
-	if !purchase.HasValidPaymentFrequency() {
-		return response.NewBadRequestError("invalid payment frequency")
+	if !string_utilities.IsValidEmail(strings.TrimSpace(purchase.Email)) {
+		return response.NewBadRequestError("invalid email address")
+	}
+	if !purchase.Type.IsValidPaymentType() {
+		return response.NewBadRequestError("invalid payment type")
 	}
 	if purchase.Type == timeline.TypeInstallment && !product.AllowInstallment {
-		return response.NewBadRequestError("product does not allow installment payment")
+		return response.NewBadRequestError("product does not allow installment")
 	}
+
+	isValidPaymentFrequency := false
+	for _, frequency := range product.PaymentFrequencies {
+		if frequency == purchase.Frequency {
+			isValidPaymentFrequency = true
+			break
+		}
+	}
+	if (purchase.Type == timeline.TypeInstallment || purchase.Type == timeline.TypeRecurring) && !isValidPaymentFrequency {
+		return response.NewBadRequestError("invalid payment frequency")
+	}
+
 	if userId == product.OwnerId.Hex() {
 		return response.NewBadRequestError("you can't buy your own product")
 	}
-	if purchase.NumberOfInstallments > product.MaxInstallment {
-		return response.NewBadRequestError("specify a lower payment installment number")
+	if purchase.NumberOfInstallments <= 0 || purchase.NumberOfInstallments > product.MaxInstallment {
+		return response.NewBadRequestError("invalid installment number")
 	}
 	isValidArea := false
 	for _, area := range product.DeliveryAreas {
@@ -78,7 +93,9 @@ func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchas
 		}
 	}
 	if !isValidArea {
-		return response.NewBadRequestError("specified delivery area is not valid for product")
+		return response.NewBadRequestError("invalid delivery area")
 	}
+
+	purchase.UpdatePaymentDuration()
 	return nil
 }

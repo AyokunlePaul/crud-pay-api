@@ -14,22 +14,24 @@ func New() Service {
 	return &crudPayError{}
 }
 
-func (crudPayError *crudPayError) HandleMongoDbError(err error) *response.BaseResponse {
+func (crudPayError *crudPayError) HandleMongoDbError(from string, err error) *response.BaseResponse {
 	logger.Error("mongo error", err)
 	if writeException, ok := err.(mongo.WriteException); ok {
 		for _, exception := range writeException.WriteErrors {
 			switch exception.Code {
 			case 11000:
-				return response.NewBadRequestError("user with email already exist")
+				return response.NewBadRequestError(fmt.Sprintf("%s already exist", from))
 			}
 		}
-		return response.NewBadRequestError("user already exist")
+		return response.NewBadRequestError(fmt.Sprintf("%s already exist", from))
 	}
 	switch err {
 	case mongo.ErrNoDocuments:
-		return response.NewNotFoundError("user doesn't exist")
+		return response.NewNotFoundError(fmt.Sprintf("%s doesn't exist", from))
 	case mongo.ErrClientDisconnected:
 		return response.NewInternalServerError("internal server error")
+	case mongo.ErrNilDocument:
+		return response.NewBadRequestError("internal server error")
 	default:
 		return response.NewInternalServerError(err.Error())
 	}

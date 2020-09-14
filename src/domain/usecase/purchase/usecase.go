@@ -47,6 +47,9 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	if timelineCreationError := useCase.timelineManager.CreateList(timelines); timelineCreationError != nil {
 		return timelineCreationError
 	}
+	purchase.Timeline = timelines
+	purchase.Amount = productToBeBought.Amount
+	purchase.DebitedAmount = timelines[0].(timeline.Timeline).Amount
 	purchase.CreatedBy, _ = entity.StringToCrudPayId(userId)
 
 	return useCase.purchaseManager.Create(purchase)

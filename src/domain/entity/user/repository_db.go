@@ -15,6 +15,8 @@ import (
 
 var collection *mongo.Collection
 
+const from = "timeline"
+
 type mongoDbRepository struct {
 	errorService crudPayError.Service
 }
@@ -47,7 +49,7 @@ func (repository *mongoDbRepository) Create(user *User) *response.BaseResponse {
 
 	_, insertionError := collection.InsertOne(mongoContext, user)
 	if insertionError != nil {
-		return repository.errorService.HandleMongoDbError(insertionError)
+		return repository.errorService.HandleMongoDbError(from, insertionError)
 	}
 
 	return nil
@@ -64,7 +66,7 @@ func (repository *mongoDbRepository) Get(user *User) *response.BaseResponse {
 		},
 	}
 	if getUserError := collection.FindOne(mongoContext, filter).Decode(&user); getUserError != nil {
-		return repository.errorService.HandleMongoDbError(getUserError)
+		return repository.errorService.HandleMongoDbError(from, getUserError)
 	}
 
 	return nil
@@ -84,7 +86,7 @@ func (repository *mongoDbRepository) Update(user *User) *response.BaseResponse {
 	}
 	filter := bson.M{"_id": user.Id}
 	if _, updateUserError := collection.UpdateOne(mongoContext, filter, updateParameter); updateUserError != nil {
-		return repository.errorService.HandleMongoDbError(updateUserError)
+		return repository.errorService.HandleMongoDbError(from, updateUserError)
 	}
 
 	return nil

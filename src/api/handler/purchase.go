@@ -31,12 +31,13 @@ func (handler *purchaseHandler) Create(context *gin.Context) {
 	newPurchase := purchase.New()
 	_ = context.BindJSON(&newPurchase)
 
-	createPurchaseError := handler.useCase.CreatePurchase(token, newPurchase)
-	if createPurchaseError != nil {
+	if createPurchaseError := handler.useCase.CreatePurchase(token, newPurchase); createPurchaseError != nil {
 		context.JSON(createPurchaseError.Status, createPurchaseError)
 		return
+	} else {
+		context.JSON(http.StatusCreated, response.NewCreatedResponse("purchase created", newPurchase))
+		return
 	}
-	context.JSON(http.StatusCreated, response.NewCreatedResponse("purchase created", newPurchase))
 }
 
 func (handler *purchaseHandler) Get(context *gin.Context) {
