@@ -10,14 +10,14 @@ func New() *CrudPayFile {
 	return new(CrudPayFile)
 }
 
-func NewList(request *http.Request, folder string, headers []*multipart.FileHeader) ([]CrudPayFile, *response.BaseResponse) {
-	files := make([]CrudPayFile, len(headers))
+func NewList(request *http.Request, folder string, headers []*multipart.FileHeader) ([]*CrudPayFile, *response.BaseResponse) {
+	files := make([]*CrudPayFile, len(headers))
 	for index, header := range headers {
-		currentFile := CrudPayFile{
-			Folder:  folder,
-			Header:  header,
-			Request: request,
-		}
+		currentFile := new(CrudPayFile)
+
+		currentFile.Folder = folder
+		currentFile.Header = header
+		currentFile.Request = request
 		files[index] = currentFile
 	}
 	return files, nil

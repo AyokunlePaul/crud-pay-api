@@ -3,8 +3,8 @@ package file
 import "github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 
 type writer interface {
-	Create(*CrudPayFile) *response.BaseResponse
-	CreateList([]CrudPayFile) *response.BaseResponse
+	Create(string, *CrudPayFile) *response.BaseResponse
+	CreateList(string, []*CrudPayFile) *response.BaseResponse
 }
 
 type Repository interface {

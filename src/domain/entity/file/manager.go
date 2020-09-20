@@ -14,10 +14,10 @@ func NewManager(repository Repository) Manager {
 	}
 }
 
-func (manager *manager) Create(file *CrudPayFile) *response.BaseResponse {
-	return manager.repository.Create(file)
+func (manager *manager) Create(userId string, file *CrudPayFile) *response.BaseResponse {
+	return manager.repository.Create(userId, file)
 }
 
-func (manager *manager) CreateList(files []CrudPayFile) *response.BaseResponse {
-	return manager.repository.CreateList(files)
+func (manager *manager) CreateList(userId string, files []*CrudPayFile) *response.BaseResponse {
+	return manager.repository.CreateList(userId, files)
 }

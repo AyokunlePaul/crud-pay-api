@@ -19,22 +19,17 @@ func New(tokenManager token.Manager, fileManager file.Manager) UseCase {
 }
 
 func (useCase *fileUploadUseCase) UploadFile(token string, payFile *file.CrudPayFile) *response.BaseResponse {
-	if userId, userIdError := useCase.tokenManager.Get(token); userIdError != nil {
+	userId, userIdError := useCase.tokenManager.Get(token)
+	if userIdError != nil {
 		return userIdError
-	} else {
-		payFile.Folder = userId //Use the user id to create folder
 	}
-	return useCase.fileManager.Create(payFile)
+	return useCase.fileManager.Create(userId, payFile)
 }
 
-func (useCase *fileUploadUseCase) UploadFiles(token string, crudPayFiles []file.CrudPayFile) *response.BaseResponse {
-	if userId, userIdError := useCase.tokenManager.Get(token); userIdError != nil {
+func (useCase *fileUploadUseCase) UploadFiles(token string, crudPayFiles []*file.CrudPayFile) *response.BaseResponse {
+	userId, userIdError := useCase.tokenManager.Get(token)
+	if userIdError != nil {
 		return userIdError
-	} else {
-		//Use the user id to create folder
-		for _, currentFile := range crudPayFiles {
-			currentFile.Folder = userId
-		}
 	}
-	return useCase.fileManager.CreateList(crudPayFiles)
+	return useCase.fileManager.CreateList(userId, crudPayFiles)
 }

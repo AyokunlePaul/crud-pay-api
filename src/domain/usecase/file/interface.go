@@ -7,5 +7,5 @@ import (
 
 type UseCase interface {
 	UploadFile(string, *file.CrudPayFile) *response.BaseResponse
-	UploadFiles(string, []file.CrudPayFile) *response.BaseResponse
+	UploadFiles(string, []*file.CrudPayFile) *response.BaseResponse
 }

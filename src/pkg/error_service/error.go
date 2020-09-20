@@ -61,3 +61,8 @@ func (crudPayError *crudPayError) HandleGoogleStorageError(err error) *response.
 	logger.Error("google storage error", err)
 	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
 }
+
+func (crudPayError *crudPayError) HandleUtilityError(err error) *response.BaseResponse {
+	logger.Error("utility error", err)
+	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
+}

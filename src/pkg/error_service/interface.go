@@ -8,4 +8,5 @@ type Service interface {
 	HandleElasticSearchError(error) *response.BaseResponse
 	HandlePaystackError(error) *response.BaseResponse
 	HandleGoogleStorageError(error) *response.BaseResponse
+	HandleUtilityError(error) *response.BaseResponse
 }

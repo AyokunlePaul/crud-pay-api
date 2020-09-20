@@ -66,12 +66,10 @@ func (useCase *useCase) UpdatePurchase(token string, purchase *purchase.Purchase
 	currentTime := time.Now()
 	purchase.UpdatedAt = currentTime
 
-	for _, currentTimeline := range purchase.Timeline {
-		if !currentTimeline.Paid {
-			currentTimeline.Paid = true
-			currentTimeline.ActualPaymentDate = &currentTime
-		}
+	if updateTimelineError := useCase.purchaseManager.UpdateTimeline(purchase); updateTimelineError != nil {
+		return updateTimelineError
 	}
+	return useCase.purchaseManager.Get(purchase)
 }
 
 func (useCase *useCase) GetAllPurchasesMadeByUser(token string) ([]purchase.Purchase, *response.BaseResponse) {
