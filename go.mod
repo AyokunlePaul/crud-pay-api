@@ -7,6 +7,7 @@ require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/zap v0.0.1
 	github.com/gin-gonic/gin v1.6.3
+	github.com/githubnemo/CompileDaemon v1.2.1 // indirect
 	github.com/go-redis/redis/v8 v8.0.0-beta.7
 	github.com/google/uuid v1.1.2 // indirect
 	github.com/joho/godotenv v1.3.0

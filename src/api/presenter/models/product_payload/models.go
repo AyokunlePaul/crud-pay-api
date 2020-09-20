@@ -19,14 +19,14 @@ func (payload *ProductPayload) ToDomain() *product.Product {
 	if pictures, ok := payload.Payload["pictures"].([]string); ok {
 		domainProduct.Pictures = pictures
 	}
-	if maxInstallments, ok := payload.Payload["max_installments"].(int64); ok {
-		domainProduct.MaxInstallments = maxInstallments
+	if maxInstallment, ok := payload.Payload["max_installment"].(float64); ok {
+		domainProduct.MaxInstallment = int(maxInstallment)
 	}
 	if price, ok := payload.Payload["price"].(float64); ok {
 		domainProduct.Amount = price
 	}
-	if paymentFrequencies, ok := payload.Payload["payment_frequency"].([]product.PaymentFrequency); ok {
-		domainProduct.PaymentFrequencies = paymentFrequencies
-	}
+	//if paymentFrequencies, ok := payload.Payload["payment_frequency"].([]string); ok {
+	//	domainProduct.PaymentFrequencies = paymentFrequencies
+	//}
 	return domainProduct
 }

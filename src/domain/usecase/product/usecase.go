@@ -16,7 +16,7 @@ type productUseCase struct {
 	userManager    user.Manager
 }
 
-func NewUseCase(manager product.Manager, tokenManager token.Manager, searchManager search.Manager, userManager user.Manager) UseCase {
+func New(manager product.Manager, tokenManager token.Manager, searchManager search.Manager, userManager user.Manager) UseCase {
 	return &productUseCase{
 		productManager: manager,
 		tokenManager:   tokenManager,
@@ -31,6 +31,10 @@ func (useCase *productUseCase) CreateProduct(token string, product *product.Prod
 	}
 
 	ownerId, ownerIdError := useCase.tokenManager.Get(token)
+	if ownerIdError != nil {
+		return ownerIdError
+	}
+
 	owner := user.New()
 	owner.Id, _ = entity.StringToCrudPayId(ownerId)
 	if getUserError := useCase.userManager.Get(owner); getUserError != nil {
@@ -40,9 +44,6 @@ func (useCase *productUseCase) CreateProduct(token string, product *product.Prod
 		return response.NewBadRequestError("only vendors can create a product")
 	}
 
-	if ownerIdError != nil {
-		return ownerIdError
-	}
 	product.OwnerId, _ = entity.StringToCrudPayId(ownerId)
 	return useCase.productManager.Create(product)
 }

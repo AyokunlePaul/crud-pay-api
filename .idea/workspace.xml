@@ -24,10 +24,20 @@
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/interface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/handler/purchase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/purchase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pkg/error_service/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pkg/error_service/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/interface.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,7 +81,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/domain/entity/timeline" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/api/handler" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -90,11 +100,11 @@
       <recent name="$PROJECT_DIR$/src/api" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/api/handler" />
       <recent name="$PROJECT_DIR$/src/domain/entity/timeline" />
       <recent name="$PROJECT_DIR$/src/domain/usecase/purchase" />
       <recent name="$PROJECT_DIR$/src/domain/entity/search" />
       <recent name="$PROJECT_DIR$/src/domain/usecase/product" />
-      <recent name="$PROJECT_DIR$/src/pkg" />
     </key>
   </component>
   <component name="RunManager" selected="Docker.docker-compose.yaml.crud-pay: Compose Deployment">
@@ -151,12 +161,12 @@
       </deployment>
       <method v="2" />
     </configuration>
-    <configuration name="docker-compose.yaml.monstache: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+    <configuration name="docker-compose.yaml.redis: Compose Deployment" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
       <deployment type="docker-compose.yml">
         <settings>
           <option name="services">
             <list>
-              <option value="monstache" />
+              <option value="redis" />
             </list>
           </option>
           <option name="sourceFilePath" value="docker-compose.yaml" />
@@ -165,10 +175,10 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
+      <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
-      <item itemvalue="Docker.docker-compose.yaml.monstache: Compose Deployment" />
       <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
     </list>
     <recent_temporary>
@@ -176,7 +186,7 @@
         <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
         <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yaml.monstache: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
         <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
       </list>
     </recent_temporary>
@@ -241,10 +251,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="512" y="387" key="#GOROOT/0.0.1440.900@0.0.1440.900" timestamp="1598111962952" />
-    <state x="184" y="80" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599253494953">
+    <state x="184" y="80" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600008294678">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="80" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599253494953" />
+    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600008294678" />
     <state x="184" y="112" width="1071" height="748" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1598781253099" />
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599205851878">
       <screen x="0" y="0" width="1440" height="900" />
@@ -310,15 +321,15 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="100" y="100" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1598228373210" />
-    <state x="421" y="82" width="597" height="735" key="find.popup" timestamp="1599659901540">
+    <state x="421" y="82" width="597" height="735" key="find.popup" timestamp="1600037439583">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1599659901540" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1599929556670">
+    <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037439583" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600037789224">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599502365241" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1599929556670" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037789224" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598742572451" />
   </component>
 </project>

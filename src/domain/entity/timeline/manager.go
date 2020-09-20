@@ -19,7 +19,7 @@ func (manager *manager) Create(timeline *Timeline) *response.BaseResponse {
 	return manager.repository.Create(timeline)
 }
 
-func (manager *manager) CreateList(timelines []Timeline) *response.BaseResponse {
+func (manager *manager) CreateList(timelines []interface{}) *response.BaseResponse {
 	return manager.repository.CreateList(timelines)
 }
 

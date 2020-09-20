@@ -15,7 +15,7 @@ var (
 	productCollection *mongo.Collection
 )
 
-type mongoDbRepository struct {
+type repository struct {
 	errorService crudPayError.Service
 }
 
@@ -24,23 +24,23 @@ func Init() {
 }
 
 func NewDatabaseRepository(errorService crudPayError.Service) Repository {
-	return &mongoDbRepository{
+	return &repository{
 		errorService: errorService,
 	}
 }
 
-func (repository *mongoDbRepository) Create(product *Product) *response.BaseResponse {
+func (repository *repository) Create(product *Product) *response.BaseResponse {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	_, insertionError := productCollection.InsertOne(mongoContext, product)
 	if insertionError != nil {
-		return repository.errorService.HandleMongoDbError(insertionError)
+		return repository.errorService.HandleMongoDbError("product", insertionError)
 	}
 	return nil
 }
 
-func (repository *mongoDbRepository) Get(productId entity.DatabaseId) (*Product, *response.BaseResponse) {
+func (repository *repository) Get(productId entity.DatabaseId) (*Product, *response.BaseResponse) {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -48,13 +48,13 @@ func (repository *mongoDbRepository) Get(productId entity.DatabaseId) (*Product,
 	var Product *Product
 
 	if getProductError := productCollection.FindOne(mongoContext, filter).Decode(&Product); getProductError != nil {
-		return nil, repository.errorService.HandleMongoDbError(getProductError)
+		return nil, repository.errorService.HandleMongoDbError("product", getProductError)
 	}
 
 	return Product, nil
 }
 
-func (repository *mongoDbRepository) List(ownerId entity.DatabaseId) ([]Product, *response.BaseResponse) {
+func (repository *repository) List(ownerId entity.DatabaseId) ([]Product, *response.BaseResponse) {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -63,20 +63,20 @@ func (repository *mongoDbRepository) List(ownerId entity.DatabaseId) ([]Product,
 
 	productsCursor, getProductsError := productCollection.Find(mongoContext, filter)
 	if getProductsError != nil {
-		return nil, repository.errorService.HandleMongoDbError(getProductsError)
+		return nil, repository.errorService.HandleMongoDbError("product", getProductsError)
 	}
 
 	if productsDecodeError := productsCursor.All(mongoContext, &products); productsDecodeError != nil {
-		return nil, repository.errorService.HandleMongoDbError(productsDecodeError)
+		return nil, repository.errorService.HandleMongoDbError("product", productsDecodeError)
 	}
 
 	return products, nil
 }
 
-func (repository *mongoDbRepository) Update(product *Product) *response.BaseResponse {
+func (repository *repository) Update(product *Product) *response.BaseResponse {
 	panic("implement me")
 }
 
-func (repository *mongoDbRepository) Delete(token string, productId string) {
+func (repository *repository) Delete(token string, productId string) {
 	panic("implement me")
 }

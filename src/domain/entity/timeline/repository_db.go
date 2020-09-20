@@ -13,6 +13,8 @@ import (
 
 var collection *mongo.Collection
 
+const from = "timeline"
+
 type repository struct {
 	errorService crudPayError.Service
 }
@@ -33,7 +35,7 @@ func (repository *repository) Create(timeline *Timeline) *response.BaseResponse 
 
 	_, insertionError := collection.InsertOne(mongoContext, timeline)
 	if insertionError != nil {
-		return repository.errorService.HandleMongoDbError(insertionError)
+		return repository.errorService.HandleMongoDbError(from, insertionError)
 	}
 
 	return nil
@@ -45,7 +47,7 @@ func (repository *repository) CreateList(timelines []interface{}) *response.Base
 
 	_, insertionError := collection.InsertMany(mongoContext, timelines)
 	if insertionError != nil {
-		return repository.errorService.HandleMongoDbError(insertionError)
+		return repository.errorService.HandleMongoDbError(from, insertionError)
 	}
 
 	return nil
@@ -59,7 +61,7 @@ func (repository *repository) Get(timeline *Timeline) *response.BaseResponse {
 		"_id": timeline.Id,
 	}
 	if getTimelineError := collection.FindOne(mongoContext, filter).Decode(timeline); getTimelineError != nil {
-		return repository.errorService.HandleMongoDbError(getTimelineError)
+		return repository.errorService.HandleMongoDbError(from, getTimelineError)
 	}
 	return nil
 }
@@ -75,7 +77,7 @@ func (repository *repository) Update(timeline *Timeline) *response.BaseResponse 
 	}
 	filter := bson.M{"_id": timeline.Id}
 	if _, updateTimelineError := collection.UpdateOne(mongoContext, filter, updateParameter); updateTimelineError != nil {
-		return repository.errorService.HandleMongoDbError(updateTimelineError)
+		return repository.errorService.HandleMongoDbError(from, updateTimelineError)
 	}
 	return nil
 }
@@ -87,12 +89,12 @@ func (repository *repository) List(purchaseId entity.DatabaseId) ([]Timeline, *r
 	filter := bson.M{"purchase_id": purchaseId}
 	purchaseCursor, purchaseFindError := collection.Find(mongoContext, filter)
 	if purchaseFindError != nil {
-		return nil, repository.errorService.HandleMongoDbError(purchaseFindError)
+		return nil, repository.errorService.HandleMongoDbError(from, purchaseFindError)
 	}
 
 	var purchases []Timeline
 	if purchasesDecodeError := purchaseCursor.All(mongoContext, &purchases); purchasesDecodeError != nil {
-		return nil, repository.errorService.HandleMongoDbError(purchasesDecodeError)
+		return nil, repository.errorService.HandleMongoDbError(from, purchasesDecodeError)
 	}
 
 	return purchases, nil

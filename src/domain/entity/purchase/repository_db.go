@@ -13,6 +13,8 @@ import (
 
 var collection *mongo.Collection
 
+const from = "purchase"
+
 type repository struct {
 	errorService crudPayError.Service
 }
@@ -33,7 +35,7 @@ func (repository *repository) Create(purchase *Purchase) *response.BaseResponse 
 
 	_, insertionError := collection.InsertOne(mongoContext, purchase)
 	if insertionError != nil {
-		return repository.errorService.HandleMongoDbError(insertionError)
+		return repository.errorService.HandleMongoDbError(from, insertionError)
 	}
 	return nil
 }
@@ -46,7 +48,7 @@ func (repository *repository) Get(purchase *Purchase) *response.BaseResponse {
 		"_id": purchase.Id,
 	}
 	if getTransactionError := collection.FindOne(mongoContext, filter).Decode(purchase); getTransactionError != nil {
-		return repository.errorService.HandleMongoDbError(getTransactionError)
+		return repository.errorService.HandleMongoDbError(from, getTransactionError)
 	}
 	return nil
 }
@@ -57,14 +59,15 @@ func (repository *repository) Update(purchase *Purchase) *response.BaseResponse 
 
 	updateParameter := bson.D{
 		{"$set", bson.D{
-			{"payment_timelines", purchase.PaymentTimelines},
+			{"timeline", purchase.Timeline},
+			{"reference", purchase.Reference},
 			{"successful", purchase.Successful},
 		}},
 	}
 	filter := bson.M{"_id": purchase.Id}
 
 	if _, updatePurchaseError := collection.UpdateOne(mongoContext, filter, updateParameter); updatePurchaseError != nil {
-		return repository.errorService.HandleMongoDbError(updatePurchaseError)
+		return repository.errorService.HandleMongoDbError(from, updatePurchaseError)
 	}
 	return nil
 }
@@ -76,12 +79,12 @@ func (repository *repository) List(userId entity.DatabaseId) ([]Purchase, *respo
 	filter := bson.M{"created_by": userId}
 	purchaseCursor, purchaseFindError := collection.Find(mongoContext, filter)
 	if purchaseFindError != nil {
-		return nil, repository.errorService.HandleMongoDbError(purchaseFindError)
+		return nil, repository.errorService.HandleMongoDbError(from, purchaseFindError)
 	}
 
 	var purchases []Purchase
 	if purchasesDecodeError := purchaseCursor.All(mongoContext, &purchases); purchasesDecodeError != nil {
-		return nil, repository.errorService.HandleMongoDbError(purchasesDecodeError)
+		return nil, repository.errorService.HandleMongoDbError(from, purchasesDecodeError)
 	}
 
 	return purchases, nil
