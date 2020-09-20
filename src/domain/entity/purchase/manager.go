@@ -27,6 +27,10 @@ func (manager *manager) Update(purchase *Purchase) *response.BaseResponse {
 	return manager.repository.Update(purchase)
 }
 
+func (manager *manager) UpdateTimeline(purchase *Purchase) *response.BaseResponse {
+	return manager.repository.UpdateTimeline(purchase)
+}
+
 func (manager *manager) List(userId entity.DatabaseId) ([]Purchase, *response.BaseResponse) {
 	return manager.repository.List(userId)
 }

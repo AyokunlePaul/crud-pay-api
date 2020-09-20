@@ -49,18 +49,3 @@ services:
     restart: unless-stopped
     depends_on:
       - elasticsearch
-
-  crud-pay:
-    container_name: crud-pay-api
-    env_file:
-      - .env
-    depends_on:
-      - redis
-      - elasticsearch
-    links:
-      - redis
-      - elasticsearch
-    image: crud-pay-api
-    ports:
-      - 8080:8080
-    restart: unless-stopped

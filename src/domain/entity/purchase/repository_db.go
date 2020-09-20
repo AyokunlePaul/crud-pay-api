@@ -89,3 +89,20 @@ func (repository *repository) List(userId entity.DatabaseId) ([]Purchase, *respo
 
 	return purchases, nil
 }
+
+func (repository *repository) UpdateTimeline(purchase *Purchase) *response.BaseResponse {
+	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	filter := bson.M{"_id": purchase.Id}
+	updateQuery := bson.D{{"$set", bson.D{
+		{"successful", purchase.Successful},
+		{"updated_at", time.Now()},
+		{"timeline.$.paid", true},
+		{"timeline.$.actual_payment_date", time.Now()},
+	}}}
+	if _, updatePurchaseError := collection.UpdateOne(mongoContext, filter, updateQuery); updatePurchaseError != nil {
+		return repository.errorService.HandleMongoDbError(from, updatePurchaseError)
+	}
+	return repository.Get(purchase)
+}

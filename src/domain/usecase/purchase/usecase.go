@@ -8,6 +8,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+	"time"
 )
 
 type useCase struct {
@@ -44,19 +45,33 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 		return validationError
 	}
 	timelines := timeline.NewTimeline(purchase.Id, productToBeBought.Amount, purchase.NumberOfInstallments, purchase.Duration, purchase.Type)
-	if timelineCreationError := useCase.timelineManager.CreateList(timelines); timelineCreationError != nil {
-		return timelineCreationError
-	}
+
 	purchase.Timeline = timelines
+	purchase.OwnerId = productToBeBought.OwnerId
 	purchase.Amount = productToBeBought.Amount
-	purchase.DebitedAmount = timelines[0].(timeline.Timeline).Amount
+	purchase.DebitedAmount = timelines[0].Amount
 	purchase.CreatedBy, _ = entity.StringToCrudPayId(userId)
 
 	return useCase.purchaseManager.Create(purchase)
 }
 
 func (useCase *useCase) UpdatePurchase(token string, purchase *purchase.Purchase) *response.BaseResponse {
-	panic("implement me")
+	_, tokenError := useCase.tokenManager.Get(token)
+	if tokenError != nil {
+		return tokenError
+	}
+	if getPurchaseError := useCase.purchaseManager.Get(purchase); getPurchaseError != nil {
+		return getPurchaseError
+	}
+	currentTime := time.Now()
+	purchase.UpdatedAt = currentTime
+
+	for _, currentTimeline := range purchase.Timeline {
+		if !currentTimeline.Paid {
+			currentTimeline.Paid = true
+			currentTimeline.ActualPaymentDate = &currentTime
+		}
+	}
 }
 
 func (useCase *useCase) GetAllPurchasesMadeByUser(token string) ([]purchase.Purchase, *response.BaseResponse) {

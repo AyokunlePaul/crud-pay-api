@@ -28,6 +28,7 @@ func ForProduct(useCase productUseCase.UseCase) Product {
 
 func (handler *productHandler) Create(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
+	context.Request
 
 	newProduct := product.New()
 	_ = context.BindJSON(&newProduct)
