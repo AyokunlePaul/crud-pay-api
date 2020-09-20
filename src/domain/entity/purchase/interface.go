@@ -13,6 +13,7 @@ type reader interface {
 type writer interface {
 	Create(*Purchase) *response.BaseResponse
 	Update(*Purchase) *response.BaseResponse
+	UpdateTimeline(*Purchase) *response.BaseResponse
 }
 
 type Repository interface {

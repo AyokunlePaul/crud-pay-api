@@ -56,3 +56,13 @@ func (crudPayError *crudPayError) HandlePaystackError(err error) *response.BaseR
 	logger.Error("paystack error", err)
 	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
 }
+
+func (crudPayError *crudPayError) HandleGoogleStorageError(err error) *response.BaseResponse {
+	logger.Error("google storage error", err)
+	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
+}
+
+func (crudPayError *crudPayError) HandleUtilityError(err error) *response.BaseResponse {
+	logger.Error("utility error", err)
+	return response.NewInternalServerError(fmt.Sprintf("an error occurred: %s", err.Error()))
+}

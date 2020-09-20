@@ -24,17 +24,13 @@
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/purchase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/purchase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/manager.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/file/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/file/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/file/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/file/usecase.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pkg/error_service/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/error.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pkg/error_service/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/interface.go" afterDir="false" />
@@ -93,24 +89,31 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/utils" />
       <recent name="$PROJECT_DIR$/src/api/presenter" />
-      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/api/middleware" />
-      <recent name="$PROJECT_DIR$/src/api" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/api/handler" />
+      <recent name="$PROJECT_DIR$/src/domain/usecase/file" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/domain/entity/file" />
       <recent name="$PROJECT_DIR$/src/domain/entity/timeline" />
-      <recent name="$PROJECT_DIR$/src/domain/usecase/purchase" />
-      <recent name="$PROJECT_DIR$/src/domain/entity/search" />
-      <recent name="$PROJECT_DIR$/src/domain/usecase/product" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.yaml.crud-pay: Compose Deployment">
+  <component name="RunManager" selected="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src">
     <configuration name="go build github.com/AyokunlePaul/crud-pay-api/src" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="crud-pay-api" />
       <working_directory value="$PROJECT_DIR$" />
+      <envs>
+        <env name="JWT_SECRET" value="@#crUd-pAy@#" />
+        <env name="JWT_SECRET_REFRESH" value="@#crUd-pAy-reFrESh@#" />
+        <env name="REDIS_CONTAINER_NAME" value="localhost" />
+        <env name="ELASTIC_SEARCH_CONTAINER_NAME" value="localhost" />
+        <env name="MONGO_CLIENT_URI" value="mongodb+srv://admin:admin@crudpay-api-cluster.0zbrq.gcp.mongodb.net" />
+      </envs>
       <kind value="PACKAGE" />
       <filePath value="$PROJECT_DIR$/src/main.go" />
       <package value="github.com/AyokunlePaul/crud-pay-api/src" />
@@ -183,11 +186,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
         <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
         <item itemvalue="Docker.Dockerfile" />
         <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
-        <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
       </list>
     </recent_temporary>
   </component>
@@ -251,17 +254,21 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="512" y="387" key="#GOROOT/0.0.1440.900@0.0.1440.900" timestamp="1598111962952" />
-    <state x="184" y="80" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600008294678">
+    <state x="187" y="152" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600315658380">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="80" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599253494953" />
-    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600008294678" />
+    <state x="187" y="152" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600315658380" />
     <state x="184" y="112" width="1071" height="748" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1598781253099" />
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599205851878">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599205851878" />
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1598257957018" />
+    <state x="408" y="190" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1600535908960">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="408" y="190" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600535908960" />
     <state x="295" y="25" key="CommitChangelistDialog2" timestamp="1599336883390">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -271,21 +278,29 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="578" y="348" key="DockerComposeFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1598781241730" />
-    <state width="1398" height="466" key="GridCell.Tab.0.bottom" timestamp="1598375406147">
+    <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog" timestamp="1600315638732">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600315638732" />
+    <state width="1398" height="518" key="GridCell.Tab.0.bottom" timestamp="1600613631033">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="518" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600613631033" />
     <state width="1398" height="466" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598375406147" />
-    <state width="1398" height="466" key="GridCell.Tab.0.center" timestamp="1598375406144">
+    <state width="1398" height="518" key="GridCell.Tab.0.center" timestamp="1600613631032">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="518" key="GridCell.Tab.0.center/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600613631032" />
     <state width="1398" height="466" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
-    <state width="1398" height="466" key="GridCell.Tab.0.left" timestamp="1598375406144">
+    <state width="1398" height="518" key="GridCell.Tab.0.left" timestamp="1600613631030">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="518" key="GridCell.Tab.0.left/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600613631030" />
     <state width="1398" height="466" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
-    <state width="1398" height="466" key="GridCell.Tab.0.right" timestamp="1598375406146">
+    <state width="1398" height="518" key="GridCell.Tab.0.right" timestamp="1600613631032">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="518" key="GridCell.Tab.0.right/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600613631032" />
     <state width="1398" height="466" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1598375406146" />
     <state width="1398" height="466" key="GridCell.Tab.1.bottom" timestamp="1598375406151">
       <screen x="0" y="0" width="1440" height="900" />
@@ -325,11 +340,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037439583" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600037789224">
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600612290916">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599502365241" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600037789224" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600612290916" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598742572451" />
   </component>
 </project>

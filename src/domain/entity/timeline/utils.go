@@ -9,10 +9,10 @@ import (
 func NewTimeline(
 	purchaseId entity.DatabaseId, amount float64,
 	numberOfInstallments int, duration time.Duration, purchaseType Type,
-) []interface{} {
+) []Timeline {
 	switch purchaseType {
 	case TypeOneTime:
-		return []interface{}{Timeline{
+		return []Timeline{{
 			Id:                  entity.NewDatabaseId(),
 			PurchaseId:          purchaseId,
 			Paid:                false,
@@ -20,7 +20,7 @@ func NewTimeline(
 			ExpectedPaymentDate: time.Now(),
 		}}
 	case TypeInstallment:
-		timelines := make([]interface{}, numberOfInstallments)
+		timelines := make([]Timeline, numberOfInstallments)
 		amountPerTimeline := amount / float64(numberOfInstallments)
 		amountPerTimeline = math.Ceil(amountPerTimeline*100) / 100
 
@@ -38,7 +38,7 @@ func NewTimeline(
 		}
 		return timelines
 	default:
-		return []interface{}{Timeline{
+		return []Timeline{{
 			Id:                  entity.NewDatabaseId(),
 			PurchaseId:          purchaseId,
 			Paid:                false,

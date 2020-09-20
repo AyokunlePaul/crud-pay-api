@@ -7,4 +7,6 @@ type Service interface {
 	HandleRedisDbError(error) *response.BaseResponse
 	HandleElasticSearchError(error) *response.BaseResponse
 	HandlePaystackError(error) *response.BaseResponse
+	HandleGoogleStorageError(error) *response.BaseResponse
+	HandleUtilityError(error) *response.BaseResponse
 }

@@ -26,13 +26,13 @@ func New(manager product.Manager, tokenManager token.Manager, searchManager sear
 }
 
 func (useCase *productUseCase) CreateProduct(token string, product *product.Product) *response.BaseResponse {
-	if validationError := product.CanBeCreated(); validationError != nil {
-		return validationError
-	}
-
 	ownerId, ownerIdError := useCase.tokenManager.Get(token)
 	if ownerIdError != nil {
 		return ownerIdError
+	}
+
+	if validationError := product.CanBeCreated(); validationError != nil {
+		return validationError
 	}
 
 	owner := user.New()

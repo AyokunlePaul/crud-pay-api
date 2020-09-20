@@ -19,5 +19,5 @@ type Timeline struct {
 	Paid                bool              `json:"paid" bson:"paid"`
 	Amount              float64           `json:"amount" bson:"amount"`
 	ExpectedPaymentDate time.Time         `json:"expected_payment_date" bson:"expected_payment_date"`
-	ActualPaymentDate   *time.Time        `json:"actual_payment_date,omitempty" bson:"actual_payment_date,omitempty"`
+	ActualPaymentDate   *time.Time        `json:"actual_payment_date,omitempty" bson:"actual_payment_date"`
 }

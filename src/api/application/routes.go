@@ -3,6 +3,7 @@ package application
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/api/handler"
 	"github.com/AyokunlePaul/crud-pay-api/src/api/middleware"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/file"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/product"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/purchase"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/search"
@@ -10,6 +11,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/authentication"
+	fileUseCase "github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/file"
 	productUseCase "github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/product"
 	purchaseUseCase "github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/purchase"
 	"github.com/AyokunlePaul/crud-pay-api/src/infra/database"
@@ -19,7 +21,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func initializeDatabases() {
+func initializeRepositories() {
 	database.Init()
 	user.Init()
 	purchase.Init()
@@ -29,9 +31,10 @@ func initializeDatabases() {
 }
 
 var (
-	authenticationHandler   handler.Authentication
+	fileHandler             handler.File
 	productHandler          handler.Product
 	purchaseHandler         handler.Purchase
+	authenticationHandler   handler.Authentication
 	authorizationMiddleware gin.HandlerFunc
 )
 
@@ -47,7 +50,9 @@ func setUpRepositoriesAndManagers() {
 	searchManager := search.NewManager(search.NewDatabaseRepository(errorService))
 	timelineManager := timeline.NewManager(timeline.NewDatabaseRepository(errorService))
 	purchaseManager := purchase.NewManager(purchase.NewDatabaseRepository(errorService))
+	fileManager := file.NewManager(file.NewStorageRepository(errorService))
 
+	fileHandler = handler.ForFileUpload(fileUseCase.New(tokenManager, fileManager))
 	authenticationHandler = handler.ForAuthentication(authentication.NewUseCase(tokenManager, userManager, password_service.New()))
 	productHandler = handler.ForProduct(productUseCase.New(productManager, tokenManager, searchManager, userManager))
 	purchaseHandler = handler.ForPurchase(purchaseUseCase.New(tokenManager, userManager, timelineManager, purchaseManager, productManager))
@@ -64,20 +69,24 @@ func mapRoutes() {
 			authenticationGroup.POST("/reset_password", authorizationMiddleware, authenticationHandler.ResetPassword)
 			authenticationGroup.POST("/refresh_token", authenticationHandler.RefreshToken)
 		}
-		productGroup := v1Group.Group("/product")
+		productGroup := v1Group.Group("/product", authorizationMiddleware)
 		{
-			productGroup.POST("/create", authorizationMiddleware, productHandler.Create)
-			productGroup.GET("/:product_id", authorizationMiddleware, productHandler.Get)
+			productGroup.POST("/create", productHandler.Create)
+			productGroup.GET("/:product_id", productHandler.Get)
 		}
-		searchGroup := v1Group.Group("/search")
+		searchGroup := v1Group.Group("/search", authorizationMiddleware)
 		{
-			searchGroup.GET("/product", authorizationMiddleware, productHandler.Search)
+			searchGroup.GET("/product", productHandler.Search)
 		}
-		purchaseGroup := v1Group.Group("/purchase")
+		purchaseGroup := v1Group.Group("/purchase", authorizationMiddleware)
 		{
-			purchaseGroup.POST("/create", authorizationMiddleware, purchaseHandler.Create)
-			purchaseGroup.GET("/all", authorizationMiddleware, purchaseHandler.List)
-			purchaseGroup.GET("/product/:product_id", authorizationMiddleware, purchaseHandler.Get)
+			purchaseGroup.POST("/create", purchaseHandler.Create)
+			purchaseGroup.GET("/all", purchaseHandler.List)
+			purchaseGroup.GET("/product/:product_id", purchaseHandler.Get)
+		}
+		fileUploadGroup := v1Group.Group("/file", authorizationMiddleware)
+		{
+			fileUploadGroup.POST("/", fileHandler.Create)
 		}
 	}
 }
