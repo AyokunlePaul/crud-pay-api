@@ -23,26 +23,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="Finally got docker to work">
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/entity.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/interface.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/manager.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/manager_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/repository_db.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/repository_in_memory.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/domain/entity/file/utils.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/file.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/handler/file_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/file/interface.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/file/usecase.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/domain/usecase/file/usecase_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/application/application.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/application.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/handler/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/product.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/interface.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/manager.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/manager.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/repository_db.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/utils.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/file/utils.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/file/utils.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pkg/error_service/error.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/pkg/error_service/error.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/string_utilities/strings.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/string_utilities/strings.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +81,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/domain/entity/file" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/api/handler" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -105,11 +100,11 @@
       <recent name="$PROJECT_DIR$/src/api/middleware" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/domain/entity/file" />
       <recent name="$PROJECT_DIR$/src/api/handler" />
+      <recent name="$PROJECT_DIR$/src/domain/usecase/file" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/domain/entity/file" />
       <recent name="$PROJECT_DIR$/src/domain/entity/timeline" />
-      <recent name="$PROJECT_DIR$/src/domain/usecase/purchase" />
-      <recent name="$PROJECT_DIR$/src/domain/entity/search" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src">

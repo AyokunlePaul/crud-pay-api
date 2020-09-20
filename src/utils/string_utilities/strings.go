@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"regexp"
+	"strings"
 )
 
 const (
@@ -29,5 +30,5 @@ func GetMD5(input string) string {
 }
 
 func IsEmpty(value string) bool {
-	return value == ""
+	return strings.TrimSpace(value) == ""
 }

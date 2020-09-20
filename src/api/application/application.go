@@ -19,7 +19,7 @@ func init() {
 }
 
 func StartApplication() {
-	initializeDatabases()
+	initializeRepositories()
 	setUpRepositoriesAndManagers()
 	mapRoutes()
 	logger.Error("application start error", crudPayRouter.Run(":8080"))

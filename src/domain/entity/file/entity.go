@@ -5,11 +5,11 @@ import (
 	"net/http"
 )
 
+type Type string
+
 type CrudPayFile struct {
-	BucketName  string
 	Folder      string
-	File        multipart.File
+	Header      *multipart.FileHeader
 	Request     *http.Request
-	FileName    string
 	UploadedUrl string
 }
