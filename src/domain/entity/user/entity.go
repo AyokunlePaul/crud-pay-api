@@ -17,7 +17,7 @@ type User struct {
 	IsVendor       bool              `json:"is_vendor" bson:"is_vendor"`
 	CompanyName    string            `json:"company_name,omitempty" bson:"company_name,omitempty"`
 	Phone          string            `json:"phone,omitempty" bson:"phone,omitempty"`
-	UserId         string            `json:"user_id" bson:"user_id"`
+	UserId         string            `json:"-" bson:"user_id"`
 	CreatedAt      time.Time         `json:"created_at" bson:"created_at"`
 	UpdatedAt      time.Time         `json:"updated_at" bson:"updated_at"`
 }

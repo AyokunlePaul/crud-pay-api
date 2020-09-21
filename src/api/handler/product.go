@@ -13,6 +13,7 @@ import (
 type Product interface {
 	Create(*gin.Context)
 	Get(*gin.Context)
+	Update(*gin.Context)
 	Search(*gin.Context)
 }
 
@@ -61,6 +62,21 @@ func (handler *productHandler) Get(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, response.NewOkResponse("product fetched", result))
+}
+
+func (handler *productHandler) Update(context *gin.Context) {
+	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
+	productId := context.Param("product_id")
+
+	newProduct := new(product.Product)
+	_ = context.BindJSON(&newProduct)
+
+	updatedProduct, updateError := handler.useCase.UpdateProduct(token, productId, newProduct)
+	if updateError != nil {
+		context.JSON(updateError.Status, updateError)
+		return
+	}
+	context.JSON(http.StatusOK, response.NewOkResponse("product successfully updated", updatedProduct))
 }
 
 func (handler *productHandler) Search(context *gin.Context) {

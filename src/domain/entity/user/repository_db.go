@@ -17,7 +17,7 @@ var collection *mongo.Collection
 
 const from = "timeline"
 
-type mongoDbRepository struct {
+type repository struct {
 	errorService crudPayError.Service
 }
 
@@ -38,12 +38,12 @@ func Init() {
 }
 
 func NewDatabaseRepository(errorService crudPayError.Service) Repository {
-	return &mongoDbRepository{
+	return &repository{
 		errorService: errorService,
 	}
 }
 
-func (repository *mongoDbRepository) Create(user *User) *response.BaseResponse {
+func (repository *repository) Create(user *User) *response.BaseResponse {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -55,7 +55,7 @@ func (repository *mongoDbRepository) Create(user *User) *response.BaseResponse {
 	return nil
 }
 
-func (repository *mongoDbRepository) Get(user *User) *response.BaseResponse {
+func (repository *repository) Get(user *User) *response.BaseResponse {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -72,7 +72,7 @@ func (repository *mongoDbRepository) Get(user *User) *response.BaseResponse {
 	return nil
 }
 
-func (repository *mongoDbRepository) Update(user *User) *response.BaseResponse {
+func (repository *repository) Update(user *User) *response.BaseResponse {
 	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
@@ -81,6 +81,8 @@ func (repository *mongoDbRepository) Update(user *User) *response.BaseResponse {
 			{"first_name", user.FirstName},
 			{"last_name", user.LastName},
 			{"email", user.Email},
+			{"token", user.Token},
+			{"refresh_token", user.RefreshToken},
 			{"updated_at", user.UpdatedAt},
 		}},
 	}
@@ -92,14 +94,14 @@ func (repository *mongoDbRepository) Update(user *User) *response.BaseResponse {
 	return nil
 }
 
-func (repository *mongoDbRepository) Delete(userId entity.DatabaseId) *response.BaseResponse {
+func (repository *repository) Delete(userId entity.DatabaseId) *response.BaseResponse {
 	panic("implement me")
 }
 
-func (repository *mongoDbRepository) Search(query string) (*User, *response.BaseResponse) {
+func (repository *repository) Search(query string) (*User, *response.BaseResponse) {
 	panic("implement me")
 }
 
-func (repository *mongoDbRepository) List() ([]User, *response.BaseResponse) {
+func (repository *repository) List() ([]User, *response.BaseResponse) {
 	panic("implement me")
 }

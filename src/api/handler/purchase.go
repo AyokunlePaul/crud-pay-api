@@ -42,7 +42,7 @@ func (handler *purchaseHandler) Create(context *gin.Context) {
 
 func (handler *purchaseHandler) Get(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
-	productId := context.Param("product_id")
+	productId := context.Param("purchase_id")
 	if currentPurchase, getPurchaseError := handler.useCase.GetPurchase(token, productId); getPurchaseError != nil {
 		context.JSON(getPurchaseError.Status, getPurchaseError)
 		return

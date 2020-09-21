@@ -9,8 +9,8 @@ func NewCrudPayToken() *CrudPayToken {
 	crudPayToken := new(CrudPayToken)
 	crudPayToken.AccessUuid = entity.NewDefaultId().String()
 	crudPayToken.RefreshUuid = entity.NewDefaultId().String()
-	crudPayToken.AccessTokenExpires = time.Now().Add(24 * 7 * time.Hour).Unix()      //7 days
-	crudPayToken.RefreshTokenExpires = time.Now().Add(4 * 24 * 7 * time.Hour).Unix() //1 month
+	crudPayToken.AccessTokenExpires = time.Now().Add(3 * 4 * 24 * 7 * time.Hour).Unix()  //3 months
+	crudPayToken.RefreshTokenExpires = time.Now().Add(6 * 4 * 24 * 7 * time.Hour).Unix() //6 months
 
 	return crudPayToken
 }

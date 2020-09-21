@@ -8,8 +8,7 @@ type reader interface {
 
 type writer interface {
 	CreateToken(*CrudPayToken, string) *response.BaseResponse
-	Update(string) (*CrudPayToken, *response.BaseResponse)
-	RefreshToken(string) (*CrudPayToken, *response.BaseResponse)
+	RefreshToken(*CrudPayToken, string, string) *response.BaseResponse
 }
 
 type Repository interface {

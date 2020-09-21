@@ -113,8 +113,8 @@ func (token *tokenService) GetTokenMetaData(userToken string, isAccessToken bool
 			}
 		} else {
 			if tokenUuid, ok = tokenClaims[refreshUuidClaim].(string); !ok {
-				message := fmt.Sprintf("access uuid %v is invalid", tokenClaims[accessUuidClaim])
-				logger.Error("invalid access uuid", errors.New(message))
+				message := fmt.Sprintf("refresh uuid %v is invalid", tokenClaims[refreshUuidClaim])
+				logger.Error("invalid refresh uuid", errors.New(message))
 				return "", response.NewUnAuthorizedError()
 			}
 		}

@@ -48,12 +48,26 @@ func (useCase *productUseCase) CreateProduct(token string, product *product.Prod
 	return useCase.productManager.Create(product)
 }
 
-func (useCase *productUseCase) UpdateProduct(token string, product *product.Product) *response.BaseResponse {
-	_, ownerIdError := useCase.tokenManager.Get(token)
-	if ownerIdError != nil {
-		return ownerIdError
+func (useCase *productUseCase) UpdateProduct(token, productId string, product *product.Product) (*product.Product, *response.BaseResponse) {
+	userId, userIdError := useCase.tokenManager.Get(token)
+	if userIdError != nil {
+		return nil, userIdError
 	}
-	return useCase.productManager.Update(product)
+
+	product.Id, _ = entity.StringToCrudPayId(productId)
+	oldProduct, getProductError := useCase.productManager.Get(product.Id)
+	if oldProduct.OwnerId.Hex() != userId {
+		return nil, response.NewBadRequestError("not your product")
+	}
+
+	if getProductError != nil {
+		return nil, getProductError
+	}
+	if productUpdateError := oldProduct.CanBeUpdatedWith(product); productUpdateError != nil {
+		return nil, productUpdateError
+	}
+
+	return oldProduct, useCase.productManager.Update(oldProduct)
 }
 
 func (useCase *productUseCase) SearchProduct(token string, query string) ([]product.Product, *response.BaseResponse) {

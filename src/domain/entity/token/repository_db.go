@@ -5,7 +5,6 @@ import (
 	"fmt"
 	crudPayError "github.com/AyokunlePaul/crud-pay-api/src/pkg/error_service"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
-	"github.com/AyokunlePaul/crud-pay-api/src/utils/logger"
 	"github.com/go-redis/redis/v8"
 	"os"
 	"time"
@@ -45,33 +44,37 @@ func (repository *repository) CreateToken(crudPayToken *CrudPayToken, userId str
 	accessTokenExpiration := time.Unix(crudPayToken.AccessTokenExpires, 0).Sub(time.Now())
 	refreshTokenExpiration := time.Unix(crudPayToken.RefreshTokenExpires, 0).Sub(time.Now())
 
-	if redisSetError := redisClient.Set(redisContext, crudPayToken.AccessUuid, userId, accessTokenExpiration).Err();
-		redisSetError != nil {
-		logger.Error("error writing access token", redisSetError)
-		return response.NewInternalServerError("error creating user")
+	if redisSetError := redisClient.Set(redisContext, crudPayToken.AccessUuid, userId, accessTokenExpiration).Err(); redisSetError != nil {
+		return repository.errorService.HandleRedisDbError(redisSetError)
 	}
 
-	if redisSetError := redisClient.Set(redisContext, crudPayToken.RefreshUuid, userId, refreshTokenExpiration).Err();
-		redisSetError != nil {
-		logger.Error("error writing token", redisSetError)
-		return response.NewInternalServerError("error creating user")
+	if redisSetError := redisClient.Set(redisContext, crudPayToken.RefreshUuid, userId, refreshTokenExpiration).Err(); redisSetError != nil {
+		return repository.errorService.HandleRedisDbError(redisSetError)
 	}
 
 	return nil
 }
 
-func (repository *repository) Get(accessUuid string) (string, *response.BaseResponse) {
-	userId, resultError := redisClient.Get(redisContext, accessUuid).Result()
+func (repository *repository) Get(tokenUuid string) (string, *response.BaseResponse) {
+	userId, resultError := redisClient.Get(redisContext, tokenUuid).Result()
 	if resultError != nil {
 		return "", repository.errorService.HandleRedisDbError(resultError)
 	}
 	return userId, nil
 }
 
-func (repository *repository) Update(userId string) (*CrudPayToken, *response.BaseResponse) {
-	panic("implement me")
-}
+func (repository *repository) RefreshToken(crudPayToken *CrudPayToken, userId string, oldTokenUuid string) *response.BaseResponse {
+	accessTokenExpiration := time.Unix(crudPayToken.AccessTokenExpires, 0).Sub(time.Now())
+	refreshTokenExpiration := time.Unix(crudPayToken.RefreshTokenExpires, 0).Sub(time.Now())
 
-func (repository *repository) RefreshToken(refreshToken string) (*CrudPayToken, *response.BaseResponse) {
-	panic("implement me")
+	if redisSetError := redisClient.Set(redisContext, crudPayToken.AccessUuid, userId, accessTokenExpiration).Err(); redisSetError != nil {
+		return repository.errorService.HandleRedisDbError(redisSetError)
+	}
+	if redisDeleteError := redisClient.Del(redisContext, oldTokenUuid).Err(); redisDeleteError != nil {
+		return repository.errorService.HandleRedisDbError(redisDeleteError)
+	}
+	if redisSetError := redisClient.Set(redisContext, crudPayToken.RefreshUuid, userId, refreshTokenExpiration).Err(); redisSetError != nil {
+		return repository.errorService.HandleRedisDbError(redisSetError)
+	}
+	return nil
 }

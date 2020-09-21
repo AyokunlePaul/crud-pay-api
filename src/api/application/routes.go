@@ -65,14 +65,15 @@ func mapRoutes() {
 		{
 			authenticationGroup.POST("/login", authenticationHandler.Login)
 			authenticationGroup.POST("/create", authenticationHandler.CreateAccount)
-			authenticationGroup.PUT("/update", authorizationMiddleware, authenticationHandler.UpdateUser)
+			authenticationGroup.PUT("/", authorizationMiddleware, authenticationHandler.UpdateUser)
 			authenticationGroup.POST("/reset_password", authorizationMiddleware, authenticationHandler.ResetPassword)
 			authenticationGroup.POST("/refresh_token", authenticationHandler.RefreshToken)
 		}
 		productGroup := v1Group.Group("/product", authorizationMiddleware)
 		{
-			productGroup.POST("/create", productHandler.Create)
+			productGroup.POST("/", productHandler.Create)
 			productGroup.GET("/:product_id", productHandler.Get)
+			productGroup.PUT("/:product_id", productHandler.Update)
 		}
 		searchGroup := v1Group.Group("/search", authorizationMiddleware)
 		{
@@ -80,9 +81,9 @@ func mapRoutes() {
 		}
 		purchaseGroup := v1Group.Group("/purchase", authorizationMiddleware)
 		{
-			purchaseGroup.POST("/create", purchaseHandler.Create)
-			purchaseGroup.GET("/all", purchaseHandler.List)
-			purchaseGroup.GET("/product/:product_id", purchaseHandler.Get)
+			purchaseGroup.POST("/", purchaseHandler.Create)
+			purchaseGroup.GET("/", purchaseHandler.List)
+			purchaseGroup.GET("/product/:purchase_id", purchaseHandler.Get)
 		}
 		fileUploadGroup := v1Group.Group("/file", authorizationMiddleware)
 		{

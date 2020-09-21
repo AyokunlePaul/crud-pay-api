@@ -27,11 +27,10 @@ func (manager *manager) Get(accessToken string) (string, *response.BaseResponse)
 }
 
 func (manager *manager) CreateToken(crudPayToken *CrudPayToken, userId string) *response.BaseResponse {
-	accessToken, refreshToken, tokenCreationError :=
-		manager.tokenService.Create(
-			crudPayToken.AccessTokenExpires, crudPayToken.RefreshTokenExpires,
-			crudPayToken.AccessUuid, crudPayToken.RefreshUuid, userId,
-		)
+	accessToken, refreshToken, tokenCreationError := manager.tokenService.Create(
+		crudPayToken.AccessTokenExpires, crudPayToken.RefreshTokenExpires,
+		crudPayToken.AccessUuid, crudPayToken.RefreshUuid, userId,
+	)
 	if tokenCreationError != nil {
 		return tokenCreationError
 	}
@@ -41,10 +40,27 @@ func (manager *manager) CreateToken(crudPayToken *CrudPayToken, userId string) *
 	return manager.repository.CreateToken(crudPayToken, userId)
 }
 
-func (manager *manager) Update(userId string) (*CrudPayToken, *response.BaseResponse) {
-	panic("implement me")
-}
+func (manager *manager) RefreshToken(crudPayToken *CrudPayToken, refreshToken string, _ string) *response.BaseResponse {
+	refreshUuid, getMetaDataError := manager.tokenService.GetTokenMetaData(refreshToken, false)
+	if getMetaDataError != nil {
+		return getMetaDataError
+	}
 
-func (manager *manager) RefreshToken(refreshToken string) (*CrudPayToken, *response.BaseResponse) {
-	panic("implement me")
+	userId, getUserIdError := manager.repository.Get(refreshUuid)
+	if getUserIdError != nil {
+		return getUserIdError
+	}
+
+	newAccessToken, newRefreshToken, tokenCreationError := manager.tokenService.Create(
+		crudPayToken.AccessTokenExpires, crudPayToken.RefreshTokenExpires,
+		crudPayToken.AccessUuid, crudPayToken.RefreshUuid, userId,
+	)
+	if tokenCreationError != nil {
+		return tokenCreationError
+	}
+
+	crudPayToken.AccessToken = newAccessToken
+	crudPayToken.RefreshToken = newRefreshToken
+
+	return manager.repository.RefreshToken(crudPayToken, userId, refreshUuid)
 }

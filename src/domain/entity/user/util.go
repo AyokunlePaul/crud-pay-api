@@ -109,21 +109,27 @@ func (user *User) isValidPhoneNumber() *response.BaseResponse {
 }
 
 func (user *User) CanBeUpdatedWith(newUser User) *response.BaseResponse {
-	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.FirstName)) {
+	if !string_utilities.IsEmpty(newUser.FirstName) {
 		user.FirstName = newUser.FirstName
 	}
-	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.LastName)) {
+	if !string_utilities.IsEmpty(newUser.LastName) {
 		user.LastName = newUser.LastName
 	}
-	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.Email)) {
+	if !string_utilities.IsEmpty(newUser.Email) {
 		if string_utilities.IsValidEmail(newUser.Email) {
 			user.Email = newUser.Email
 		} else {
 			return response.NewBadRequestError("invalid email")
 		}
 	}
-	if !string_utilities.IsEmpty(strings.TrimSpace(newUser.ProfilePicture)) {
+	if !string_utilities.IsEmpty(newUser.ProfilePicture) {
 		user.ProfilePicture = newUser.ProfilePicture
+	}
+	if !string_utilities.IsEmpty(newUser.Token) {
+		user.Token = newUser.Token
+	}
+	if !string_utilities.IsEmpty(newUser.RefreshToken) {
+		user.RefreshToken = newUser.RefreshToken
 	}
 	return nil
 }
