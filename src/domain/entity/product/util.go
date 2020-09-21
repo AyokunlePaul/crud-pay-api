@@ -7,6 +7,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/timeline"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/string_utilities"
+	"github.com/thoas/go-funk"
 	"strings"
 	"time"
 )
@@ -51,6 +52,17 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 	if len(product.DeliveryAreas) == 0 {
 		return response.NewBadRequestError("delivery area is empty")
 	}
+	if len(product.DeliveryGroups) != 0 {
+		for _, group := range product.DeliveryGroups {
+			for _, area := range product.DeliveryAreas {
+				if funk.Contains(group.Areas, area) {
+					//This will update the shipping fee of the area with that of it's
+					//designated group
+					area.ShippingFee = group.ShippingFee
+				}
+			}
+		}
+	}
 	return nil
 }
 
@@ -84,10 +96,19 @@ func (product *Product) CanBeUpdatedWith(newProduct *Product) *response.BaseResp
 		product.Pictures = newProduct.Pictures
 	}
 	if len(newProduct.DeliveryAreas) != 0 {
+		if len(newProduct.DeliveryGroups) != 0 {
+			for _, group := range newProduct.DeliveryGroups {
+				for _, area := range newProduct.DeliveryAreas {
+					if funk.Contains(group.Areas, area) {
+						//This will update the shipping fee of the area with that of it's
+						//designated group
+						area.ShippingFee = group.ShippingFee
+					}
+				}
+			}
+			product.DeliveryGroups = append(product.DeliveryGroups, newProduct.DeliveryGroups...)
+		}
 		product.DeliveryAreas = append(product.DeliveryAreas, newProduct.DeliveryAreas...)
-	}
-	if len(newProduct.DeliveryGroups) != 0 {
-		product.DeliveryGroups = append(product.DeliveryGroups, newProduct.DeliveryGroups...)
 	}
 	return nil
 }

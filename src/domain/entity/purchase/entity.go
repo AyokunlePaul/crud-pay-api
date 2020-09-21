@@ -43,7 +43,9 @@ type Purchase struct {
 	Type                 timeline.Type       `json:"payment_type" bson:"payment_type"`
 	Email                string              `json:"email" bson:"email"`
 	Amount               float64             `json:"amount" bson:"amount"`
-	DebitedAmount        float64             `json:"debited_amount" bson:"debited_amount"`
+	ShippingFee          float64             `json:"shipping_fee" bson:"shipping_fee"`
+	TimelineAmount       float64             `json:"timeline_amount" bson:"timeline_amount"`
+	TotalAmount          float64             `json:"total_amount" bson:"total_amount"`
 	NumberOfInstallments int                 `json:"number_of_installments,omitempty" bson:"number_of_installments,omitempty"`
 	Frequency            Frequency           `json:"payment_frequency" bson:"payment_frequency"`
 	DeliveryArea         DeliveryArea        `json:"delivery_area" bson:"delivery_area"`

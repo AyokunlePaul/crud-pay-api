@@ -8,6 +8,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+	"github.com/thoas/go-funk"
 	"time"
 )
 
@@ -44,32 +45,63 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	if validationError := productToBeBought.CanBePurchased(userId, purchase); validationError != nil {
 		return validationError
 	}
-	timelines := timeline.NewTimeline(purchase.Id, productToBeBought.Amount, purchase.NumberOfInstallments, purchase.Duration, purchase.Type)
+
+	timelines := timeline.NewTimeline(
+		purchase.Id, productToBeBought.Amount, purchase.DeliveryArea.ShippingFee,
+		purchase.NumberOfInstallments, purchase.Duration, purchase.Type,
+	)
 
 	purchase.Timeline = timelines
 	purchase.OwnerId = productToBeBought.OwnerId
 	purchase.Amount = productToBeBought.Amount
-	purchase.DebitedAmount = timelines[0].Amount
+	purchase.TimelineAmount = timelines[0].Amount
+	purchase.ShippingFee = timelines[0].ShippingFee
+	purchase.TotalAmount = purchase.TimelineAmount + purchase.ShippingFee
 	purchase.CreatedBy, _ = entity.StringToCrudPayId(userId)
 
 	return useCase.purchaseManager.Create(purchase)
 }
 
-func (useCase *useCase) UpdatePurchase(token string, purchase *purchase.Purchase) *response.BaseResponse {
+func (useCase *useCase) UpdatePurchase(token, purchaseId, reference string, amount float64) *response.BaseResponse {
 	_, tokenError := useCase.tokenManager.Get(token)
 	if tokenError != nil {
 		return tokenError
 	}
-	if getPurchaseError := useCase.purchaseManager.Get(purchase); getPurchaseError != nil {
+
+	currentPurchase := new(purchase.Purchase)
+	currentPurchase.Id, _ = entity.StringToCrudPayId(purchaseId)
+
+	if getPurchaseError := useCase.purchaseManager.Get(currentPurchase); getPurchaseError != nil {
 		return getPurchaseError
 	}
-	currentTime := time.Now()
-	purchase.UpdatedAt = currentTime
+	currentPurchase.Reference = reference
 
-	if updateTimelineError := useCase.purchaseManager.UpdateTimeline(purchase); updateTimelineError != nil {
-		return updateTimelineError
+	currentTime := time.Now()
+
+	//Validate and update payment timeline
+	for _, currentTimeline := range currentPurchase.Timeline {
+		//Break after the first unpaid timeline
+		if !currentTimeline.Paid {
+			if amount != (currentTimeline.Amount + currentTimeline.ShippingFee) {
+				return response.NewBadRequestError("payment amount doesn't match expected amount")
+			}
+			currentTimeline.Paid = true
+			currentTimeline.ActualPaymentDate = &currentTime
+			break
+		}
 	}
-	return useCase.purchaseManager.Get(purchase)
+	//A purchase is successful when all the payment timeline are paid
+	currentPurchase.Successful = len(funk.Filter(currentPurchase.Timeline, func(currentTimeline timeline.Timeline) bool {
+		return !currentTimeline.Paid
+	}).([]timeline.Timeline)) == 0
+
+	//Validate payment against paystack here
+
+	if updatePurchaseError := useCase.purchaseManager.Update(currentPurchase); updatePurchaseError != nil {
+		return updatePurchaseError
+	}
+
+	return nil
 }
 
 func (useCase *useCase) GetAllPurchasesMadeByUser(token string) ([]purchase.Purchase, *response.BaseResponse) {
