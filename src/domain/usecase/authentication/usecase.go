@@ -8,24 +8,24 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 )
 
-type authenticationUseCase struct {
+type useCase struct {
 	tokenManager    token.Manager
 	userManager     user.Manager
 	passwordService password_service.Service
 }
 
 func NewUseCase(tokenManager token.Manager, userManager user.Manager, service password_service.Service) UseCase {
-	return &authenticationUseCase{
+	return &useCase{
 		tokenManager:    tokenManager,
 		userManager:     userManager,
 		passwordService: service,
 	}
 }
 
-func (authentication *authenticationUseCase) Create(user *user.User) *response.BaseResponse {
+func (useCase *useCase) Create(user *user.User) *response.BaseResponse {
 	userToken := token.NewCrudPayToken()
 
-	if tokenError := authentication.tokenManager.CreateToken(userToken, user.Id.Hex()); tokenError != nil {
+	if tokenError := useCase.tokenManager.CreateToken(userToken, user.Id.Hex()); tokenError != nil {
 		return tokenError
 	}
 	if validationError := user.CanBeCreated(); validationError != nil {
@@ -33,38 +33,38 @@ func (authentication *authenticationUseCase) Create(user *user.User) *response.B
 	}
 	user.Token = userToken.AccessToken
 	user.RefreshToken = userToken.RefreshToken
-	hashedPassword, passwordHashError := authentication.passwordService.Generate(user.Password)
+	hashedPassword, passwordHashError := useCase.passwordService.Generate(user.Password)
 	if passwordHashError != nil {
 		return response.NewInternalServerError(response.ErrorCreatingUser)
 	}
 	user.Password = hashedPassword
 
-	return authentication.userManager.Create(user)
+	return useCase.userManager.Create(user)
 }
 
-func (authentication *authenticationUseCase) LogIn(user *user.User) *response.BaseResponse {
+func (useCase *useCase) LogIn(user *user.User) *response.BaseResponse {
 	userPassword := user.Password
 	if validationError := user.CanLogin(); validationError != nil {
 		return validationError
 	}
-	if getUserError := authentication.userManager.Get(user); getUserError != nil {
+	if getUserError := useCase.userManager.Get(user); getUserError != nil {
 		return getUserError
 	}
-	if passwordComparisonError := authentication.passwordService.Compare(user.Password, userPassword); passwordComparisonError != nil {
+	if passwordComparisonError := useCase.passwordService.Compare(user.Password, userPassword); passwordComparisonError != nil {
 		return response.NewBadRequestError(response.AuthenticationError)
 	}
 	return nil
 }
 
-func (authentication *authenticationUseCase) Update(token string, newUser user.User) (*user.User, *response.BaseResponse) {
-	userId, userIdError := authentication.tokenManager.Get(token)
+func (useCase *useCase) Update(token string, newUser user.User) (*user.User, *response.BaseResponse) {
+	userId, userIdError := useCase.tokenManager.Get(token)
 	if userIdError != nil {
 		return nil, userIdError
 	}
 	oldUser := new(user.User)
 	oldUser.Id, _ = entity.StringToCrudPayId(userId)
 
-	if getUserError := authentication.userManager.Get(oldUser); getUserError != nil {
+	if getUserError := useCase.userManager.Get(oldUser); getUserError != nil {
 		return nil, getUserError
 	}
 
@@ -72,16 +72,29 @@ func (authentication *authenticationUseCase) Update(token string, newUser user.U
 		return nil, validationError
 	}
 
-	if userUpdateError := authentication.userManager.Update(oldUser); userUpdateError != nil {
+	if userUpdateError := useCase.userManager.Update(oldUser); userUpdateError != nil {
 		return nil, userUpdateError
 	}
 	return oldUser, nil
 }
 
-func (authentication *authenticationUseCase) ForgotPassword(token string, email string) *response.BaseResponse {
+func (useCase *useCase) ForgotPassword(token string, email string) *response.BaseResponse {
 	panic("implement me")
 }
 
-func (authentication *authenticationUseCase) RefreshToken(refreshToken string) (*user.User, *response.BaseResponse) {
-	panic("implement me")
+func (useCase *useCase) RefreshToken(refreshToken string) (*user.User, *response.BaseResponse) {
+	userToken := token.NewCrudPayToken()
+	refreshTokenError := useCase.tokenManager.RefreshToken(userToken, refreshToken, "")
+	if refreshTokenError != nil {
+		return nil, refreshTokenError
+	}
+
+	userId, _ := useCase.tokenManager.Get(userToken.AccessToken)
+	newUser := user.User{
+		Token:        userToken.AccessToken,
+		RefreshToken: userToken.RefreshToken,
+	}
+	newUser.Id, _ = entity.StringToCrudPayId(userId)
+
+	return useCase.Update(userToken.AccessToken, newUser)
 }

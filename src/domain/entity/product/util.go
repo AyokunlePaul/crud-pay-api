@@ -35,24 +35,59 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 		if product.MaxInstallment <= 1 {
 			return response.NewBadRequestError("max installment must be greater than 1")
 		}
-		if len(product.PaymentFrequencies) == 0 {
-			return response.NewBadRequestError("invalid payment frequencies")
-		} else {
-			for _, frequency := range product.PaymentFrequencies {
-				if !frequency.IsValidFrequency() {
-					message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
-					return response.NewBadRequestError(message)
-				}
+	} else {
+		product.MaxInstallment = 0
+	}
+	if len(product.PaymentFrequencies) == 0 {
+		return response.NewBadRequestError("invalid payment frequencies")
+	} else {
+		for _, frequency := range product.PaymentFrequencies {
+			if !frequency.IsValidFrequency() {
+				message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
+				return response.NewBadRequestError(message)
 			}
 		}
-	} else {
-		if len(product.PaymentFrequencies) != 0 {
-			return response.NewBadRequestError("payment frequencies not allowed")
-		}
-		product.MaxInstallment = 0
 	}
 	if len(product.DeliveryAreas) == 0 {
 		return response.NewBadRequestError("delivery area is empty")
+	}
+	return nil
+}
+
+func (product *Product) CanBeUpdatedWith(newProduct *Product) *response.BaseResponse {
+	if newProduct.AllowInstallment {
+		if product.MaxInstallment <= 1 {
+			return response.NewBadRequestError("max installment must be greater than 1")
+		}
+		product.MaxInstallment = newProduct.MaxInstallment
+		product.AllowInstallment = newProduct.AllowInstallment
+	} else {
+		product.MaxInstallment = 0
+		product.AllowInstallment = false
+	}
+	if len(newProduct.PaymentFrequencies) != 0 {
+		for _, frequency := range newProduct.PaymentFrequencies {
+			if !frequency.IsValidFrequency() {
+				message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
+				return response.NewBadRequestError(message)
+			}
+		}
+		product.PaymentFrequencies = newProduct.PaymentFrequencies
+	}
+	if !string_utilities.IsEmpty(newProduct.Name) {
+		product.Name = newProduct.Name
+	}
+	if newProduct.Amount != float64(0) {
+		product.Amount = newProduct.Amount
+	}
+	if len(newProduct.Pictures) != 0 {
+		product.Pictures = newProduct.Pictures
+	}
+	if len(newProduct.DeliveryAreas) != 0 {
+		product.DeliveryAreas = append(product.DeliveryAreas, newProduct.DeliveryAreas...)
+	}
+	if len(newProduct.DeliveryGroups) != 0 {
+		product.DeliveryGroups = append(product.DeliveryGroups, newProduct.DeliveryGroups...)
 	}
 	return nil
 }

@@ -24,7 +24,16 @@ const (
 
 type Frequency string
 
-type DeliveryArea string
+type Group struct {
+	Name        string         `json:"name" bson:"name"`
+	Areas       []DeliveryArea `json:"delivery_areas" bson:"delivery_areas"`
+	ShippingFee float64        `json:"shipping_fee" bson:"shipping_fee"`
+}
+
+type DeliveryArea struct {
+	Name        string  `json:"name" bson:"name"`
+	ShippingFee float64 `json:"shipping_fee,omitempty" bson:"shipping_fee,omitempty"`
+}
 
 type Purchase struct {
 	Id                   entity.DatabaseId   `json:"id" bson:"_id"`
