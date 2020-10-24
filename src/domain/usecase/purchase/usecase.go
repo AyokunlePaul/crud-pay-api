@@ -8,6 +8,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+	"github.com/AyokunlePaul/crud-pay-api/src/utils/string_utilities"
 	"github.com/thoas/go-funk"
 	"time"
 )
@@ -66,6 +67,10 @@ func (useCase *useCase) UpdatePurchase(token, purchaseId, reference string, amou
 	_, tokenError := useCase.tokenManager.Get(token)
 	if tokenError != nil {
 		return tokenError
+	}
+
+	if string_utilities.IsEmpty(reference) {
+		return response.NewBadRequestError("invalid payment reference")
 	}
 
 	currentPurchase := new(purchase.Purchase)

@@ -15,7 +15,7 @@ import (
 
 var collection *mongo.Collection
 
-const from = "timeline"
+const from = "user"
 
 type repository struct {
 	errorService crudPayError.Service
@@ -94,11 +94,11 @@ func (repository *repository) Update(user *User) *response.BaseResponse {
 	return nil
 }
 
-func (repository *repository) Delete(userId entity.DatabaseId) *response.BaseResponse {
+func (repository *repository) Delete(entity.DatabaseId) *response.BaseResponse {
 	panic("implement me")
 }
 
-func (repository *repository) Search(query string) (*User, *response.BaseResponse) {
+func (repository *repository) Search(string) (*User, *response.BaseResponse) {
 	panic("implement me")
 }
 

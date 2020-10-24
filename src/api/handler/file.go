@@ -28,12 +28,6 @@ func ForFileUpload(useCase fileUseCase.UseCase) File {
 func (handler *fileHandler) Create(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
 
-	folder := context.PostForm("folder")
-	if string_utilities.IsEmpty(folder) {
-		context.JSON(http.StatusBadRequest, response.NewBadRequestError("invalid folder type"))
-		return
-	}
-
 	form, formError := context.MultipartForm()
 	if formError != nil {
 		logger.Error("parse form error", formError)
@@ -42,6 +36,11 @@ func (handler *fileHandler) Create(context *gin.Context) {
 	}
 	uploadedFiles := form.File["files"]
 
+	folder := context.PostForm("folder")
+	if string_utilities.IsEmpty(folder) {
+		context.JSON(http.StatusBadRequest, response.NewBadRequestError("invalid folder type"))
+		return
+	}
 	newFiles, fileCreationError := file.NewList(context.Request, folder, uploadedFiles)
 	if fileCreationError != nil {
 		context.JSON(fileCreationError.Status, fileCreationError)
