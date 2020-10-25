@@ -30,3 +30,14 @@ func (payload *PurchasePayload) ToDomain() *purchase.Purchase {
 	}
 	return domainPurchase
 }
+
+func (payload *PurchasePayload) ToPurchaseUpdate() purchase.Update {
+	domainPurchaseUpdate := purchase.Update{}
+	if purchaseReference, ok := payload.Payload["reference"].(string); ok {
+		domainPurchaseUpdate.Reference = purchaseReference
+	}
+	if amountPaid, ok := payload.Payload["amount"].(float64); ok {
+		domainPurchaseUpdate.Amount = amountPaid
+	}
+	return domainPurchaseUpdate
+}

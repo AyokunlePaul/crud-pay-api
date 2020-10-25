@@ -16,8 +16,8 @@ require (
 	github.com/rpip/paystack-go v0.0.0-20180509111153-5333b023a74e // indirect
 	github.com/sendgrid/rest v2.6.1+incompatible // indirect
 	github.com/sendgrid/sendgrid-go v3.6.2+incompatible
-	github.com/spf13/viper v1.7.1 // indirect
-	github.com/thoas/go-funk v0.7.0 // indirect
+	github.com/spf13/viper v1.7.1
+	github.com/thoas/go-funk v0.7.0
 	go.mongodb.org/mongo-driver v1.4.0
 	go.uber.org/zap v1.15.0
 	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a

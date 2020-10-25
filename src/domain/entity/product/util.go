@@ -7,6 +7,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/timeline"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
 	"github.com/AyokunlePaul/crud-pay-api/src/utils/string_utilities"
+	"github.com/thoas/go-funk"
 	"strings"
 	"time"
 )
@@ -38,18 +39,25 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 	} else {
 		product.MaxInstallment = 0
 	}
-	if len(product.PaymentFrequencies) == 0 {
-		return response.NewBadRequestError("invalid payment frequencies")
-	} else {
-		for _, frequency := range product.PaymentFrequencies {
-			if !frequency.IsValidFrequency() {
-				message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
-				return response.NewBadRequestError(message)
-			}
+	for _, frequency := range product.PaymentFrequencies {
+		if !frequency.IsValidFrequency() {
+			message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
+			return response.NewBadRequestError(message)
 		}
 	}
 	if len(product.DeliveryAreas) == 0 {
 		return response.NewBadRequestError("delivery area is empty")
+	}
+	if len(product.DeliveryGroups) != 0 {
+		for _, group := range product.DeliveryGroups {
+			for areaIndex, area := range product.DeliveryAreas {
+				if funk.Contains(group.Areas, area.Name) {
+					//This will update the shipping fee of the area with that of it's
+					//designated group
+					product.DeliveryAreas[areaIndex].ShippingFee = group.ShippingFee
+				}
+			}
+		}
 	}
 	return nil
 }
@@ -84,16 +92,25 @@ func (product *Product) CanBeUpdatedWith(newProduct *Product) *response.BaseResp
 		product.Pictures = newProduct.Pictures
 	}
 	if len(newProduct.DeliveryAreas) != 0 {
+		if len(newProduct.DeliveryGroups) != 0 {
+			for _, group := range newProduct.DeliveryGroups {
+				for _, area := range newProduct.DeliveryAreas {
+					if funk.Contains(group.Areas, area) {
+						//This will update the shipping fee of the area with that of it's
+						//designated group
+						area.ShippingFee = group.ShippingFee
+					}
+				}
+			}
+			product.DeliveryGroups = append(product.DeliveryGroups, newProduct.DeliveryGroups...)
+		}
 		product.DeliveryAreas = append(product.DeliveryAreas, newProduct.DeliveryAreas...)
-	}
-	if len(newProduct.DeliveryGroups) != 0 {
-		product.DeliveryGroups = append(product.DeliveryGroups, newProduct.DeliveryGroups...)
 	}
 	return nil
 }
 
 func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchase) *response.BaseResponse {
-	if !string_utilities.IsValidEmail(strings.TrimSpace(purchase.Email)) {
+	if !string_utilities.IsValidEmail(purchase.Email) {
 		return response.NewBadRequestError("invalid email address")
 	}
 	if !purchase.Type.IsValidPaymentType() {
@@ -101,6 +118,9 @@ func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchas
 	}
 	if purchase.Type == timeline.TypeInstallment && !product.AllowInstallment {
 		return response.NewBadRequestError("product does not allow installment")
+	}
+	if purchase.Type == timeline.TypeRecurring && len(product.PaymentFrequencies) == 0 {
+		return response.NewBadRequestError("product does not allow recurring payment")
 	}
 
 	isValidPaymentFrequency := false
@@ -118,12 +138,13 @@ func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchas
 		return response.NewBadRequestError("you can't buy your own product")
 	}
 	if purchase.NumberOfInstallments <= 0 || purchase.NumberOfInstallments > product.MaxInstallment {
-		return response.NewBadRequestError("invalid installment number")
+		return response.NewBadRequestError("invalid number of installment")
 	}
 	isValidArea := false
 	for _, area := range product.DeliveryAreas {
-		if purchase.DeliveryArea == area {
+		if purchase.DeliveryArea == area.Name {
 			isValidArea = true
+			purchase.ShippingFee = area.ShippingFee
 			break
 		}
 	}

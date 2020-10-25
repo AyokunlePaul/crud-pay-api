@@ -25,9 +25,9 @@ const (
 type Frequency string
 
 type Group struct {
-	Name        string         `json:"name" bson:"name"`
-	Areas       []DeliveryArea `json:"delivery_areas" bson:"delivery_areas"`
-	ShippingFee float64        `json:"shipping_fee" bson:"shipping_fee"`
+	Name        string   `json:"name" bson:"name"`
+	Areas       []string `json:"delivery_areas" bson:"delivery_areas"`
+	ShippingFee float64  `json:"shipping_fee" bson:"shipping_fee"`
 }
 
 type DeliveryArea struct {
@@ -43,10 +43,12 @@ type Purchase struct {
 	Type                 timeline.Type       `json:"payment_type" bson:"payment_type"`
 	Email                string              `json:"email" bson:"email"`
 	Amount               float64             `json:"amount" bson:"amount"`
-	DebitedAmount        float64             `json:"debited_amount" bson:"debited_amount"`
+	ShippingFee          float64             `json:"shipping_fee" bson:"shipping_fee"`
+	TimelineAmount       float64             `json:"timeline_amount" bson:"timeline_amount"`
+	TotalAmount          float64             `json:"total_amount" bson:"total_amount"`
 	NumberOfInstallments int                 `json:"number_of_installments,omitempty" bson:"number_of_installments,omitempty"`
 	Frequency            Frequency           `json:"payment_frequency" bson:"payment_frequency"`
-	DeliveryArea         DeliveryArea        `json:"delivery_area" bson:"delivery_area"`
+	DeliveryArea         string              `json:"delivery_area" bson:"delivery_area"`
 	Successful           bool                `json:"successful" bson:"successful"`
 	CreatedBy            entity.DatabaseId   `json:"created_by" bson:"created_by"`
 	AdditionalDetails    string              `json:"additional_details,omitempty" bson:"additional_details,omitempty"`
@@ -54,4 +56,10 @@ type Purchase struct {
 	Duration             time.Duration       `json:"-" bson:"-"`
 	CreatedAt            time.Time           `json:"created_at" bson:"created_at"`
 	UpdatedAt            time.Time           `json:"updated_at" bson:"updated_at"`
+}
+
+type Update struct {
+	PurchaseId string
+	Reference  string  `json:"reference"`
+	Amount     float64 `json:"amount"`
 }

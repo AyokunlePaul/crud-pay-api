@@ -59,7 +59,7 @@ func (repository *repository) List(ownerId entity.DatabaseId) ([]Product, *respo
 	defer cancel()
 
 	var products []Product
-	filter := bson.M{"ownerId": ownerId}
+	filter := bson.M{"owner_id": ownerId}
 
 	productsCursor, getProductsError := collection.Find(mongoContext, filter)
 	if getProductsError != nil {

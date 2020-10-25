@@ -4,13 +4,12 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"os"
 	"time"
 )
 
 var (
 	database *mongo.Database
-	mongoUri = os.Getenv("MONGO_CLIENT_URI")
+	mongoUri = "mongodb+srv://admin:admin@crudpay-api-cluster.0zbrq.gcp.mongodb.net"
 )
 
 func Init() {
