@@ -78,14 +78,14 @@ func (useCase *productUseCase) SearchProduct(token string, query string) ([]prod
 	searchParameter := search.Param{
 		Index: "crudpay.products",
 		Query: query,
-		Name:  "product_name",
+		Names: []string{"product_name"},
 	}
-	results, searchError := useCase.searchManager.Search(searchParameter)
+	results, searchError := useCase.searchManager.SearchProduct(searchParameter)
 	if searchError != nil {
 		return nil, searchError
 	}
 
-	return results.([]product.Product), nil
+	return results, nil
 }
 
 func (useCase *productUseCase) GetAllMyProducts(token string) ([]product.Product, *response.BaseResponse) {

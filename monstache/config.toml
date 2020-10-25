@@ -1,4 +1,4 @@
 mongo-url = "mongodb+srv://admin:admin@crudpay-api-cluster.0zbrq.gcp.mongodb.net/"
 elasticsearch-urls = ["http://elasticsearch:9200/"]
-direct-read-namespaces = ["CrudPay.products"]
-change-stream-namespaces = ["CrudPay.products"]
+direct-read-namespaces = ["CrudPay.products", "CrudPay.users"]
+change-stream-namespaces = ["CrudPay.products", "CrudPay.users"]

@@ -97,6 +97,19 @@ func (repository *repository) Update(product *Product) *response.BaseResponse {
 	return nil
 }
 
-func (repository *repository) Delete(token string, productId string) {
-	panic("implement me")
+func (repository *repository) Delete(product *Product) *response.BaseResponse {
+	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	filter := bson.M{"_id": product.Id}
+	updateParameter := bson.D{
+		{"$set", bson.D{
+			{"is_deleted", product.IsDeleted},
+			{"updated_at", product.UpdatedAt},
+		}},
+	}
+	if _, productUpdateError := collection.UpdateOne(mongoContext, filter, updateParameter); productUpdateError != nil {
+		return repository.errorService.HandleMongoDbError(from, productUpdateError)
+	}
+	return nil
 }

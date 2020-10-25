@@ -43,7 +43,7 @@ services:
     command: -f ./config.toml
     container_name: monstache
     volumes:
-      - ./monstache:/monstache/
+      - /opt/data/crud-pay-monstache:/monstache/
     ports:
       - ${MONSTACHE_CONTAINER_PORT}:8080
     restart: unless-stopped

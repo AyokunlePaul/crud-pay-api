@@ -39,6 +39,7 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	if tokenError != nil {
 		return tokenError
 	}
+
 	productToBeBought, productError := useCase.productManager.Get(purchase.ProductId)
 	if productError != nil {
 		return productError
@@ -58,6 +59,8 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	purchase.TimelineAmount = timelines[0].Amount
 	purchase.TotalAmount = purchase.TimelineAmount + purchase.ShippingFee
 	purchase.CreatedBy, _ = entity.StringToCrudPayId(userId)
+
+	_ = useCase.userManager.IncrementTotalPurchase(purchase.CreatedBy)
 
 	return useCase.purchaseManager.Create(purchase)
 }

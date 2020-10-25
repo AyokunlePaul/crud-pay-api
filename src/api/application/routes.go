@@ -10,6 +10,7 @@ import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/timeline"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/token"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity/user"
+	"github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/admin"
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/authentication"
 	fileUseCase "github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/file"
 	productUseCase "github.com/AyokunlePaul/crud-pay-api/src/domain/usecase/product"
@@ -32,6 +33,7 @@ func initializeRepositories() {
 
 var (
 	fileHandler             handler.File
+	adminHandler            handler.Admin
 	productHandler          handler.Product
 	purchaseHandler         handler.Purchase
 	authenticationHandler   handler.Authentication
@@ -56,6 +58,7 @@ func setUpRepositoriesAndManagers() {
 	authenticationHandler = handler.ForAuthentication(authentication.NewUseCase(tokenManager, userManager, password_service.New()))
 	productHandler = handler.ForProduct(productUseCase.New(productManager, tokenManager, searchManager, userManager))
 	purchaseHandler = handler.ForPurchase(purchaseUseCase.New(tokenManager, userManager, timelineManager, purchaseManager, productManager))
+	adminHandler = handler.ForAdmin(admin.New(tokenManager, purchaseManager, userManager, searchManager))
 }
 
 func mapRoutes() {
@@ -91,6 +94,11 @@ func mapRoutes() {
 		fileUploadGroup := v1Group.Group("/file", authorizationMiddleware)
 		{
 			fileUploadGroup.POST("/", fileHandler.Create)
+		}
+		adminGroup := v1Group.Group("/admin")
+		{
+			adminGroup.GET("/", adminHandler.GetDailyStat)
+			adminGroup.GET("/search", adminHandler.Search)
 		}
 	}
 }

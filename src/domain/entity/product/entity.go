@@ -14,8 +14,9 @@ type Product struct {
 	PaymentFrequencies []purchase.Frequency    `json:"payment_frequency,omitempty" bson:"payment_frequency,omitempty"`
 	Pictures           []string                `json:"pictures,omitempty" bson:"pictures,omitempty"`
 	MaxInstallment     int                     `json:"max_installment,omitempty" bson:"max_installment,omitempty"`
+	IsDeleted          bool                    `json:"-" bson:"is_deleted"`
 	Amount             float64                 `json:"amount" bson:"amount"`
-	DeliveryGroups     []purchase.Group        `json:"delivery_groups,omitempty" bson:"delivery_groups,omitempty"`
+	DeliveryGroups     []purchase.Group        `json:"delivery_groups,omitempty" bson:"delivery_groups"`
 	DeliveryAreas      []purchase.DeliveryArea `json:"delivery_areas,omitempty" bson:"delivery_areas,omitempty"`
 	OwnerId            entity.DatabaseId       `json:"owner_id" bson:"owner_id"`
 	CreatedAt          time.Time               `json:"created_at" bson:"created_at"`

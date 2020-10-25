@@ -17,17 +17,17 @@ type Purchase interface {
 	Update(*gin.Context)
 }
 
-type handler struct {
+type purchaseHandler struct {
 	useCase purchaseUseCase.UseCase
 }
 
 func ForPurchase(useCase purchaseUseCase.UseCase) Purchase {
-	return &handler{
+	return &purchaseHandler{
 		useCase: useCase,
 	}
 }
 
-func (handler *handler) Create(context *gin.Context) {
+func (handler *purchaseHandler) Create(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
 
 	newPurchase := purchase.New()
@@ -42,7 +42,7 @@ func (handler *handler) Create(context *gin.Context) {
 	}
 }
 
-func (handler *handler) Update(context *gin.Context) {
+func (handler *purchaseHandler) Update(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
 	purchaseId := context.Param("purchase_id")
 
@@ -66,7 +66,7 @@ func (handler *handler) Update(context *gin.Context) {
 	context.JSON(http.StatusOK, response.NewOkResponse(message, updatedPurchase))
 }
 
-func (handler *handler) Get(context *gin.Context) {
+func (handler *purchaseHandler) Get(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
 	purchaseId := context.Param("purchase_id")
 	if currentPurchase, getPurchaseError := handler.useCase.GetPurchase(token, purchaseId); getPurchaseError != nil {
@@ -78,7 +78,7 @@ func (handler *handler) Get(context *gin.Context) {
 	}
 }
 
-func (handler *handler) List(context *gin.Context) {
+func (handler *purchaseHandler) List(context *gin.Context) {
 	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
 	if purchases, getPurchasesError := handler.useCase.GetAllPurchasesMadeByUser(token); getPurchasesError != nil {
 		context.JSON(getPurchasesError.Status, getPurchasesError)

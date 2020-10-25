@@ -3,12 +3,14 @@ package user
 import (
 	"github.com/AyokunlePaul/crud-pay-api/src/domain/entity"
 	"github.com/AyokunlePaul/crud-pay-api/src/pkg/response"
+	"time"
 )
 
 type reader interface {
 	Get(*User) *response.BaseResponse
 	Search(string) (*User, *response.BaseResponse)
-	List() ([]User, *response.BaseResponse)
+	List(time.Time, time.Time) (int64, *response.BaseResponse)
+	ListAdmin() ([]User, *response.BaseResponse)
 }
 
 type writer interface {
@@ -24,4 +26,5 @@ type Repository interface {
 
 type Manager interface {
 	Repository
+	IncrementTotalPurchase(entity.DatabaseId) *response.BaseResponse
 }

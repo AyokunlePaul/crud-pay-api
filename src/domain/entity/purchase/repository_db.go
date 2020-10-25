@@ -106,3 +106,20 @@ func (repository *repository) UpdateTimeline(purchase *Purchase) *response.BaseR
 	}
 	return repository.Get(purchase)
 }
+
+func (repository *repository) ListData(fromDate, toDate time.Time) (int64, *response.BaseResponse) {
+	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	filter := bson.D{
+		{"created_at", bson.M{
+			"$gte": fromDate,
+			"$lt":  toDate,
+		}},
+	}
+	if totalCount, countError := collection.CountDocuments(mongoContext, filter); countError != nil {
+		return 0, repository.errorService.HandleMongoDbError(from, countError)
+	} else {
+		return totalCount, nil
+	}
+}

@@ -40,7 +40,7 @@ func (user *User) CanBeCreated() *response.BaseResponse {
 	user.CompanyName = strings.TrimSpace(user.CompanyName)
 	user.Phone = strings.TrimSpace(user.Phone)
 
-	if emailError := user.isValidEmail(); emailError != nil {
+	if emailError := user.IsValidEmail(); emailError != nil {
 		return emailError
 	}
 	if string_utilities.IsEmpty(user.FirstName) {
@@ -70,7 +70,7 @@ func (user *User) CanBeCreated() *response.BaseResponse {
 }
 
 func (user *User) CanLogin() *response.BaseResponse {
-	if emailError := user.isValidEmail(); emailError != nil {
+	if emailError := user.IsValidEmail(); emailError != nil {
 		return emailError
 	}
 	if passwordError := user.isValidPassword(); passwordError != nil {
@@ -87,7 +87,7 @@ func (user *User) isValidPassword() *response.BaseResponse {
 	return nil
 }
 
-func (user *User) isValidEmail() *response.BaseResponse {
+func (user *User) IsValidEmail() *response.BaseResponse {
 	user.Email = strings.TrimSpace(user.Email)
 	if string_utilities.IsEmpty(user.Email) {
 		return response.NewBadRequestError("email is empty")

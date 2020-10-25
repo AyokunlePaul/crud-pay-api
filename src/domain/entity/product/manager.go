@@ -33,6 +33,7 @@ func (manager *manager) Update(product *Product) *response.BaseResponse {
 	return manager.repository.Update(product)
 }
 
-func (manager *manager) Delete(token string, productId string) {
-	panic("implement me")
+func (manager *manager) Delete(product *Product) *response.BaseResponse {
+	product.UpdatedAt = time.Now()
+	return manager.repository.Delete(product)
 }

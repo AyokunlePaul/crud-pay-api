@@ -26,7 +26,7 @@ type Frequency string
 
 type Group struct {
 	Name        string   `json:"name" bson:"name"`
-	Areas       []string `json:"delivery_areas" bson:"delivery_areas"`
+	Areas       []string `json:"delivery_areas" bson:"areas"`
 	ShippingFee float64  `json:"shipping_fee" bson:"shipping_fee"`
 }
 

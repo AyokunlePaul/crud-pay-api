@@ -82,6 +82,8 @@ func (repository *repository) Update(user *User) *response.BaseResponse {
 			{"last_name", user.LastName},
 			{"email", user.Email},
 			{"token", user.Token},
+			{"total_purchase", user.TotalPurchase},
+			{"is_deleted", user.IsDeleted},
 			{"refresh_token", user.RefreshToken},
 			{"updated_at", user.UpdatedAt},
 		}},
@@ -94,14 +96,64 @@ func (repository *repository) Update(user *User) *response.BaseResponse {
 	return nil
 }
 
-func (repository *repository) Delete(entity.DatabaseId) *response.BaseResponse {
-	panic("implement me")
+func (repository *repository) Delete(userId entity.DatabaseId) *response.BaseResponse {
+	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	updateParameter := bson.D{
+		{"$key", bson.D{
+			{"is_deleted", true},
+		}},
+	}
+	filter := bson.M{"_id": userId}
+	if _, updateUserError := collection.UpdateOne(mongoContext, filter, updateParameter); updateUserError != nil {
+		return repository.errorService.HandleMongoDbError(from, updateUserError)
+	}
+
+	return nil
 }
 
 func (repository *repository) Search(string) (*User, *response.BaseResponse) {
 	panic("implement me")
 }
 
-func (repository *repository) List() ([]User, *response.BaseResponse) {
-	panic("implement me")
+func (repository *repository) ListAdmin() ([]User, *response.BaseResponse) {
+	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	var admins []User
+
+	filter := bson.M{"$and": []bson.M{
+		{"is_admin": true},
+		{"is_deleted": bson.M{
+			"$ne": true,
+		}},
+	}}
+	adminCursor, getAllAdminError := collection.Find(mongoContext, filter)
+	if getAllAdminError != nil {
+		return nil, repository.errorService.HandleMongoDbError(from, getAllAdminError)
+	}
+
+	if adminDecodeError := adminCursor.All(mongoContext, &admins); adminDecodeError != nil {
+		return nil, repository.errorService.HandleMongoDbError(from, adminDecodeError)
+	}
+
+	return admins, nil
+}
+
+func (repository *repository) List(fromDate, toDate time.Time) (int64, *response.BaseResponse) {
+	mongoContext, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	filter := bson.D{
+		{"created_at", bson.M{
+			"$gte": fromDate,
+			"$lt":  toDate,
+		}},
+	}
+	if totalCount, countError := collection.CountDocuments(mongoContext, filter); countError != nil {
+		return 0, repository.errorService.HandleMongoDbError(from, countError)
+	} else {
+		return totalCount, nil
+	}
 }

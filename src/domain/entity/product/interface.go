@@ -13,7 +13,7 @@ type reader interface {
 type writer interface {
 	Create(*Product) *response.BaseResponse
 	Update(*Product) *response.BaseResponse
-	Delete(string, string)
+	Delete(*Product) *response.BaseResponse
 }
 
 type Repository interface {

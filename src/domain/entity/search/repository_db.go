@@ -45,11 +45,15 @@ func NewDatabaseRepository(errorService crudPayError.Service) Repository {
 	}
 }
 
-func (repository *elasticSearchRepository) Search(parameter Param) (interface{}, *response.BaseResponse) {
-	queryTerm := elastic.NewMatchQuery(parameter.Name, parameter.Query)
+func (repository *elasticSearchRepository) search(parameter Param) (interface{}, *response.BaseResponse) {
+	generalQuery := elastic.NewBoolQuery()
+	for _, name := range parameter.Names {
+		generalQuery.Should(elastic.NewTermQuery(name, parameter.Query))
+	}
+
 	searchResults, searchError := client.Search().
 		Index(parameter.Index).
-		Query(queryTerm).
+		Query(generalQuery).
 		Pretty(true).
 		Do(elasticsearchContext)
 	if searchError != nil {

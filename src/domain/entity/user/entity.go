@@ -15,6 +15,9 @@ type User struct {
 	Token          string            `json:"token" bson:"token"`
 	RefreshToken   string            `json:"refresh_token" bson:"refresh_token"`
 	IsVendor       bool              `json:"is_vendor" bson:"is_vendor"`
+	IsAdmin        bool              `json:"-" bson:"is_admin"`
+	IsDeleted      bool              `json:"-" bson:"is_deleted"`
+	TotalPurchase  int64             `json:"-" bson:"total_purchase"`
 	CompanyName    string            `json:"company_name,omitempty" bson:"company_name,omitempty"`
 	Phone          string            `json:"phone,omitempty" bson:"phone,omitempty"`
 	UserId         string            `json:"-" bson:"user_id"`

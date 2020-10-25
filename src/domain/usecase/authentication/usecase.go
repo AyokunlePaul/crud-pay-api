@@ -25,11 +25,11 @@ func NewUseCase(tokenManager token.Manager, userManager user.Manager, service pa
 func (useCase *useCase) Create(user *user.User) *response.BaseResponse {
 	userToken := token.NewCrudPayToken()
 
-	if tokenError := useCase.tokenManager.CreateToken(userToken, user.Id.Hex()); tokenError != nil {
-		return tokenError
-	}
 	if validationError := user.CanBeCreated(); validationError != nil {
 		return validationError
+	}
+	if tokenError := useCase.tokenManager.CreateToken(userToken, user.Id.Hex()); tokenError != nil {
+		return tokenError
 	}
 	user.Token = userToken.AccessToken
 	user.RefreshToken = userToken.RefreshToken

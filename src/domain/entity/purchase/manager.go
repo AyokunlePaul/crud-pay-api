@@ -37,3 +37,7 @@ func (manager *manager) UpdateTimeline(purchase *Purchase) *response.BaseRespons
 func (manager *manager) List(userId entity.DatabaseId) ([]Purchase, *response.BaseResponse) {
 	return manager.repository.List(userId)
 }
+
+func (manager *manager) ListData(fromDate, toDate time.Time) (int64, *response.BaseResponse) {
+	return manager.repository.ListData(fromDate, toDate)
+}
