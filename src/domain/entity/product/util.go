@@ -39,14 +39,10 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 	} else {
 		product.MaxInstallment = 0
 	}
-	if len(product.PaymentFrequencies) == 0 {
-		return response.NewBadRequestError("invalid payment frequencies")
-	} else {
-		for _, frequency := range product.PaymentFrequencies {
-			if !frequency.IsValidFrequency() {
-				message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
-				return response.NewBadRequestError(message)
-			}
+	for _, frequency := range product.PaymentFrequencies {
+		if !frequency.IsValidFrequency() {
+			message := fmt.Sprintf("%s is not a valid payment frequency", frequency)
+			return response.NewBadRequestError(message)
 		}
 	}
 	if len(product.DeliveryAreas) == 0 {
@@ -54,11 +50,11 @@ func (product *Product) CanBeCreated() *response.BaseResponse {
 	}
 	if len(product.DeliveryGroups) != 0 {
 		for _, group := range product.DeliveryGroups {
-			for _, area := range product.DeliveryAreas {
-				if funk.Contains(group.Areas, area) {
+			for areaIndex, area := range product.DeliveryAreas {
+				if funk.Contains(group.Areas, area.Name) {
 					//This will update the shipping fee of the area with that of it's
 					//designated group
-					area.ShippingFee = group.ShippingFee
+					product.DeliveryAreas[areaIndex].ShippingFee = group.ShippingFee
 				}
 			}
 		}
@@ -114,7 +110,7 @@ func (product *Product) CanBeUpdatedWith(newProduct *Product) *response.BaseResp
 }
 
 func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchase) *response.BaseResponse {
-	if !string_utilities.IsValidEmail(strings.TrimSpace(purchase.Email)) {
+	if !string_utilities.IsValidEmail(purchase.Email) {
 		return response.NewBadRequestError("invalid email address")
 	}
 	if !purchase.Type.IsValidPaymentType() {
@@ -122,6 +118,9 @@ func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchas
 	}
 	if purchase.Type == timeline.TypeInstallment && !product.AllowInstallment {
 		return response.NewBadRequestError("product does not allow installment")
+	}
+	if purchase.Type == timeline.TypeRecurring && len(product.PaymentFrequencies) == 0 {
+		return response.NewBadRequestError("product does not allow recurring payment")
 	}
 
 	isValidPaymentFrequency := false

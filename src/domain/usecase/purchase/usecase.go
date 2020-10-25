@@ -63,23 +63,27 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	return useCase.purchaseManager.Create(purchase)
 }
 
-func (useCase *useCase) UpdatePurchase(token, purchaseId, reference string, amount float64) *response.BaseResponse {
-	_, tokenError := useCase.tokenManager.Get(token)
+func (useCase *useCase) UpdatePurchase(token string, update purchase.Update) (*purchase.Purchase, *response.BaseResponse) {
+	userId, tokenError := useCase.tokenManager.Get(token)
 	if tokenError != nil {
-		return tokenError
+		return nil, tokenError
 	}
 
-	if string_utilities.IsEmpty(reference) {
-		return response.NewBadRequestError("invalid payment reference")
+	if string_utilities.IsEmpty(update.Reference) {
+		return nil, response.NewBadRequestError("invalid payment reference")
 	}
 
 	currentPurchase := new(purchase.Purchase)
-	currentPurchase.Id, _ = entity.StringToCrudPayId(purchaseId)
+	currentPurchase.Id, _ = entity.StringToCrudPayId(update.PurchaseId)
 
 	if getPurchaseError := useCase.purchaseManager.Get(currentPurchase); getPurchaseError != nil {
-		return getPurchaseError
+		return nil, getPurchaseError
 	}
-	currentPurchase.Reference = reference
+	currentPurchase.Reference = update.Reference
+
+	if currentPurchase.CreatedBy.Hex() != userId {
+		return nil, response.NewBadRequestError("user not authorized to update purchase")
+	}
 
 	currentTime := time.Now()
 
@@ -87,8 +91,8 @@ func (useCase *useCase) UpdatePurchase(token, purchaseId, reference string, amou
 	for _, currentTimeline := range currentPurchase.Timeline {
 		//Break after the first unpaid timeline
 		if !currentTimeline.Paid {
-			if amount != (currentTimeline.Amount + currentTimeline.ShippingFee) {
-				return response.NewBadRequestError("payment amount doesn't match expected amount")
+			if update.Amount != (currentTimeline.Amount + currentTimeline.ShippingFee) {
+				return nil, response.NewBadRequestError("payment amount doesn't match expected amount")
 			}
 			currentTimeline.Paid = true
 			currentTimeline.ActualPaymentDate = &currentTime
@@ -102,11 +106,12 @@ func (useCase *useCase) UpdatePurchase(token, purchaseId, reference string, amou
 
 	//Validate payment against paystack here
 
+	//Update local database
 	if updatePurchaseError := useCase.purchaseManager.Update(currentPurchase); updatePurchaseError != nil {
-		return updatePurchaseError
+		return nil, updatePurchaseError
 	}
 
-	return nil
+	return currentPurchase, nil
 }
 
 func (useCase *useCase) GetAllPurchasesMadeByUser(token string) ([]purchase.Purchase, *response.BaseResponse) {

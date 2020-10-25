@@ -72,6 +72,7 @@ func mapRoutes() {
 		productGroup := v1Group.Group("/product", authorizationMiddleware)
 		{
 			productGroup.POST("/", productHandler.Create)
+			productGroup.GET("/", productHandler.Get)
 			productGroup.GET("/:product_id", productHandler.Get)
 			productGroup.PUT("/:product_id", productHandler.Update)
 		}
@@ -82,6 +83,7 @@ func mapRoutes() {
 		purchaseGroup := v1Group.Group("/purchase", authorizationMiddleware)
 		{
 			purchaseGroup.POST("/", purchaseHandler.Create)
+			purchaseGroup.POST("/:purchase_id", purchaseHandler.Update)
 			purchaseGroup.GET("/", purchaseHandler.List)
 			purchaseGroup.GET("/product/:purchase_id", purchaseHandler.Get)
 		}

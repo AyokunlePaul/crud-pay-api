@@ -24,10 +24,20 @@
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/file.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/file.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/user/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/handler/purchase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/purchase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/presenter/models/purchase_payload/models.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/presenter/models/purchase_payload/models.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/repository_db.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/interface.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/infra/database/mongodb.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/infra/database/mongodb.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/string_utilities/strings.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/string_utilities/strings.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,19 +91,19 @@
     <property name="settings.editor.selected.configurable" value="duplicates.index" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$" />
-      <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/utils" />
-      <recent name="$PROJECT_DIR$/src/api/presenter" />
-      <recent name="$PROJECT_DIR$/src/api/middleware" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/api/handler" />
       <recent name="$PROJECT_DIR$/src/domain/usecase/file" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src/domain/entity/file" />
       <recent name="$PROJECT_DIR$/src/domain/entity/timeline" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/utils" />
+      <recent name="$PROJECT_DIR$/src/api/presenter" />
+      <recent name="$PROJECT_DIR$/src/api/middleware" />
     </key>
   </component>
   <component name="RunManager" selected="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src">
@@ -102,10 +112,14 @@
       <working_directory value="$PROJECT_DIR$" />
       <envs>
         <env name="JWT_SECRET" value="@#crUd-pAy@#" />
-        <env name="JWT_SECRET_REFRESH" value="@#crUd-pAy-reFrESh@#" />
-        <env name="REDIS_CONTAINER_NAME" value="localhost" />
-        <env name="ELASTIC_SEARCH_CONTAINER_NAME" value="localhost" />
-        <env name="MONGO_CLIENT_URI" value="mongodb+srv://admin:admin@crudpay-api-cluster.0zbrq.gcp.mongodb.net" />
+        <env name=" JWT_SECRET_REFRESH" value="@#crUd-pAy-reFrESh@#" />
+        <env name=" REDIS_CONTAINER_NAME" value="localhost" />
+        <env name=" REDIS_CONTAINER_PORT" value="6379" />
+        <env name=" MONSTACHE_CONTAINER_PORT" value="8000" />
+        <env name=" ELASTIC_SEARCH_CONTAINER_NAME" value="localhost" />
+        <env name=" MONGO_CLIENT_URI" value="mongodb+srv://admin:admin@crudpay-api-cluster.0zbrq.gcp.mongodb.net" />
+        <env name=" PAYMENT_GATEWAY_URL" value="https://api.paystack.co/" />
+        <env name=" PAYMENT_GATEWAY_SECRET_KEY" value="sk_test_6ea8a8a729c222e75054fe2279dfd4f5c7f920cd" />
       </envs>
       <kind value="PACKAGE" />
       <filePath value="$PROJECT_DIR$/src/main.go" />
@@ -113,17 +127,10 @@
       <directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
-    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" temporary="true" server-name="Docker">
-      <deployment type="dockerfile">
+    <configuration name="docker-compose.yaml: Compose Deployment (1)" type="docker-deploy" factoryName="docker-compose.yml" temporary="true" server-name="Docker">
+      <deployment type="docker-compose.yml">
         <settings>
-          <option name="imageTag" value="crud-pay-api" />
-          <option name="buildCliOptions" value="" />
-          <option name="buildOnly" value="true" />
-          <option name="command" value="" />
-          <option name="containerName" value="" />
-          <option name="entrypoint" value="" />
-          <option name="commandLineOptions" value="" />
-          <option name="sourceFilePath" value="Dockerfile" />
+          <option name="sourceFilePath" value="docker-compose.yaml" />
         </settings>
       </deployment>
       <method v="2" />
@@ -171,19 +178,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
-      <item itemvalue="Docker.Dockerfile" />
       <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
       <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
+      <item itemvalue="Docker.docker-compose.yaml: Compose Deployment (1)" />
+      <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build github.com/AyokunlePaul/crud-pay-api/src" />
+        <item itemvalue="Docker.docker-compose.yaml: Compose Deployment (1)" />
+        <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml.redis: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yaml.crud-pay: Compose Deployment" />
-        <item itemvalue="Docker.docker-compose.yaml: Compose Deployment" />
-        <item itemvalue="Docker.Dockerfile" />
       </list>
     </recent_temporary>
   </component>
@@ -263,11 +270,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="512" y="387" key="#GOROOT/0.0.1440.900@0.0.1440.900" timestamp="1598111962952" />
-    <state x="187" y="152" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1600315658380">
+    <state x="187" y="152" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603585979040">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="184" y="80" width="1071" height="820" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599253494953" />
-    <state x="187" y="152" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600315658380" />
+    <state x="187" y="152" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585979040" />
     <state x="184" y="112" width="1071" height="748" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.900@0.0.1440.900" timestamp="1598781253099" />
     <state x="450" y="259" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1599205851878">
       <screen x="0" y="0" width="1440" height="900" />
@@ -288,45 +295,49 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="578" y="348" key="DockerComposeFileDialog/0.0.1440.900@0.0.1440.900" timestamp="1598781241730" />
-    <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog" timestamp="1600315638732">
+    <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog" timestamp="1603585673834">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600315638732" />
-    <state width="1398" height="381" key="GridCell.Tab.0.bottom" timestamp="1600791033864">
+    <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585673834" />
+    <state width="1398" height="323" key="GridCell.Tab.0.bottom" timestamp="1603594869632">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="381" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600791033864" />
+    <state width="1398" height="323" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603594869632" />
     <state width="1398" height="466" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598375406147" />
-    <state width="1398" height="381" key="GridCell.Tab.0.center" timestamp="1600791033850">
+    <state width="1398" height="323" key="GridCell.Tab.0.center" timestamp="1603594869628">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="381" key="GridCell.Tab.0.center/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600791033850" />
+    <state width="1398" height="323" key="GridCell.Tab.0.center/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603594869628" />
     <state width="1398" height="466" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
-    <state width="1398" height="381" key="GridCell.Tab.0.left" timestamp="1600791033832">
+    <state width="1398" height="323" key="GridCell.Tab.0.left" timestamp="1603594869626">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="381" key="GridCell.Tab.0.left/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600791033832" />
+    <state width="1398" height="323" key="GridCell.Tab.0.left/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603594869626" />
     <state width="1398" height="466" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
-    <state width="1398" height="381" key="GridCell.Tab.0.right" timestamp="1600791033852">
+    <state width="1398" height="323" key="GridCell.Tab.0.right" timestamp="1603594869630">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="381" key="GridCell.Tab.0.right/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600791033852" />
+    <state width="1398" height="323" key="GridCell.Tab.0.right/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603594869630" />
     <state width="1398" height="466" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1598375406146" />
-    <state width="1398" height="466" key="GridCell.Tab.1.bottom" timestamp="1598375406151">
+    <state width="1398" height="466" key="GridCell.Tab.1.bottom" timestamp="1603585198970">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.bottom/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585198970" />
     <state width="1398" height="466" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598375406151" />
-    <state width="1398" height="466" key="GridCell.Tab.1.center" timestamp="1598375406150">
+    <state width="1398" height="466" key="GridCell.Tab.1.center" timestamp="1603585198967">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.center/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585198967" />
     <state width="1398" height="466" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1598375406150" />
-    <state width="1398" height="466" key="GridCell.Tab.1.left" timestamp="1598375406149">
+    <state width="1398" height="466" key="GridCell.Tab.1.left" timestamp="1603585198965">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.left/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585198965" />
     <state width="1398" height="466" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1598375406149" />
-    <state width="1398" height="466" key="GridCell.Tab.1.right" timestamp="1598375406151">
+    <state width="1398" height="466" key="GridCell.Tab.1.right" timestamp="1603585198969">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
+    <state width="1398" height="466" key="GridCell.Tab.1.right/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585198969" />
     <state width="1398" height="466" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1598375406151" />
     <state x="221" y="89" key="SettingsEditor" timestamp="1599332559948">
       <screen x="0" y="0" width="1440" height="900" />
@@ -347,15 +358,15 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="100" y="100" width="1240" height="700" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1598228373210" />
-    <state x="421" y="82" width="597" height="735" key="find.popup" timestamp="1600720403382">
+    <state x="421" y="82" width="597" height="735" key="find.popup" timestamp="1603593696898">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600720403382" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1600720886377">
+    <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603593696898" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1603594301233">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599502365241" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600720886377" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603594301232" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598742572451" />
   </component>
 </project>

@@ -14,7 +14,7 @@ const (
 
 func IsValidEmail(email string) bool {
 	emailRegex := regexp.MustCompile(emailPattern)
-	return emailRegex.MatchString(email)
+	return emailRegex.MatchString(strings.TrimSpace(email))
 }
 
 func IsValidPhoneNumber(phoneNumber string) bool {

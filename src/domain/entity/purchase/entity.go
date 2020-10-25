@@ -25,9 +25,9 @@ const (
 type Frequency string
 
 type Group struct {
-	Name        string         `json:"name" bson:"name"`
-	Areas       []DeliveryArea `json:"delivery_areas" bson:"delivery_areas"`
-	ShippingFee float64        `json:"shipping_fee" bson:"shipping_fee"`
+	Name        string   `json:"name" bson:"name"`
+	Areas       []string `json:"delivery_areas" bson:"delivery_areas"`
+	ShippingFee float64  `json:"shipping_fee" bson:"shipping_fee"`
 }
 
 type DeliveryArea struct {
@@ -56,4 +56,10 @@ type Purchase struct {
 	Duration             time.Duration       `json:"-" bson:"-"`
 	CreatedAt            time.Time           `json:"created_at" bson:"created_at"`
 	UpdatedAt            time.Time           `json:"updated_at" bson:"updated_at"`
+}
+
+type Update struct {
+	Reference  string  `json:"reference"`
+	PurchaseId string  `json:"purchase_id"`
+	Amount     float64 `json:"amount"`
 }
