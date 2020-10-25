@@ -88,6 +88,15 @@ func (useCase *productUseCase) SearchProduct(token string, query string) ([]prod
 	return results.([]product.Product), nil
 }
 
+func (useCase *productUseCase) GetAllMyProducts(token string) ([]product.Product, *response.BaseResponse) {
+	ownerId, ownerIdError := useCase.tokenManager.Get(token)
+	if ownerIdError != nil {
+		return nil, ownerIdError
+	}
+	id, _ := entity.StringToCrudPayId(ownerId)
+	return useCase.productManager.List(id)
+}
+
 func (useCase *productUseCase) GetProductWithId(token string, productId string) (*product.Product, *response.BaseResponse) {
 	_, ownerIdError := useCase.tokenManager.Get(token)
 	if ownerIdError != nil {
@@ -97,10 +106,10 @@ func (useCase *productUseCase) GetProductWithId(token string, productId string) 
 	return useCase.productManager.Get(id)
 }
 
-func (useCase *productUseCase) GetAllProductsCreatedByUserWithId(token string) ([]product.Product, *response.BaseResponse) {
-	ownerId, ownerIdError := useCase.tokenManager.Get(token)
-	if ownerIdError != nil {
-		return nil, ownerIdError
+func (useCase *productUseCase) GetAllProductsCreatedByUserWithId(token, ownerId string) ([]product.Product, *response.BaseResponse) {
+	_, userIdError := useCase.tokenManager.Get(token)
+	if userIdError != nil {
+		return nil, userIdError
 	}
 	id, _ := entity.StringToCrudPayId(ownerId)
 	return useCase.productManager.List(id)

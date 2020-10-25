@@ -13,6 +13,7 @@ import (
 type Product interface {
 	Create(*gin.Context)
 	Get(*gin.Context)
+	GetVendorProduct(*gin.Context)
 	Update(*gin.Context)
 	Search(*gin.Context)
 }
@@ -47,7 +48,7 @@ func (handler *productHandler) Get(context *gin.Context) {
 	productId := context.Param("product_id")
 
 	if string_utilities.IsEmpty(productId) {
-		result, productsError := handler.useCase.GetAllProductsCreatedByUserWithId(token)
+		result, productsError := handler.useCase.GetAllMyProducts(token)
 		if productsError != nil {
 			context.JSON(productsError.Status, productsError)
 			return
@@ -62,6 +63,18 @@ func (handler *productHandler) Get(context *gin.Context) {
 		return
 	}
 	context.JSON(http.StatusOK, response.NewOkResponse("product fetched", result))
+}
+
+func (handler *productHandler) GetVendorProduct(context *gin.Context) {
+	token := strings.Split(context.GetHeader("Authorization"), " ")[1]
+	ownerId := context.Param("owner_id")
+
+	products, getProductsError := handler.useCase.GetAllProductsCreatedByUserWithId(token, ownerId)
+	if getProductsError != nil {
+		context.JSON(getProductsError.Status, getProductsError)
+		return
+	}
+	context.JSON(http.StatusOK, response.NewOkResponse("products fetched", products))
 }
 
 func (handler *productHandler) Update(context *gin.Context) {

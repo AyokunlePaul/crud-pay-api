@@ -10,5 +10,6 @@ type UseCase interface {
 	UpdateProduct(string, string, *product.Product) (*product.Product, *response.BaseResponse)
 	SearchProduct(string, string) ([]product.Product, *response.BaseResponse)
 	GetProductWithId(string, string) (*product.Product, *response.BaseResponse)
-	GetAllProductsCreatedByUserWithId(string) ([]product.Product, *response.BaseResponse)
+	GetAllMyProducts(string) ([]product.Product, *response.BaseResponse)
+	GetAllProductsCreatedByUserWithId(string, string) ([]product.Product, *response.BaseResponse)
 }

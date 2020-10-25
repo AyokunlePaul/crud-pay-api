@@ -24,11 +24,10 @@
   <component name="ChangeListManager">
     <list default="true" id="b3af554c-95e7-4a59-9a38-a173523e8a2f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/handler/purchase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/purchase.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/product/util.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/product/util.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/purchase/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/entity/timeline/entity.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/purchase/usecase.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/application/routes.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/handler/product.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/handler/product.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/product/interface.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/product/interface.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" beforeDir="false" afterPath="$PROJECT_DIR$/src/domain/usecase/product/usecase.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -294,25 +293,29 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="485" y="150" width="764" height="541" key="EnvironmentVariablesDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603585673834" />
-    <state width="1398" height="323" key="GridCell.Tab.0.bottom" timestamp="1603597218158">
+    <state width="1398" height="323" key="GridCell.Tab.0.bottom" timestamp="1603598615975">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="323" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597218158" />
+    <state width="1398" height="323" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597349719" />
+    <state width="1398" height="323" key="GridCell.Tab.0.bottom/0.0.1440.900/1440.57.1366.743@0.0.1440.900" timestamp="1603598615975" />
     <state width="1398" height="466" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1598375406147" />
-    <state width="1398" height="323" key="GridCell.Tab.0.center" timestamp="1603597218152">
+    <state width="1398" height="323" key="GridCell.Tab.0.center" timestamp="1603598615952">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="323" key="GridCell.Tab.0.center/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597218152" />
+    <state width="1398" height="323" key="GridCell.Tab.0.center/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597349711" />
+    <state width="1398" height="323" key="GridCell.Tab.0.center/0.0.1440.900/1440.57.1366.743@0.0.1440.900" timestamp="1603598615952" />
     <state width="1398" height="466" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
-    <state width="1398" height="323" key="GridCell.Tab.0.left" timestamp="1603597218149">
+    <state width="1398" height="323" key="GridCell.Tab.0.left" timestamp="1603598615934">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="323" key="GridCell.Tab.0.left/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597218149" />
+    <state width="1398" height="323" key="GridCell.Tab.0.left/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597349701" />
+    <state width="1398" height="323" key="GridCell.Tab.0.left/0.0.1440.900/1440.57.1366.743@0.0.1440.900" timestamp="1603598615934" />
     <state width="1398" height="466" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1598375406144" />
-    <state width="1398" height="323" key="GridCell.Tab.0.right" timestamp="1603597218154">
+    <state width="1398" height="323" key="GridCell.Tab.0.right" timestamp="1603598615963">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="323" key="GridCell.Tab.0.right/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597218154" />
+    <state width="1398" height="323" key="GridCell.Tab.0.right/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597349713" />
+    <state width="1398" height="323" key="GridCell.Tab.0.right/0.0.1440.900/1440.57.1366.743@0.0.1440.900" timestamp="1603598615963" />
     <state width="1398" height="466" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1598375406146" />
     <state width="1398" height="466" key="GridCell.Tab.1.bottom" timestamp="1603596642922">
       <screen x="0" y="0" width="1440" height="900" />
@@ -345,6 +348,10 @@
     <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599336887952" />
     <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1600719377989" />
     <state x="320" y="190" key="Vcs.Push.Dialog.v2/0.0.1440.900@0.0.1440.900" timestamp="1598348366974" />
+    <state x="498" y="232" key="com.goide.refactor.move.GoMoveDeclarationDialog" timestamp="1603597867464">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="498" y="232" key="com.goide.refactor.move.GoMoveDeclarationDialog/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603597867464" />
     <state x="114" y="243" width="1240" height="700" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1599651847312">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -357,11 +364,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="421" y="82" width="597" height="735" key="find.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603596272278" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1603595353466">
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1603598141790">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.0.1366.768@0.0.1440.900" timestamp="1599502365241" />
-    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603595353466" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900/1440.32.1366.768@0.0.1440.900" timestamp="1603598141790" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1598742572451" />
   </component>
 </project>
