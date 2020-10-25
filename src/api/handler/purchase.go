@@ -47,7 +47,7 @@ func (handler *handler) Update(context *gin.Context) {
 	purchaseId := context.Param("purchase_id")
 
 	var payload purchase_payload.PurchasePayload
-	_ = context.BindJSON(payload)
+	_ = context.BindJSON(&payload.Payload)
 
 	purchaseUpdate := payload.ToPurchaseUpdate()
 	purchaseUpdate.PurchaseId = purchaseId
@@ -57,7 +57,13 @@ func (handler *handler) Update(context *gin.Context) {
 		context.JSON(purchaseUpdateError.Status, purchaseUpdateError)
 		return
 	}
-	context.JSON(http.StatusOK, response.NewOkResponse("purchase updated", updatedPurchase))
+	var message string
+	if updatedPurchase.Successful {
+		message = "product payment completed"
+	} else {
+		message = "purchase updated"
+	}
+	context.JSON(http.StatusOK, response.NewOkResponse(message, updatedPurchase))
 }
 
 func (handler *handler) Get(context *gin.Context) {

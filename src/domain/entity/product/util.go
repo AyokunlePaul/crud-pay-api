@@ -138,12 +138,13 @@ func (product *Product) CanBePurchased(userId string, purchase *purchase.Purchas
 		return response.NewBadRequestError("you can't buy your own product")
 	}
 	if purchase.NumberOfInstallments <= 0 || purchase.NumberOfInstallments > product.MaxInstallment {
-		return response.NewBadRequestError("invalid installment number")
+		return response.NewBadRequestError("invalid number of installment")
 	}
 	isValidArea := false
 	for _, area := range product.DeliveryAreas {
-		if purchase.DeliveryArea == area {
+		if purchase.DeliveryArea == area.Name {
 			isValidArea = true
+			purchase.ShippingFee = area.ShippingFee
 			break
 		}
 	}

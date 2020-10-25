@@ -48,7 +48,7 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	}
 
 	timelines := timeline.NewTimeline(
-		purchase.Id, productToBeBought.Amount, purchase.DeliveryArea.ShippingFee,
+		purchase.Id, productToBeBought.Amount, purchase.ShippingFee,
 		purchase.NumberOfInstallments, purchase.Duration, purchase.Type,
 	)
 
@@ -56,7 +56,6 @@ func (useCase *useCase) CreatePurchase(token string, purchase *purchase.Purchase
 	purchase.OwnerId = productToBeBought.OwnerId
 	purchase.Amount = productToBeBought.Amount
 	purchase.TimelineAmount = timelines[0].Amount
-	purchase.ShippingFee = timelines[0].ShippingFee
 	purchase.TotalAmount = purchase.TimelineAmount + purchase.ShippingFee
 	purchase.CreatedBy, _ = entity.StringToCrudPayId(userId)
 
@@ -80,6 +79,9 @@ func (useCase *useCase) UpdatePurchase(token string, update purchase.Update) (*p
 		return nil, getPurchaseError
 	}
 	currentPurchase.Reference = update.Reference
+	if currentPurchase.Successful {
+		return currentPurchase, nil
+	}
 
 	if currentPurchase.CreatedBy.Hex() != userId {
 		return nil, response.NewBadRequestError("user not authorized to update purchase")
@@ -88,14 +90,14 @@ func (useCase *useCase) UpdatePurchase(token string, update purchase.Update) (*p
 	currentTime := time.Now()
 
 	//Validate and update payment timeline
-	for _, currentTimeline := range currentPurchase.Timeline {
+	for index, currentTimeline := range currentPurchase.Timeline {
 		//Break after the first unpaid timeline
 		if !currentTimeline.Paid {
 			if update.Amount != (currentTimeline.Amount + currentTimeline.ShippingFee) {
 				return nil, response.NewBadRequestError("payment amount doesn't match expected amount")
 			}
-			currentTimeline.Paid = true
-			currentTimeline.ActualPaymentDate = &currentTime
+			currentPurchase.Timeline[index].Paid = true
+			currentPurchase.Timeline[index].ActualPaymentDate = &currentTime
 			break
 		}
 	}

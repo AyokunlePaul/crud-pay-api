@@ -48,7 +48,7 @@ type Purchase struct {
 	TotalAmount          float64             `json:"total_amount" bson:"total_amount"`
 	NumberOfInstallments int                 `json:"number_of_installments,omitempty" bson:"number_of_installments,omitempty"`
 	Frequency            Frequency           `json:"payment_frequency" bson:"payment_frequency"`
-	DeliveryArea         DeliveryArea        `json:"delivery_area" bson:"delivery_area"`
+	DeliveryArea         string              `json:"delivery_area" bson:"delivery_area"`
 	Successful           bool                `json:"successful" bson:"successful"`
 	CreatedBy            entity.DatabaseId   `json:"created_by" bson:"created_by"`
 	AdditionalDetails    string              `json:"additional_details,omitempty" bson:"additional_details,omitempty"`
@@ -59,7 +59,7 @@ type Purchase struct {
 }
 
 type Update struct {
+	PurchaseId string
 	Reference  string  `json:"reference"`
-	PurchaseId string  `json:"purchase_id"`
 	Amount     float64 `json:"amount"`
 }
